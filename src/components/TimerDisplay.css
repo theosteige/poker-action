@@ -1,0 +1,59 @@
+.timer-display {
+  text-align: center;
+  padding: 32px 24px;
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  margin-bottom: 16px;
+  border: 1px solid var(--border-color);
+}
+
+.current-player {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.timer {
+  font-size: 6rem;
+  font-weight: 700;
+  font-family: 'SF Mono', 'Menlo', 'Monaco', 'Courier New', monospace;
+  letter-spacing: 4px;
+  color: var(--text-primary);
+  line-height: 1;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.timer.warning {
+  color: var(--color-warning);
+}
+
+.timer.penalty {
+  color: var(--color-danger);
+  animation: pulse 0.5s infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.penalty-indicator {
+  margin-top: 16px;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--color-danger);
+  min-height: 32px;
+  letter-spacing: 0.5px;
+}
+
+.penalty-indicator:empty {
+  display: none;
+}

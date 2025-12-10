@@ -1,0 +1,116 @@
+.action-buttons {
+  display: grid;
+  gap: 10px;
+}
+
+.btn {
+  padding: 20px 24px;
+  font-size: 1.3rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+/* Check/Call - Green (primary action) */
+.btn-action {
+  background: var(--color-success);
+  color: #fff;
+  font-size: 1.4rem;
+}
+
+.btn-action:hover:not(:disabled) {
+  background: var(--color-success-hover);
+}
+
+/* Fold - Red (danger action) */
+.btn-fold {
+  background: var(--color-danger);
+  color: #fff;
+}
+
+.btn-fold:hover:not(:disabled) {
+  background: var(--color-danger-hover);
+}
+
+/* Raise - Yellow/Orange (aggressive action) */
+.btn-raise {
+  background: var(--color-warning);
+  color: #000;
+}
+
+.btn-raise:hover:not(:disabled) {
+  background: var(--color-warning-hover);
+}
+
+/* Row layout for secondary buttons */
+.btn-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+/* Secondary buttons - subdued gray */
+.btn-secondary {
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  font-size: 1rem;
+  padding: 16px 20px;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+}
+
+/* New Hand - Blue (start action) */
+.btn-new-hand {
+  background: var(--color-info);
+  color: #fff;
+}
+
+.btn-new-hand:hover:not(:disabled) {
+  background: var(--color-info-hover);
+}
+
+/* End Hand - subdued but distinct */
+.btn-end-hand {
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  font-size: 1rem;
+  padding: 16px 20px;
+}
+
+.btn-end-hand:hover:not(:disabled) {
+  background: var(--color-danger);
+  color: #fff;
+  border-color: var(--color-danger);
+}
+
+/* Begin Street - Cyan/Teal (transition action) */
+.btn-begin-street {
+  background: var(--color-accent);
+  color: #fff;
+  font-size: 1.5rem;
+  padding: 28px;
+  letter-spacing: 2px;
+}
+
+.btn-begin-street:hover:not(:disabled) {
+  background: var(--color-accent-hover);
+}
