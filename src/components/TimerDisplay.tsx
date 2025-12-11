@@ -20,6 +20,9 @@ export function TimerDisplay({
   const isWarning = timeRemaining <= 10 && timeRemaining > 0;
   const isPenalty = elapsedSeconds > timeStructure.freeTime;
 
+  // Calculate fill percentage (0-100%)
+  const fillPercent = Math.min((elapsedSeconds / timeStructure.freeTime) * 100, 100);
+
   const timerClass = `timer ${isWarning ? 'warning' : ''} ${isPenalty ? 'penalty' : ''}`;
 
   let indicatorText = '';
@@ -31,13 +34,19 @@ export function TimerDisplay({
 
   return (
     <div className="timer-display">
-      <div className="current-player">
-        {isHandActive && currentPlayer
-          ? `Action on: ${currentPlayer}`
-          : 'Press New Hand to Start'}
+      <div
+        className={`timer-fill ${isWarning ? 'warning' : ''} ${isPenalty ? 'penalty' : ''}`}
+        style={{ width: `${fillPercent}%` }}
+      />
+      <div className="timer-content">
+        <div className="current-player">
+          {isHandActive && currentPlayer
+            ? `Action on: ${currentPlayer}`
+            : 'Press New Hand to Start'}
+        </div>
+        <div className={timerClass}>{formatTime(elapsedSeconds)}</div>
+        <div className="penalty-indicator">{indicatorText}</div>
       </div>
-      <div className={timerClass}>{formatTime(elapsedSeconds)}</div>
-      <div className="penalty-indicator">{indicatorText}</div>
     </div>
   );
 }

@@ -84,3 +84,45 @@
 .modal .btn:hover {
   background: var(--color-info-hover);
 }
+
+/* Mobile adjustments */
+@media (max-width: 480px) {
+  .modal-overlay {
+    padding: 12px;
+    align-items: flex-end;
+  }
+
+  .modal {
+    padding: 24px 20px;
+    border-radius: 12px 12px 0 0;
+    max-width: 100%;
+  }
+
+  .modal h2 {
+    font-size: 1.2rem;
+    margin-bottom: 16px;
+  }
+
+  .penalty-content {
+    margin-bottom: 16px;
+  }
+
+  .penalty-item {
+    padding: 12px 14px;
+    font-size: 1rem;
+  }
+
+  .penalty-amount {
+    font-size: 1.1rem;
+  }
+
+  .no-penalties {
+    font-size: 1.1rem;
+    padding: 16px 0;
+  }
+
+  .modal .btn {
+    padding: 16px 20px;
+    font-size: 1rem;
+  }
+}

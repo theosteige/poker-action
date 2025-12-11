@@ -7,6 +7,7 @@ interface PlayerChipsProps {
   penalties: Penalties;
   isHandActive: boolean;
   onSelectPlayer: (index: number) => void;
+  isFocusMode?: boolean;
 }
 
 export function PlayerChips({
@@ -15,9 +16,10 @@ export function PlayerChips({
   penalties,
   isHandActive,
   onSelectPlayer,
+  isFocusMode = false,
 }: PlayerChipsProps) {
   return (
-    <div className="players-row">
+    <div className={`players-row ${isFocusMode ? 'focus-mode' : ''}`}>
       {players.map((player, i) => {
         const isActive = i === currentPlayerIndex && isHandActive;
         const hasPenalty = penalties[player.position] > 0;

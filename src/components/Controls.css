@@ -81,3 +81,25 @@
   cursor: not-allowed;
   color: var(--text-muted);
 }
+
+/* Mobile adjustments */
+@media (max-width: 480px) {
+  .controls {
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .control-group label {
+    font-size: 0.7rem;
+  }
+
+  .control-group select {
+    padding: 10px 12px;
+    font-size: 0.85rem;
+  }
+
+  .straddle-toggle-btn {
+    padding: 8px 4px;
+    font-size: 0.75rem;
+  }
+}

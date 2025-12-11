@@ -223,3 +223,84 @@
 .modal-buttons .btn-action:hover {
   background: var(--color-success-hover);
 }
+
+/* Mobile adjustments */
+@media (max-width: 480px) {
+  .custom-modal {
+    padding: 20px;
+    max-width: 100%;
+    width: 100%;
+    border-radius: 12px 12px 0 0;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .custom-modal h2 {
+    font-size: 1.1rem;
+    margin-bottom: 16px;
+  }
+
+  .input-group {
+    margin-bottom: 16px;
+  }
+
+  .input-group label {
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 0.85rem;
+  }
+
+  .input-group input[type='range'] {
+    width: 100%;
+    order: 3;
+    margin-top: 4px;
+  }
+
+  .input-group .value {
+    min-width: auto;
+    font-size: 0.9rem;
+  }
+
+  .graph-container {
+    padding: 12px;
+    margin: 16px 0;
+  }
+
+  .graph-title {
+    font-size: 0.75rem;
+    margin-bottom: 8px;
+  }
+
+  .graph-area svg {
+    height: 100px;
+  }
+
+  .y-axis {
+    font-size: 0.65rem;
+    min-width: 30px;
+  }
+
+  .x-axis {
+    font-size: 0.65rem;
+  }
+
+  .graph-legend {
+    gap: 12px;
+    font-size: 0.7rem;
+  }
+
+  .summary {
+    padding: 10px;
+    font-size: 0.85rem;
+    margin-bottom: 16px;
+  }
+
+  .modal-buttons {
+    gap: 8px;
+  }
+
+  .modal-buttons .btn {
+    padding: 14px 16px;
+    font-size: 0.9rem;
+  }
+}

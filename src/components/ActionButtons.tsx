@@ -14,6 +14,7 @@ interface ActionButtonsProps {
   onPause: () => void;
   onNewHand: () => void;
   onEndHand: () => void;
+  isFocusMode?: boolean;
 }
 
 export function ActionButtons({
@@ -28,11 +29,12 @@ export function ActionButtons({
   onPause,
   onNewHand,
   onEndHand,
+  isFocusMode = false,
 }: ActionButtonsProps) {
   const canAct = isHandActive && !isWaitingForStreet;
 
   return (
-    <div className="action-buttons">
+    <div className={`action-buttons ${isFocusMode ? 'focus-mode' : ''}`}>
       {isWaitingForStreet && nextStreet ? (
         <button
           className="btn btn-begin-street"
@@ -41,7 +43,7 @@ export function ActionButtons({
           Begin {STREET_LABELS[nextStreet]}
         </button>
       ) : (
-        <>
+        <div className="btn-primary-row">
           <button
             className="btn btn-action"
             onClick={onAction}
@@ -63,7 +65,7 @@ export function ActionButtons({
           >
             Fold
           </button>
-        </>
+        </div>
       )}
       <div className="btn-row">
         <button
@@ -80,10 +82,10 @@ export function ActionButtons({
         >
           End Hand
         </button>
+        <button className="btn btn-secondary btn-new-hand" onClick={onNewHand}>
+          New Hand
+        </button>
       </div>
-      <button className="btn btn-new-hand" onClick={onNewHand}>
-        New Hand
-      </button>
     </div>
   );
 }

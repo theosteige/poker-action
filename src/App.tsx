@@ -21,6 +21,7 @@ function App() {
   const [straddle, setStraddle] = useState<StraddleType>('none');
   const [showPenaltyModal, setShowPenaltyModal] = useState(false);
   const [showCustomModal, setShowCustomModal] = useState(false);
+  const [isFocusMode, setIsFocusMode] = useState(false);
 
   const {
     players,
@@ -128,20 +129,29 @@ function App() {
   };
 
   return (
-    <div className="container">
-      <h1>Poker Action Timer</h1>
+    <div className={`container ${isFocusMode ? 'focus-mode' : ''}`}>
+      <div className="header-row">
+        <button
+          className={`focus-mode-toggle ${isFocusMode ? 'active' : ''}`}
+          onClick={() => setIsFocusMode(!isFocusMode)}
+        >
+          {isFocusMode ? 'Exit Focus' : 'Focus'}
+        </button>
+      </div>
 
-      <Controls
-        playerCount={playerCount}
-        timeStructure={timeStructure}
-        straddle={straddle}
-        isHandActive={isHandActive}
-        customTimeStructure={customTimeStructure}
-        onPlayerCountChange={setPlayerCount}
-        onTimeStructureChange={setTimeStructure}
-        onStraddleChange={setStraddle}
-        onOpenCustomModal={() => setShowCustomModal(true)}
-      />
+      {!isFocusMode && (
+        <Controls
+          playerCount={playerCount}
+          timeStructure={timeStructure}
+          straddle={straddle}
+          isHandActive={isHandActive}
+          customTimeStructure={customTimeStructure}
+          onPlayerCountChange={setPlayerCount}
+          onTimeStructureChange={setTimeStructure}
+          onStraddleChange={setStraddle}
+          onOpenCustomModal={() => setShowCustomModal(true)}
+        />
+      )}
 
       <TimerDisplay
         currentPlayer={isWaitingForStreet ? null : currentPlayer}
@@ -150,7 +160,7 @@ function App() {
         isHandActive={isHandActive && !isWaitingForStreet}
       />
 
-      <div className="status-bar">{getStatusText()}</div>
+      {!isFocusMode && <div className="status-bar">{getStatusText()}</div>}
 
       <PlayerChips
         players={players}
@@ -158,6 +168,7 @@ function App() {
         penalties={penalties}
         isHandActive={isHandActive && !isWaitingForStreet}
         onSelectPlayer={onSelectPlayer}
+        isFocusMode={isFocusMode}
       />
 
       <ActionButtons
@@ -172,25 +183,28 @@ function App() {
         onPause={togglePause}
         onNewHand={onNewHand}
         onEndHand={onEndHand}
+        isFocusMode={isFocusMode}
       />
 
-      <div className="instructions">
-        <h3>How to Use</h3>
-        <ul>
-          <li>
-            Select players and time structure, then press <strong>New Hand</strong>
-          </li>
-          <li>
-            Choose straddle level (single/double/triple) when starting
-          </li>
-          <li>
-            <strong>Check/Call</strong> = check/call, <strong>Raise</strong> = bet/raise, <strong>Fold</strong> = fold
-          </li>
-          <li>
-            When betting closes, press <strong>Begin Flop/Turn/River</strong>
-          </li>
-        </ul>
-      </div>
+      {!isFocusMode && (
+        <div className="instructions">
+          <h3>How to Use</h3>
+          <ul>
+            <li>
+              Select players and time structure, then press <strong>New Hand</strong>
+            </li>
+            <li>
+              Choose straddle level (single/double/triple) when starting
+            </li>
+            <li>
+              <strong>Check/Call</strong> = check/call, <strong>Raise</strong> = bet/raise, <strong>Fold</strong> = fold
+            </li>
+            <li>
+              When betting closes, press <strong>Begin Flop/Turn/River</strong>
+            </li>
+          </ul>
+        </div>
+      )}
 
       <PenaltyModal
         isOpen={showPenaltyModal}

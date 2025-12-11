@@ -1,10 +1,34 @@
 .timer-display {
   text-align: center;
-  padding: 32px 24px;
   background: var(--bg-secondary);
   border-radius: 12px;
   margin-bottom: 16px;
   border: 1px solid var(--border-color);
+  position: relative;
+  overflow: hidden;
+}
+
+.timer-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  transition: width 0.3s ease-out;
+}
+
+.timer-fill.warning {
+  background: rgba(245, 158, 11, 0.15);
+}
+
+.timer-fill.penalty {
+  background: rgba(239, 68, 68, 0.2);
+}
+
+.timer-content {
+  position: relative;
+  z-index: 1;
+  padding: 32px 24px;
 }
 
 .current-player {
@@ -56,4 +80,81 @@
 
 .penalty-indicator:empty {
   display: none;
+}
+
+/* Focus Mode Styles */
+.focus-mode .timer-display {
+  margin-bottom: 12px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.focus-mode .timer-content {
+  padding: 24px 16px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.focus-mode .current-player {
+  font-size: 2rem;
+  margin-bottom: 16px;
+}
+
+.focus-mode .timer {
+  font-size: 7rem;
+}
+
+.focus-mode .penalty-indicator {
+  margin-top: 20px;
+  font-size: 1.6rem;
+}
+
+/* Focus mode on mobile */
+@media (max-width: 480px) {
+  .focus-mode .timer-content {
+    padding: 16px 12px;
+  }
+
+  .focus-mode .current-player {
+    font-size: 1.5rem;
+    margin-bottom: 12px;
+  }
+
+  .focus-mode .timer {
+    font-size: 5rem;
+  }
+
+  .focus-mode .penalty-indicator {
+    margin-top: 12px;
+    font-size: 1.2rem;
+  }
+}
+
+/* Mobile adjustments for non-focus mode */
+@media (max-width: 480px) {
+  .timer-display {
+    margin-bottom: 12px;
+  }
+
+  .timer-content {
+    padding: 20px 16px;
+  }
+
+  .current-player {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+  }
+
+  .timer {
+    font-size: 4rem;
+  }
+
+  .penalty-indicator {
+    margin-top: 10px;
+    font-size: 1rem;
+    min-height: 24px;
+  }
 }

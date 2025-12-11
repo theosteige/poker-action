@@ -50,3 +50,40 @@
 .player-chip.has-penalty.active {
   border-color: var(--color-danger);
 }
+
+/* Focus mode styles */
+.players-row.focus-mode {
+  padding: 8px;
+  margin-bottom: 10px;
+  background: transparent;
+  border: none;
+}
+
+.players-row.focus-mode .player-chip {
+  padding: 6px 10px;
+  font-size: 0.85rem;
+}
+
+/* Mobile adjustments */
+@media (max-width: 480px) {
+  .players-row {
+    gap: 6px;
+    margin-bottom: 12px;
+    padding: 10px;
+  }
+
+  .player-chip {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+  }
+
+  .players-row.focus-mode {
+    padding: 6px;
+    margin-bottom: 8px;
+  }
+
+  .players-row.focus-mode .player-chip {
+    padding: 5px 8px;
+    font-size: 0.75rem;
+  }
+}

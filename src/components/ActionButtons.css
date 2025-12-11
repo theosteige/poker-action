@@ -25,11 +25,18 @@
   transform: scale(0.98);
 }
 
+/* Primary action buttons row */
+.btn-primary-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+}
+
 /* Check/Call - Green (primary action) */
 .btn-action {
   background: var(--color-success);
   color: #fff;
-  font-size: 1.4rem;
+  font-size: 1.1rem;
 }
 
 .btn-action:hover:not(:disabled) {
@@ -59,7 +66,7 @@
 /* Row layout for secondary buttons */
 .btn-row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 10px;
 }
 
@@ -68,8 +75,8 @@
   background: var(--bg-tertiary);
   color: var(--text-secondary);
   border: 1px solid var(--border-color);
-  font-size: 1rem;
-  padding: 16px 20px;
+  font-size: 0.9rem;
+  padding: 14px 16px;
 }
 
 .btn-secondary:hover:not(:disabled) {
@@ -92,8 +99,8 @@
   background: var(--bg-tertiary);
   color: var(--text-secondary);
   border: 1px solid var(--border-color);
-  font-size: 1rem;
-  padding: 16px 20px;
+  font-size: 0.9rem;
+  padding: 14px 16px;
 }
 
 .btn-end-hand:hover:not(:disabled) {
@@ -113,4 +120,101 @@
 
 .btn-begin-street:hover:not(:disabled) {
   background: var(--color-accent-hover);
+}
+
+/* Focus Mode Styles - Optimized for mobile */
+.action-buttons.focus-mode {
+  gap: 10px;
+}
+
+.action-buttons.focus-mode .btn-primary-row {
+  gap: 10px;
+}
+
+.action-buttons.focus-mode .btn-primary-row .btn {
+  padding: 28px 16px;
+  font-size: 1.15rem;
+}
+
+.action-buttons.focus-mode .btn-row {
+  gap: 8px;
+}
+
+.action-buttons.focus-mode .btn-secondary,
+.action-buttons.focus-mode .btn-end-hand {
+  padding: 16px 12px;
+  font-size: 0.85rem;
+}
+
+.action-buttons.focus-mode .btn-begin-street {
+  padding: 36px 20px;
+  font-size: 1.4rem;
+}
+
+/* Focus mode on mobile */
+@media (max-width: 480px) {
+  .action-buttons.focus-mode .btn-primary-row {
+    gap: 8px;
+  }
+
+  .action-buttons.focus-mode .btn-primary-row .btn {
+    padding: 22px 10px;
+    font-size: 1rem;
+  }
+
+  .action-buttons.focus-mode .btn-row {
+    gap: 6px;
+  }
+
+  .action-buttons.focus-mode .btn-secondary,
+  .action-buttons.focus-mode .btn-end-hand {
+    padding: 14px 10px;
+    font-size: 0.8rem;
+  }
+
+  .action-buttons.focus-mode .btn-begin-street {
+    padding: 28px 16px;
+    font-size: 1.2rem;
+  }
+}
+
+/* Mobile adjustments for non-focus mode */
+@media (max-width: 480px) {
+  .action-buttons {
+    gap: 8px;
+  }
+
+  .btn {
+    padding: 14px 12px;
+    font-size: 1rem;
+    border-radius: 8px;
+    letter-spacing: 1px;
+  }
+
+  .btn-primary-row {
+    gap: 6px;
+  }
+
+  .btn-action {
+    font-size: 0.9rem;
+  }
+
+  .btn-row {
+    gap: 6px;
+  }
+
+  .btn-secondary {
+    font-size: 0.8rem;
+    padding: 12px 8px;
+  }
+
+  .btn-end-hand {
+    font-size: 0.8rem;
+    padding: 12px 8px;
+  }
+
+  .btn-begin-street {
+    font-size: 1.2rem;
+    padding: 20px 16px;
+  }
 }
