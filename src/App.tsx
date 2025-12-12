@@ -4,6 +4,7 @@ import { STREET_LABELS, STRADDLE_LABELS } from './types';
 import { TIME_STRUCTURES } from './utils/timeStructures';
 import { useGameState } from './hooks/useGameState';
 import { useTimer } from './hooks/useTimer';
+import { useKeyboardShortcuts, KEYBOARD_SHORTCUTS } from './hooks/useKeyboardShortcuts';
 import {
   TimerDisplay,
   PlayerChips,
@@ -117,6 +118,28 @@ function App() {
     setTimeStructure(structure);
   }, []);
 
+  const cycleStraddle = useCallback(() => {
+    const order: StraddleType[] = ['none', 'single', 'double', 'triple'];
+    const currentIndex = order.indexOf(straddle);
+    const nextIndex = (currentIndex + 1) % order.length;
+    setStraddle(order[nextIndex]);
+  }, [straddle]);
+
+  // Keyboard shortcuts
+  useKeyboardShortcuts({
+    onAction,
+    onRaise,
+    onFold,
+    onNewHand,
+    onPause: togglePause,
+    onBeginStreet,
+    onEndHand,
+    onStraddleCycle: cycleStraddle,
+    isHandActive,
+    isWaitingForStreet,
+    isModalOpen: showPenaltyModal || showCustomModal,
+  });
+
   const getStatusText = () => {
     if (!isHandActive) {
       return 'Waiting for new hand...';
@@ -188,21 +211,15 @@ function App() {
 
       {!isFocusMode && (
         <div className="instructions">
-          <h3>How to Use</h3>
-          <ul>
-            <li>
-              Select players and time structure, then press <strong>New Hand</strong>
-            </li>
-            <li>
-              Choose straddle level (single/double/triple) when starting
-            </li>
-            <li>
-              <strong>Check/Call</strong> = check/call, <strong>Raise</strong> = bet/raise, <strong>Fold</strong> = fold
-            </li>
-            <li>
-              When betting closes, press <strong>Begin Flop/Turn/River</strong>
-            </li>
-          </ul>
+          <h3>Keyboard Shortcuts</h3>
+          <div className="shortcuts-grid">
+            {Object.entries(KEYBOARD_SHORTCUTS).map(([key, action]) => (
+              <div key={key} className="shortcut-item">
+                <kbd>{key}</kbd>
+                <span>{action}</span>
+              </div>
+            ))}
+          </div>
         </div>
       )}
 

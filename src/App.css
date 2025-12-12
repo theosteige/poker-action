@@ -92,6 +92,35 @@
   color: var(--text-secondary);
 }
 
+.shortcuts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.shortcut-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.85rem;
+}
+
+.shortcut-item kbd {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+  font-size: 0.75rem;
+  color: var(--text-primary);
+  min-width: 60px;
+  text-align: center;
+}
+
+.shortcut-item span {
+  color: var(--text-secondary);
+}
+
 /* Mobile adjustments for non-focus mode */
 @media (max-width: 480px) {
   .header-row {
