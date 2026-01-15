@@ -5,9 +5,29 @@
 
 .header-row {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   margin-bottom: 12px;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-decoration: none;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  transition: all 0.15s ease;
+}
+
+.back-link:hover {
+  color: var(--text-primary);
+  background: var(--bg-elevated);
 }
 
 .focus-mode-toggle {
@@ -46,6 +66,7 @@
 
 .container.focus-mode .header-row {
   margin-bottom: 8px;
+  justify-content: flex-end;
 }
 
 .status-bar {
