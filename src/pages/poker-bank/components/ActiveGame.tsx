@@ -15,6 +15,7 @@ interface ActiveGameProps {
   onCashOutPlayer: (playerId: string, amount: number) => void;
   onCashOutAll: (cashOuts: Record<string, number>) => void;
   onRemovePlayer: (playerId: string) => void;
+  onRemoveBuyIn: (playerId: string, buyInId: string) => void;
   onViewLedger: () => void;
 }
 
@@ -28,6 +29,7 @@ export function ActiveGame({
   onCashOutPlayer,
   onCashOutAll,
   onRemovePlayer,
+  onRemoveBuyIn,
   onViewLedger,
 }: ActiveGameProps) {
   const [showAddPlayer, setShowAddPlayer] = useState(false);
@@ -172,6 +174,20 @@ export function ActiveGame({
                           >
                             {buyIn.isPaid ? 'Paid' : 'Pending'}
                           </button>
+                          {player.buyIns.length > 1 && (
+                            <button
+                              className="btn btn-small btn-danger"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                if (confirm(`Remove this $${buyIn.amount.toFixed(2)} buy-in?`)) {
+                                  onRemoveBuyIn(player.id, buyIn.id);
+                                }
+                              }}
+                              title="Remove buy-in"
+                            >
+                              ×
+                            </button>
+                          )}
                         </div>
                       ))}
                     </div>

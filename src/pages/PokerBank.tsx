@@ -24,6 +24,7 @@ function PokerBank() {
     settleGame,
     reopenGame,
     removePlayer,
+    removeBuyIn,
   } = usePokerBank();
 
   const handleCreateGame = (bankName: string, paymentInfo: { venmo: string; zelle: string }, initialBuyIn: number) => {
@@ -111,6 +112,7 @@ function PokerBank() {
           onCashOutPlayer={cashOutPlayer}
           onCashOutAll={cashOutAllPlayers}
           onRemovePlayer={removePlayer}
+          onRemoveBuyIn={removeBuyIn}
           onViewLedger={handleViewLedger}
         />
       )}

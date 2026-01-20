@@ -261,6 +261,28 @@ export function usePokerBank() {
     [currentGameId]
   );
 
+  const removeBuyIn = useCallback(
+    (playerId: string, buyInId: string) => {
+      if (!currentGameId) return;
+
+      setGames((prev) =>
+        prev.map((g) =>
+          g.id === currentGameId
+            ? {
+                ...g,
+                players: g.players.map((p) =>
+                  p.id === playerId
+                    ? { ...p, buyIns: p.buyIns.filter((b) => b.id !== buyInId) }
+                    : p
+                ),
+              }
+            : g
+        )
+      );
+    },
+    [currentGameId]
+  );
+
   const getActiveGames = useCallback(() => {
     return games.filter((g) => !g.isSettled);
   }, [games]);
@@ -285,6 +307,7 @@ export function usePokerBank() {
     settleGame,
     reopenGame,
     removePlayer,
+    removeBuyIn,
     getActiveGames,
     getSettledGames,
   };
