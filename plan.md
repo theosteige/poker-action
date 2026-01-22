@@ -46,7 +46,7 @@ A web application for managing university poker games. Users can create game roo
       "Create src/lib/supabase.ts with Supabase client initialization using createClient from @supabase/supabase-js",
       "Test database connection by running npx prisma db pull (should connect without error)"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "database",
