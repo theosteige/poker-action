@@ -9,7 +9,7 @@ for ((i=1; i<=$1; i++)); do
   echo "Iteration $i"
   echo "--------------------------------"
 
-  result=$(/Users/theosteiger/.claude/local/claude -p "$(cat PROMPT.md)" --output-format text 2>&1) || true
+  result=$(/Users/theosteiger/.claude/local/claude -p "$(cat PROMPT.md)" --output-format text --dangerously-skip-permissions 2>&1) || true
 
   echo "$result"
 
