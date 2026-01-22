@@ -32,7 +32,7 @@ A web application for managing university poker games. Users can create game roo
       "Create .env.local file with placeholders: DATABASE_URL, DIRECT_URL, NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, JWT_SECRET",
       "Verify project runs with npm run dev"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "setup",
