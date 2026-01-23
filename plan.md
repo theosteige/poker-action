@@ -315,7 +315,7 @@ A web application for managing university poker games. Users can create game roo
       "Add toast notifications for actions: 'Buy-in added', 'Player cashed out', etc. (use simple custom toast or react-hot-toast)",
       "Handle network errors: show retry button when appropriate"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "polish",

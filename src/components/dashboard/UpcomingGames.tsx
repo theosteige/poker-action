@@ -1,8 +1,8 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import Link from 'next/link'
-import { Card, Button } from '@/components/ui'
+import { Card, Button, ErrorMessage } from '@/components/ui'
 import { GameCard } from './GameCard'
 
 interface Game {
@@ -27,30 +27,32 @@ export function UpcomingGames({ currentUserId }: UpcomingGamesProps) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  useEffect(() => {
-    async function fetchGames() {
-      try {
-        const response = await fetch('/api/games')
-        if (!response.ok) {
-          throw new Error('Failed to fetch games')
-        }
-        const data = await response.json()
-        // Filter to only upcoming games and sort by scheduled time
-        const upcomingGames = (data.games || [])
-          .filter((game: Game) => game.status === 'upcoming' || game.status === 'active')
-          .sort((a: Game, b: Game) =>
-            new Date(a.scheduledTime).getTime() - new Date(b.scheduledTime).getTime()
-          )
-        setGames(upcomingGames)
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'An error occurred')
-      } finally {
-        setLoading(false)
+  const fetchGames = useCallback(async () => {
+    setLoading(true)
+    setError(null)
+    try {
+      const response = await fetch('/api/games')
+      if (!response.ok) {
+        throw new Error('Failed to load games. Please try again.')
       }
+      const data = await response.json()
+      // Filter to only upcoming games and sort by scheduled time
+      const upcomingGames = (data.games || [])
+        .filter((game: Game) => game.status === 'upcoming' || game.status === 'active')
+        .sort((a: Game, b: Game) =>
+          new Date(a.scheduledTime).getTime() - new Date(b.scheduledTime).getTime()
+        )
+      setGames(upcomingGames)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An unexpected error occurred')
+    } finally {
+      setLoading(false)
     }
-
-    fetchGames()
   }, [])
+
+  useEffect(() => {
+    fetchGames()
+  }, [fetchGames])
 
   if (loading) {
     return (
@@ -66,9 +68,11 @@ export function UpcomingGames({ currentUserId }: UpcomingGamesProps) {
 
   if (error) {
     return (
-      <Card className="p-6">
-        <p className="text-red-600">Error: {error}</p>
-      </Card>
+      <ErrorMessage
+        title="Unable to load games"
+        message={error}
+        onRetry={fetchGames}
+      />
     )
   }
 

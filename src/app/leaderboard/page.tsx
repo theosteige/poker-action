@@ -1,8 +1,8 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { WinnersBoard, LosersBoard } from '@/components/leaderboard'
-import { Card } from '@/components/ui'
+import { Card, ErrorMessage } from '@/components/ui'
 
 interface LeaderboardEntry {
   userId: string
@@ -21,24 +21,26 @@ export default function LeaderboardPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  useEffect(() => {
-    async function fetchLeaderboard() {
-      try {
-        const response = await fetch('/api/leaderboard')
-        if (!response.ok) {
-          throw new Error('Failed to fetch leaderboard')
-        }
-        const data = await response.json()
-        setLeaderboard(data.leaderboard)
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'An error occurred')
-      } finally {
-        setLoading(false)
+  const fetchLeaderboard = useCallback(async () => {
+    setLoading(true)
+    setError(null)
+    try {
+      const response = await fetch('/api/leaderboard')
+      if (!response.ok) {
+        throw new Error('Failed to load leaderboard. Please try again.')
       }
+      const data = await response.json()
+      setLeaderboard(data.leaderboard)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An unexpected error occurred')
+    } finally {
+      setLoading(false)
     }
-
-    fetchLeaderboard()
   }, [])
+
+  useEffect(() => {
+    fetchLeaderboard()
+  }, [fetchLeaderboard])
 
   if (loading) {
     return (
@@ -74,33 +76,11 @@ export default function LeaderboardPage() {
     return (
       <div className="max-w-4xl mx-auto px-4 py-8">
         <h1 className="text-2xl font-bold text-neutral-900 mb-6">Leaderboard</h1>
-        <Card className="p-6">
-          <div className="text-center py-8">
-            <div className="text-red-500 mb-3">
-              <svg
-                className="w-12 h-12 mx-auto"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={1.5}
-                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-                />
-              </svg>
-            </div>
-            <p className="text-neutral-600 font-medium mb-1">Failed to load leaderboard</p>
-            <p className="text-sm text-neutral-500">{error}</p>
-            <button
-              onClick={() => window.location.reload()}
-              className="mt-4 px-4 py-2 bg-neutral-900 text-white rounded-lg hover:bg-neutral-800 transition-colors"
-            >
-              Try Again
-            </button>
-          </div>
-        </Card>
+        <ErrorMessage
+          title="Failed to load leaderboard"
+          message={error}
+          onRetry={fetchLeaderboard}
+        />
       </div>
     )
   }

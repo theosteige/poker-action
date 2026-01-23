@@ -1,7 +1,7 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { Card } from '@/components/ui'
+import { useEffect, useState, useCallback } from 'react'
+import { Card, ErrorMessage } from '@/components/ui'
 
 interface Stats {
   totalNet: number
@@ -16,24 +16,26 @@ export function QuickStats() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  useEffect(() => {
-    async function fetchStats() {
-      try {
-        const response = await fetch('/api/stats/me')
-        if (!response.ok) {
-          throw new Error('Failed to fetch stats')
-        }
-        const data = await response.json()
-        setStats(data.stats)
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'An error occurred')
-      } finally {
-        setLoading(false)
+  const fetchStats = useCallback(async () => {
+    setLoading(true)
+    setError(null)
+    try {
+      const response = await fetch('/api/stats/me')
+      if (!response.ok) {
+        throw new Error('Failed to load stats. Please try again.')
       }
+      const data = await response.json()
+      setStats(data.stats)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An unexpected error occurred')
+    } finally {
+      setLoading(false)
     }
-
-    fetchStats()
   }, [])
+
+  useEffect(() => {
+    fetchStats()
+  }, [fetchStats])
 
   if (loading) {
     return (
@@ -51,9 +53,11 @@ export function QuickStats() {
 
   if (error) {
     return (
-      <Card className="p-6">
-        <p className="text-red-600">Error: {error}</p>
-      </Card>
+      <ErrorMessage
+        title="Unable to load stats"
+        message={error}
+        onRetry={fetchStats}
+      />
     )
   }
 

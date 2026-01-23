@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Card, Button } from '@/components/ui'
+import { Card, Button, useToast } from '@/components/ui'
 import { type PaymentHandle } from '@/lib/settlement'
 
 interface Player {
@@ -168,15 +168,16 @@ function AddBuyInForm({ gameId, players, bigBlindAmount, onSuccess }: AddBuyInFo
   const [paidToBank, setPaidToBank] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [success, setSuccess] = useState(false)
+  const { addToast } = useToast()
 
   const bb = parseFloat(bigBlindAmount) || 1
   const quickAmounts = [bb * 50, bb * 100, bb * 200]
 
+  const selectedPlayer = players.find(p => p.id === selectedPlayerId)
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError(null)
-    setSuccess(false)
 
     if (!selectedPlayerId) {
       setError('Please select a player')
@@ -207,15 +208,15 @@ function AddBuyInForm({ gameId, players, bigBlindAmount, onSuccess }: AddBuyInFo
         throw new Error(data.error || 'Failed to add buy-in')
       }
 
-      setSuccess(true)
+      addToast('success', `Buy-in of $${amountNum.toFixed(2)} added for ${selectedPlayer?.displayName || 'player'}`)
       setAmount('')
       setSelectedPlayerId('')
       setPaidToBank(true)
       onSuccess()
-
-      setTimeout(() => setSuccess(false), 3000)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to add buy-in')
+      const message = err instanceof Error ? err.message : 'Failed to add buy-in'
+      setError(message)
+      addToast('error', message)
     } finally {
       setIsSubmitting(false)
     }
@@ -307,13 +308,6 @@ function AddBuyInForm({ gameId, players, bigBlindAmount, onSuccess }: AddBuyInFo
         </div>
       )}
 
-      {/* Success Message */}
-      {success && (
-        <div className="p-3 bg-green-50 border border-green-200 rounded-lg text-sm text-green-600">
-          Buy-in added successfully!
-        </div>
-      )}
-
       {/* Submit Button */}
       <Button
         type="submit"
@@ -339,14 +333,13 @@ function CashOutForm({ gameId, activePlayers, onSuccess }: CashOutFormProps) {
   const [amount, setAmount] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [success, setSuccess] = useState(false)
+  const { addToast } = useToast()
 
   const selectedPlayer = activePlayers.find((p) => p.playerId === selectedPlayerId)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError(null)
-    setSuccess(false)
 
     if (!selectedPlayerId) {
       setError('Please select a player')
@@ -376,14 +369,16 @@ function CashOutForm({ gameId, activePlayers, onSuccess }: CashOutFormProps) {
         throw new Error(data.error || 'Failed to cash out player')
       }
 
-      setSuccess(true)
+      const net = amountNum - (selectedPlayer?.totalBuyIns || 0)
+      const netStr = net >= 0 ? `+$${net.toFixed(2)}` : `-$${Math.abs(net).toFixed(2)}`
+      addToast('success', `${selectedPlayer?.displayName || 'Player'} cashed out (${netStr})`)
       setAmount('')
       setSelectedPlayerId('')
       onSuccess()
-
-      setTimeout(() => setSuccess(false), 3000)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to cash out player')
+      const message = err instanceof Error ? err.message : 'Failed to cash out player'
+      setError(message)
+      addToast('error', message)
     } finally {
       setIsSubmitting(false)
     }
@@ -511,13 +506,6 @@ function CashOutForm({ gameId, activePlayers, onSuccess }: CashOutFormProps) {
         </div>
       )}
 
-      {/* Success Message */}
-      {success && (
-        <div className="p-3 bg-green-50 border border-green-200 rounded-lg text-sm text-green-600">
-          Player cashed out successfully!
-        </div>
-      )}
-
       {/* Submit Button */}
       <Button
         type="submit"
@@ -546,8 +534,9 @@ function ManageBuyIns({
   onAction,
 }: ManageBuyInsProps) {
   const [processingId, setProcessingId] = useState<string | null>(null)
+  const { addToast } = useToast()
 
-  const handleApprove = async (buyInId: string) => {
+  const handleApprove = async (buyInId: string, playerName: string, amount: string) => {
     setProcessingId(buyInId)
     try {
       const response = await fetch(`/api/games/${gameId}/buy-ins/${buyInId}`, {
@@ -561,15 +550,17 @@ function ManageBuyIns({
         throw new Error(data.error || 'Failed to approve')
       }
 
+      addToast('success', `Buy-in request approved for ${playerName} ($${parseFloat(amount).toFixed(2)})`)
       onAction()
     } catch (err) {
-      console.error('Error approving buy-in:', err)
+      const message = err instanceof Error ? err.message : 'Failed to approve'
+      addToast('error', message)
     } finally {
       setProcessingId(null)
     }
   }
 
-  const handleDeny = async (buyInId: string) => {
+  const handleDeny = async (buyInId: string, playerName: string) => {
     setProcessingId(buyInId)
     try {
       const response = await fetch(`/api/games/${gameId}/buy-ins/${buyInId}`, {
@@ -583,15 +574,17 @@ function ManageBuyIns({
         throw new Error(data.error || 'Failed to deny')
       }
 
+      addToast('info', `Buy-in request denied for ${playerName}`)
       onAction()
     } catch (err) {
-      console.error('Error denying buy-in:', err)
+      const message = err instanceof Error ? err.message : 'Failed to deny'
+      addToast('error', message)
     } finally {
       setProcessingId(null)
     }
   }
 
-  const handleTogglePaid = async (buyInId: string, currentPaidStatus: boolean) => {
+  const handleTogglePaid = async (buyInId: string, currentPaidStatus: boolean, playerName: string) => {
     setProcessingId(buyInId)
     try {
       const response = await fetch(`/api/games/${gameId}/buy-ins/${buyInId}`, {
@@ -608,9 +601,12 @@ function ManageBuyIns({
         throw new Error(data.error || 'Failed to update')
       }
 
+      const status = !currentPaidStatus ? 'paid' : 'unpaid'
+      addToast('success', `Buy-in marked as ${status} for ${playerName}`)
       onAction()
     } catch (err) {
-      console.error('Error toggling paid status:', err)
+      const message = err instanceof Error ? err.message : 'Failed to update'
+      addToast('error', message)
     } finally {
       setProcessingId(null)
     }
@@ -650,14 +646,14 @@ function ManageBuyIns({
                 </div>
                 <div className="flex gap-2">
                   <button
-                    onClick={() => handleDeny(buyIn.id)}
+                    onClick={() => handleDeny(buyIn.id, buyIn.playerDisplayName)}
                     disabled={processingId === buyIn.id}
                     className="px-3 py-1.5 text-xs font-medium text-red-600 bg-red-100 rounded-lg hover:bg-red-200 transition-colors disabled:opacity-50"
                   >
                     Deny
                   </button>
                   <button
-                    onClick={() => handleApprove(buyIn.id)}
+                    onClick={() => handleApprove(buyIn.id, buyIn.playerDisplayName, buyIn.amount)}
                     disabled={processingId === buyIn.id}
                     className="px-3 py-1.5 text-xs font-medium text-green-600 bg-green-100 rounded-lg hover:bg-green-200 transition-colors disabled:opacity-50"
                   >
@@ -706,7 +702,7 @@ function ManageBuyIns({
                     {buyIn.paidToBank ? 'Paid' : 'Unpaid'}
                   </span>
                   <button
-                    onClick={() => handleTogglePaid(buyIn.id, buyIn.paidToBank)}
+                    onClick={() => handleTogglePaid(buyIn.id, buyIn.paidToBank, buyIn.playerDisplayName)}
                     disabled={processingId === buyIn.id}
                     className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors ${
                       buyIn.paidToBank ? 'bg-green-500' : 'bg-neutral-300'

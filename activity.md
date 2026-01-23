@@ -2,8 +2,8 @@
 
 ## Current Status
 **Last Updated:** 2026-01-23
-**Tasks Completed:** 20 / 22
-**Current Task:** Add loading states and error handling
+**Tasks Completed:** 21 / 22
+**Current Task:** Handle edge cases and game state transitions
 **Blockers:** None
 
 ---
@@ -15,7 +15,7 @@
 | Setup | 2 | 2 | ✅ |
 | Database | 2 | 2 | ✅ |
 | Feature | 14 | 14 | ✅ |
-| Polish | 3 | 1 | 🟡 |
+| Polish | 3 | 2 | 🟡 |
 | Testing | 2 | 0 | ⬜ |
 | Deployment | 1 | 0 | ⬜ |
 
@@ -893,5 +893,72 @@ After completing each task or at significant milestones, append a dated entry be
 **Screenshot:** N/A (Playwright MCP not configured)
 
 **Next:** Add loading states and error handling
+
+---
+
+### [2026-01-23 12:35] - Add Loading States and Error Handling
+**Task:** Add loading states and error handling
+**Status:** ✅ Complete
+**Changes Made:**
+- Created src/components/ui/Spinner.tsx:
+  - Reusable spinner component with sm/md/lg sizes
+  - SpinnerOverlay component for centered loading states with optional message
+- Created src/components/ui/ErrorMessage.tsx:
+  - ErrorMessage component with title, message, and optional retry button
+  - InlineError component for form field errors
+  - ErrorPage component for full-page error states
+- Created src/components/ui/Toast.tsx:
+  - Toast notification system with ToastProvider context
+  - useToast hook for adding toasts programmatically
+  - Supports success, error, info, and warning toast types
+  - Auto-dismiss with configurable duration
+  - Slide-in animation from right
+- Created src/components/ui/ErrorBoundary.tsx:
+  - React error boundary class component
+  - Shows friendly error UI with retry/refresh options
+  - Displays error details in development mode
+- Updated src/app/layout.tsx:
+  - Added ToastProvider wrapper for global toast notifications
+- Updated src/app/globals.css:
+  - Added slide-in-right animation for toasts
+- Updated src/components/dashboard/UpcomingGames.tsx:
+  - Added retry functionality with useCallback pattern
+  - Replaced inline error display with ErrorMessage component
+- Updated src/components/dashboard/QuickStats.tsx:
+  - Added retry functionality with useCallback pattern
+  - Replaced inline error display with ErrorMessage component
+- Updated src/app/leaderboard/page.tsx:
+  - Added retry functionality with useCallback pattern
+  - Replaced custom error UI with ErrorMessage component
+- Updated src/components/game/BankControls.tsx:
+  - Replaced inline success/error messages with toast notifications
+  - Added toasts for buy-in added, cash-out completed, request approved/denied
+  - Added toasts for paid status toggle
+
+**Files Created:**
+- src/components/ui/Spinner.tsx
+- src/components/ui/ErrorMessage.tsx
+- src/components/ui/Toast.tsx
+- src/components/ui/ErrorBoundary.tsx
+
+**Files Modified:**
+- src/components/ui/index.ts (added new exports)
+- src/app/layout.tsx (added ToastProvider)
+- src/app/globals.css (added toast animation)
+- src/components/dashboard/UpcomingGames.tsx
+- src/components/dashboard/QuickStats.tsx
+- src/app/leaderboard/page.tsx
+- src/components/game/BankControls.tsx
+
+**Notes:**
+- All data-fetching components now have proper retry functionality
+- Toast notifications provide immediate feedback for user actions
+- Error messages are user-friendly and don't expose internal details
+- Build passes with no TypeScript errors
+- 26 unit tests pass
+
+**Screenshot:** N/A (Playwright MCP not configured)
+
+**Next:** Handle edge cases and game state transitions
 
 ---
