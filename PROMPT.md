@@ -29,7 +29,18 @@ If this is the first task and the old project files still exist, clean them up:
 
 If the project is not yet initialized (no package.json for Next.js), start with the first setup task.
 
-Once initialized, start the dev server with `npm run dev`. If port 3000 is taken, try another port.
+Once initialized, check if dev server is already running before starting:
+```bash
+# Check if port 3000 is in use
+netstat -ano | findstr :3000 || (start /B npm run dev && timeout /t 5 /nobreak > nul)
+```
+
+On Linux/Mac use:
+```bash
+lsof -i :3000 || (npm run dev &) && sleep 3
+```
+
+IMPORTANT: Do NOT run `npm run dev` directly in foreground - it blocks forever and prevents the iteration from completing.
 
 ## Task Selection
 
@@ -88,6 +99,22 @@ Do NOT:
 
 ONLY WORK ON A SINGLE TASK PER SESSION.
 
-When ALL tasks in plan.md have `passes: true`, output:
+When ALL tasks in plan.md have `passes: true`, skip the ITERATION_DONE marker and instead output:
 
 <promise>COMPLETE</promise>
+
+This signals the entire project is finished.
+
+## Session End
+
+After making the git commit for your task:
+1. Your work for this iteration is DONE
+2. Do NOT start another task
+3. Do NOT wait for user input
+4. Do NOT leave any long-running processes (servers, watchers) in foreground
+5. Output a brief summary of what you completed
+6. Then output the iteration marker:
+
+<promise>ITERATION_DONE</promise>
+
+If a dev server is running in background, leave it running for the next iteration.

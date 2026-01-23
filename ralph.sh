@@ -13,13 +13,28 @@ for ((i=1; i<=$1; i++)); do
 
   echo "$result"
 
+  # Check if ALL tasks are complete
   if [[ "$result" == *"<promise>COMPLETE</promise>"* ]]; then
+    echo ""
+    echo "========================================"
     echo "All tasks complete after $i iterations."
+    echo "========================================"
     exit 0
   fi
 
+  # Check if this iteration completed successfully
+  if [[ "$result" == *"<promise>ITERATION_DONE</promise>"* ]]; then
+    echo ""
+    echo "--- Iteration $i completed successfully ---"
+    echo ""
+    continue
+  fi
+
+  # Neither marker found - iteration may have gotten stuck
   echo ""
-  echo "--- End of iteration $i ---"
+  echo "WARNING: Iteration $i did not produce a completion marker."
+  echo "This may indicate an error or stuck state."
+  echo "Continuing to next iteration..."
   echo ""
 done
 
