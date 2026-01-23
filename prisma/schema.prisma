@@ -1,14 +1,99 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+// Prisma schema for Poker Hub
+// Database: PostgreSQL via Supabase
 
 generator client {
-  provider = "prisma-client"
+  provider = "prisma-client-js"
   output   = "../src/generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
+}
+
+// User model - players and hosts
+model User {
+  id            String   @id @default(cuid())
+  displayName   String   @unique
+  passwordHash  String
+  paymentHandles Json    @default("[]") // [{ type: "venmo" | "zelle" | "cash", handle: string }]
+  createdAt     DateTime @default(now())
+
+  // Relations
+  hostedGames   Game[]        @relation("GameHost")
+  gamePlayers   GamePlayer[]
+  buyIns        BuyIn[]
+  cashOuts      CashOut[]
+  chatMessages  ChatMessage[]
+}
+
+// Game model - poker game sessions
+model Game {
+  id              String   @id @default(cuid())
+  hostId          String
+  scheduledTime   DateTime
+  location        String
+  bigBlindAmount  Decimal
+  status          String   @default("upcoming") // upcoming, active, completed
+  inviteCode      String   @unique @default(cuid())
+  createdAt       DateTime @default(now())
+
+  // Relations
+  host            User         @relation("GameHost", fields: [hostId], references: [id])
+  players         GamePlayer[]
+  buyIns          BuyIn[]
+  cashOuts        CashOut[]
+}
+
+// GamePlayer model - links users to games they've joined
+model GamePlayer {
+  gameId    String
+  playerId  String
+  joinedAt  DateTime @default(now())
+
+  // Relations
+  game      Game @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  player    User @relation(fields: [playerId], references: [id], onDelete: Cascade)
+
+  @@id([gameId, playerId])
+}
+
+// BuyIn model - tracks money put into the game
+model BuyIn {
+  id                String   @id @default(cuid())
+  gameId            String
+  playerId          String
+  amount            Decimal
+  paidToBank        Boolean  @default(false)
+  requestedByPlayer Boolean  @default(false)
+  approved          Boolean  @default(true)
+  timestamp         DateTime @default(now())
+
+  // Relations
+  game              Game @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  player            User @relation(fields: [playerId], references: [id], onDelete: Cascade)
+}
+
+// CashOut model - tracks money taken out when leaving
+model CashOut {
+  gameId    String
+  playerId  String
+  amount    Decimal
+  timestamp DateTime @default(now())
+
+  // Relations
+  game      Game @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  player    User @relation(fields: [playerId], references: [id], onDelete: Cascade)
+
+  @@id([gameId, playerId])
+}
+
+// ChatMessage model - global chat messages
+model ChatMessage {
+  id        String   @id @default(cuid())
+  userId    String
+  content   String
+  createdAt DateTime @default(now())
+
+  // Relations
+  user      User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

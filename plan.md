@@ -63,7 +63,7 @@ A web application for managing university poker games. Users can create game roo
       "Run npx prisma migrate dev --name init to create tables",
       "Run npx prisma generate to generate Prisma client"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "database",

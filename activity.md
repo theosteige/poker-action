@@ -1,9 +1,9 @@
 # Project Build - Activity Log
 
 ## Current Status
-**Last Updated:** 2026-01-22
-**Tasks Completed:** 2 / 22
-**Current Task:** Create Prisma schema with all data models
+**Last Updated:** 2026-01-23
+**Tasks Completed:** 3 / 22
+**Current Task:** Create Prisma client singleton and database utility functions
 **Blockers:** None
 
 ---
@@ -13,7 +13,7 @@
 | Category | Total | Done | Status |
 |----------|-------|------|--------|
 | Setup | 2 | 2 | ✅ |
-| Database | 2 | 0 | ⬜ |
+| Database | 2 | 1 | 🟡 |
 | Feature | 14 | 0 | ⬜ |
 | Polish | 3 | 0 | ⬜ |
 | Testing | 2 | 0 | ⬜ |
@@ -110,5 +110,36 @@ After completing each task or at significant milestones, append a dated entry be
 **Screenshot:** screenshots/setup-supabase-connection.png
 
 **Next:** Create Prisma schema with all data models
+
+---
+
+### [2026-01-23 15:08] - Create Prisma Schema with Data Models
+**Task:** Create Prisma schema with all data models
+**Status:** ✅ Complete
+**Changes Made:**
+- Added User model with displayName (unique), passwordHash, paymentHandles (JSON), createdAt
+- Added Game model with hostId, scheduledTime, location, bigBlindAmount (Decimal), status, inviteCode (unique), createdAt
+- Added GamePlayer model with composite primary key (gameId, playerId), joinedAt
+- Added BuyIn model with amount (Decimal), paidToBank, requestedByPlayer, approved, timestamp
+- Added CashOut model with composite primary key (gameId, playerId), amount (Decimal), timestamp
+- Added ChatMessage model with userId, content, createdAt
+- Added all relations between models with proper foreign keys and cascade deletes
+- Updated datasource config for Prisma 7 (moved URLs to prisma.config.ts)
+- Ran migration successfully, created all 6 tables in Supabase PostgreSQL
+- Generated Prisma client to src/generated/prisma
+
+**Files Created/Modified:**
+- prisma/schema.prisma (modified - added all 6 models with relations)
+- prisma/migrations/20260123150822_init/migration.sql (new - migration file)
+- src/generated/prisma/ (generated - Prisma client)
+
+**Notes:**
+- Prisma 7 requires datasource URLs in prisma.config.ts, not in schema.prisma
+- Database connection working - Supabase project was active
+- All foreign keys use ON DELETE CASCADE for proper cleanup
+
+**Screenshot:** screenshots/prisma-schema-models.png
+
+**Next:** Create Prisma client singleton and database utility functions
 
 ---
