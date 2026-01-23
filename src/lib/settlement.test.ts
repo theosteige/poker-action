@@ -439,8 +439,8 @@ describe('Edge Cases', () => {
       playerId: 'player1',
       displayName: 'Test',
       paymentHandles: [],
-      buyIns: [{ amount: mockDecimal as any, paidToBank: true, approved: true }],
-      cashOut: { amount: mockDecimal as any },
+      buyIns: [{ amount: mockDecimal as unknown as number, paidToBank: true, approved: true }],
+      cashOut: { amount: mockDecimal as unknown as number },
     }
 
     const result = calculatePlayerSettlement(player)

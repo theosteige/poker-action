@@ -2,8 +2,8 @@
 
 ## Current Status
 **Last Updated:** 2026-01-23
-**Tasks Completed:** 15 / 22
-**Current Task:** Implement real-time chat with Supabase
+**Tasks Completed:** 16 / 22
+**Current Task:** Implement personal statistics
 **Blockers:** None
 
 ---
@@ -14,7 +14,7 @@
 |----------|-------|------|--------|
 | Setup | 2 | 2 | ✅ |
 | Database | 2 | 2 | ✅ |
-| Feature | 14 | 10 | 🟡 |
+| Feature | 14 | 11 | 🟡 |
 | Polish | 3 | 0 | ⬜ |
 | Testing | 2 | 0 | ⬜ |
 | Deployment | 1 | 0 | ⬜ |
@@ -632,5 +632,67 @@ After completing each task or at significant milestones, append a dated entry be
 **Screenshot:** N/A (Playwright MCP not configured)
 
 **Next:** Implement real-time chat with Supabase
+
+---
+
+### [2026-01-23 12:05] - Implement Real-time Chat with Supabase
+**Task:** Implement real-time chat with Supabase
+**Status:** ✅ Complete
+**Changes Made:**
+- Created SQL migration to enable Realtime on ChatMessage table (prisma/migrations/manual/enable_realtime_chatmessage.sql)
+- Created src/hooks/useChat.ts - Supabase Realtime subscription hook with:
+  - Real-time message subscription via postgres_changes
+  - Message caching and user info lookup
+  - Pagination support (load more) with cursor-based navigation
+  - Error handling and loading states
+- Created src/lib/validations/chat.ts - Zod schema for chat message validation (1-1000 chars)
+- Created src/lib/rate-limit.ts - In-memory rate limiter (5 messages per 10 seconds)
+- Created API route GET /api/chat - Fetch paginated chat messages with cursor support
+- Created API route POST /api/chat - Create new chat message with rate limiting
+- Created API route GET /api/users/[userId] - Fetch user info (for realtime message display names)
+- Created src/components/chat/ChatMessage.tsx - Individual message display with:
+  - Avatar with user initials and color based on user ID
+  - Timestamp formatting (today, yesterday, date)
+  - Own message highlighting
+- Created src/components/chat/ChatInput.tsx - Message input with:
+  - Character count (shown when >900 chars)
+  - Max 1000 character limit
+  - Enter to send, Shift+Enter for newline
+  - Loading/disabled states
+- Created src/components/chat/ChatRoom.tsx - Main chat component combining:
+  - Header with title and description
+  - Messages area with auto-scroll and infinite scroll
+  - Empty state and loading states
+  - Error banner with dismiss
+- Created src/app/chat/page.tsx - Full-page chat view
+- Created src/components/chat/index.ts - Barrel exports
+
+**Files Created:**
+- prisma/migrations/manual/enable_realtime_chatmessage.sql
+- src/hooks/useChat.ts
+- src/lib/validations/chat.ts
+- src/lib/rate-limit.ts
+- src/app/api/chat/route.ts
+- src/app/api/users/[userId]/route.ts
+- src/components/chat/ChatMessage.tsx
+- src/components/chat/ChatInput.tsx
+- src/components/chat/ChatRoom.tsx
+- src/components/chat/index.ts
+- src/app/chat/page.tsx
+
+**Files Modified:**
+- src/lib/settlement.test.ts (fixed ESLint any type error)
+
+**Notes:**
+- Supabase Realtime requires enabling replication on the ChatMessage table (run SQL migration in Supabase dashboard)
+- Rate limiting is in-memory (for production with multiple instances, use Redis)
+- Messages load newest-first then reverse for chronological display
+- Auto-scroll to bottom on new messages (only if user was at bottom)
+- Infinite scroll for loading older messages (maintains scroll position)
+- Build passes, 26 unit tests pass
+
+**Screenshot:** N/A (Playwright MCP not configured)
+
+**Next:** Implement personal statistics
 
 ---
