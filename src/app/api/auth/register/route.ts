@@ -3,6 +3,8 @@ import { registerSchema } from '@/lib/validations/auth'
 import { hashPassword, generateToken, setAuthCookie } from '@/lib/auth'
 import { createUser, isDisplayNameTaken } from '@/lib/db/users'
 
+export const dynamic = 'force-dynamic'
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()

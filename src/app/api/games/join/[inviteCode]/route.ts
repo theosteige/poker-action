@@ -3,6 +3,8 @@ import { getCurrentUser } from '@/lib/auth'
 import { getGameByInviteCode } from '@/lib/db/games'
 import { addPlayerToGame, isPlayerInGame, getPlayerCount } from '@/lib/db/game-players'
 
+export const dynamic = 'force-dynamic'
+
 interface RouteParams {
   params: Promise<{ inviteCode: string }>
 }

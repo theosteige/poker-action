@@ -4,6 +4,8 @@ import { prisma } from '@/lib/prisma'
 import { calculateGameSettlement, type PlayerGameData, type PaymentHandle } from '@/lib/settlement'
 import { Prisma } from '@/generated/prisma'
 
+export const dynamic = 'force-dynamic'
+
 const DEFAULT_PAGE_SIZE = 10
 
 export async function GET(request: NextRequest) {

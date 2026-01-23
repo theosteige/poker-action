@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server'
 import { getCurrentUser } from '@/lib/auth'
 import { getUserByIdSafe } from '@/lib/db/users'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
   try {
     const tokenPayload = await getCurrentUser()

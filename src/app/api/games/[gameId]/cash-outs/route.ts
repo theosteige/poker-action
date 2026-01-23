@@ -12,6 +12,8 @@ import {
   updateGameStatus,
 } from '@/lib/db'
 
+export const dynamic = 'force-dynamic'
+
 const cashOutSchema = z.object({
   playerId: z.string().min(1, 'Player ID is required'),
   amount: z.number().min(0, 'Amount cannot be negative'),

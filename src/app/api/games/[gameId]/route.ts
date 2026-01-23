@@ -8,6 +8,8 @@ import {
   type PaymentHandle,
 } from '@/lib/settlement'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ gameId: string }> }

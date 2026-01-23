@@ -5,6 +5,8 @@ import { z } from 'zod'
 import { createBuyIn, isPlayerInGame } from '@/lib/db'
 import { prisma } from '@/lib/prisma'
 
+export const dynamic = 'force-dynamic'
+
 const buyInSchema = z.object({
   amount: z.number().positive('Amount must be positive').max(10000, 'Amount cannot exceed $10,000'),
   isRequest: z.boolean().optional().default(false),

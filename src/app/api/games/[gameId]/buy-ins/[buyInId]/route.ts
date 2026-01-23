@@ -5,6 +5,8 @@ import { z } from 'zod'
 import { prisma } from '@/lib/prisma'
 import { approveBuyIn, denyBuyIn, markBuyInAsPaid } from '@/lib/db'
 
+export const dynamic = 'force-dynamic'
+
 const actionSchema = z.object({
   action: z.enum(['approve', 'deny', 'togglePaid']),
   paidToBank: z.boolean().optional(),

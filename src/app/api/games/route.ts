@@ -4,6 +4,8 @@ import { getGamesByUserId, createGame } from '@/lib/db/games'
 import { addPlayerToGame } from '@/lib/db/game-players'
 import { createGameSchema } from '@/lib/validations/game'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
   try {
     const user = await getCurrentUser()

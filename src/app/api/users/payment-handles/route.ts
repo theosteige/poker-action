@@ -3,6 +3,8 @@ import { getCurrentUser } from '@/lib/auth'
 import { updateUserPaymentHandles, getUserByIdSafe } from '@/lib/db/users'
 import { updatePaymentHandlesSchema } from '@/lib/validations/payment-handles'
 
+export const dynamic = 'force-dynamic'
+
 export async function PUT(request: NextRequest) {
   try {
     const tokenPayload = await getCurrentUser()

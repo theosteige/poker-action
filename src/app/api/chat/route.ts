@@ -4,6 +4,8 @@ import { createMessage, getRecentMessages } from '@/lib/db/chat'
 import { chatMessageSchema } from '@/lib/validations/chat'
 import { checkChatRateLimit } from '@/lib/rate-limit'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET(request: NextRequest) {
   try {
     const user = await getCurrentUser()
