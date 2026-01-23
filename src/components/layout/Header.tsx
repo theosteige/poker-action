@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useAuthContext } from '@/contexts/AuthContext'
 import { useState, useRef, useEffect } from 'react'
 
@@ -9,6 +10,7 @@ interface HeaderProps {
 }
 
 export function Header({ onMenuClick }: HeaderProps) {
+  const router = useRouter()
   const { user, logout } = useAuthContext()
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
@@ -27,6 +29,7 @@ export function Header({ onMenuClick }: HeaderProps) {
   const handleLogout = async () => {
     setIsUserMenuOpen(false)
     await logout()
+    router.push('/login')
   }
 
   return (
