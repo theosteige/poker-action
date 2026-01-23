@@ -214,7 +214,7 @@ A web application for managing university poker games. Users can create game roo
       "When host denies: delete the buy-in request",
       "Notify player of approval/denial (can be simple UI update on page refresh, or real-time with Supabase)"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "feature",

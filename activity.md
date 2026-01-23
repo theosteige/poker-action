@@ -2,8 +2,8 @@
 
 ## Current Status
 **Last Updated:** 2026-01-23
-**Tasks Completed:** 13 / 22
-**Current Task:** Implement buy-in request flow for players
+**Tasks Completed:** 14 / 22
+**Current Task:** Implement settlement calculation and display
 **Blockers:** None
 
 ---
@@ -14,7 +14,7 @@
 |----------|-------|------|--------|
 | Setup | 2 | 2 | ✅ |
 | Database | 2 | 2 | ✅ |
-| Feature | 14 | 8 | 🟡 |
+| Feature | 14 | 9 | 🟡 |
 | Polish | 3 | 0 | ⬜ |
 | Testing | 2 | 0 | ⬜ |
 | Deployment | 1 | 0 | ⬜ |
@@ -552,5 +552,42 @@ After completing each task or at significant milestones, append a dated entry be
 **Screenshot:** N/A (Playwright MCP not configured)
 
 **Next:** Implement buy-in request flow for players
+
+---
+
+### [2026-01-23 18:00] - Implement Buy-In Request Flow for Players
+**Task:** Implement buy-in request flow for players
+**Status:** ✅ Complete
+**Changes Made:**
+- Verified existing implementation of RequestBuyInForm.tsx (form with amount input)
+- Verified POST /api/games/[gameId]/buy-ins creates buy-in with requestedByPlayer=true, approved=false for player requests
+- Verified BankControls.tsx Manage tab shows pending requests with approve/deny buttons
+- Verified PATCH /api/games/[gameId]/buy-ins/[buyInId] handles approve (sets approved=true) and deny (deletes request) actions
+- Created src/components/game/PlayerBuyInStatus.tsx - enhanced player view showing:
+  - Summary of active buy-ins vs pending amounts
+  - Recently approved notification banner (within last 5 minutes)
+  - Pending requests with timestamp and animated status indicator
+  - Approved buy-ins list with paid/unpaid status
+- Updated src/app/games/[gameId]/page.tsx to use PlayerBuyInStatus instead of simpler PendingRequestsCard
+- Removed unused PendingRequestsCard component
+- Updated src/components/game/index.ts to export PlayerBuyInStatus
+
+**Files Created:**
+- src/components/game/PlayerBuyInStatus.tsx
+
+**Files Modified:**
+- src/components/game/index.ts (added PlayerBuyInStatus export)
+- src/app/games/[gameId]/page.tsx (replaced PendingRequestsCard with PlayerBuyInStatus)
+
+**Notes:**
+- Most of the buy-in request flow was already implemented in previous tasks
+- This task focused on enhancing the player experience with better notification UI
+- PlayerBuyInStatus shows "Buy-in Approved!" notification for recently approved requests
+- Players can now see both their pending and approved buy-ins in one organized card
+- Build passes without errors
+
+**Screenshot:** N/A (Playwright MCP not configured)
+
+**Next:** Implement settlement calculation and display
 
 ---

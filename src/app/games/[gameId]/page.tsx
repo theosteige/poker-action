@@ -5,7 +5,7 @@ import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useAuth } from '@/hooks/useAuth'
 import { Button, Card } from '@/components/ui'
-import { GameInfo, PlayerList, Ledger, RequestBuyInForm, BankControls } from '@/components/game'
+import { GameInfo, PlayerList, Ledger, RequestBuyInForm, BankControls, PlayerBuyInStatus } from '@/components/game'
 import { type PaymentHandle, type Debt, type PlayerSettlement } from '@/lib/settlement'
 
 interface GameData {
@@ -311,15 +311,13 @@ export default function GameRoomPage() {
               />
             )}
 
-            {/* Pending buy-in requests for player */}
+            {/* Player buy-in status - shows pending and approved buy-ins */}
             {!isHost && (
-              <PendingRequestsCard
+              <PlayerBuyInStatus
                 buyIns={gameData.buyIns.filter(
-                  (bi) =>
-                    bi.playerId === currentUser.id &&
-                    bi.requestedByPlayer &&
-                    !bi.approved
+                  (bi) => bi.playerId === currentUser.id
                 )}
+                gameStatus={game.status}
               />
             )}
           </div>
@@ -363,42 +361,3 @@ export default function GameRoomPage() {
   )
 }
 
-interface PendingRequestsCardProps {
-  buyIns: {
-    id: string
-    amount: string
-    timestamp: string
-  }[]
-}
-
-function PendingRequestsCard({ buyIns }: PendingRequestsCardProps) {
-  if (buyIns.length === 0) {
-    return null
-  }
-
-  return (
-    <Card className="p-4">
-      <h3 className="text-sm font-semibold text-neutral-700 mb-3">
-        Your Pending Requests
-      </h3>
-      <div className="space-y-2">
-        {buyIns.map((buyIn) => (
-          <div
-            key={buyIn.id}
-            className="flex items-center justify-between bg-amber-50 rounded-lg p-3"
-          >
-            <div>
-              <p className="text-sm font-medium text-neutral-900">
-                ${parseFloat(buyIn.amount).toFixed(2)} buy-in
-              </p>
-              <p className="text-xs text-neutral-500">Waiting for approval</p>
-            </div>
-            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
-              Pending
-            </span>
-          </div>
-        ))}
-      </div>
-    </Card>
-  )
-}
