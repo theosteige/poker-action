@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server'
 import { getCurrentUser } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
-import { Prisma } from '@/generated/prisma'
 
 interface PlayerStats {
   totalNet: number

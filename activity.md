@@ -2,8 +2,8 @@
 
 ## Current Status
 **Last Updated:** 2026-01-23
-**Tasks Completed:** 9 / 22
-**Current Task:** Implement game creation flow
+**Tasks Completed:** 10 / 22
+**Current Task:** Implement game joining flow
 **Blockers:** None
 
 ---
@@ -14,7 +14,7 @@
 |----------|-------|------|--------|
 | Setup | 2 | 2 | ✅ |
 | Database | 2 | 2 | ✅ |
-| Feature | 14 | 5 | 🟡 |
+| Feature | 14 | 6 | 🟡 |
 | Polish | 3 | 0 | ⬜ |
 | Testing | 2 | 0 | ⬜ |
 | Deployment | 1 | 0 | ⬜ |
@@ -372,5 +372,43 @@ After completing each task or at significant milestones, append a dated entry be
 **Screenshot:** screenshots/dashboard-page.png
 
 **Next:** Implement game creation flow
+
+---
+
+### [2026-01-23 13:45] - Implement Game Creation Flow
+**Task:** Implement game creation flow
+**Status:** ✅ Complete
+**Changes Made:**
+- Created src/lib/validations/game.ts with Zod schema for createGameSchema (scheduledTime, location, bigBlindAmount)
+- Updated API route POST /api/games to create games with current user as host, generate unique inviteCode, add host as player, return invite URL
+- Created src/components/game/CreateGameForm.tsx - form with datetime picker, location input, BB amount input using react-hook-form + zod
+- Created src/components/game/InviteLinkModal.tsx - modal showing game details and shareable invite link with copy button
+- Created src/components/game/index.ts - barrel exports
+- Created src/app/games/new/page.tsx - page with CreateGameForm and InviteLinkModal integration
+- Fixed unused import in src/app/api/stats/me/route.ts
+- Updated .eslintrc.json to ignore generated Prisma files
+
+**Files Created:**
+- src/lib/validations/game.ts
+- src/components/game/CreateGameForm.tsx
+- src/components/game/InviteLinkModal.tsx
+- src/components/game/index.ts
+- src/app/games/new/page.tsx
+
+**Files Modified:**
+- src/app/api/games/route.ts (added POST handler)
+- src/app/api/stats/me/route.ts (removed unused import)
+- .eslintrc.json (added ignorePatterns for generated files)
+
+**Notes:**
+- Invite link format: {baseUrl}/games/join/{inviteCode}
+- Form validates scheduledTime must be in the future
+- InviteLinkModal includes copy-to-clipboard functionality with fallback
+- Host is automatically added as a player when game is created
+- TypeScript and ESLint pass without errors
+
+**Screenshot:** screenshots/game-creation-flow.png
+
+**Next:** Implement game joining flow
 
 ---

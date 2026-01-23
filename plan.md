@@ -159,7 +159,7 @@ A web application for managing university poker games. Users can create game roo
       "After creation, show modal/page with shareable invite link (copy to clipboard button)",
       "Invite link format: {baseUrl}/games/join/{inviteCode}"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "feature",
