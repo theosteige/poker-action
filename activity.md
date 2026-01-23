@@ -2,8 +2,8 @@
 
 ## Current Status
 **Last Updated:** 2026-01-23
-**Tasks Completed:** 17 / 22
-**Current Task:** Implement public leaderboard
+**Tasks Completed:** 18 / 22
+**Current Task:** Implement game history
 **Blockers:** None
 
 ---
@@ -14,7 +14,7 @@
 |----------|-------|------|--------|
 | Setup | 2 | 2 | ✅ |
 | Database | 2 | 2 | ✅ |
-| Feature | 14 | 12 | 🟡 |
+| Feature | 14 | 13 | 🟡 |
 | Polish | 3 | 0 | ⬜ |
 | Testing | 2 | 0 | ⬜ |
 | Deployment | 1 | 0 | ⬜ |
@@ -727,5 +727,52 @@ After completing each task or at significant milestones, append a dated entry be
 **Screenshot:** N/A (Playwright MCP not configured)
 
 **Next:** Implement public leaderboard
+
+---
+
+### [2026-01-23 12:15] - Implement Public Leaderboard
+**Task:** Implement public leaderboard
+**Status:** ✅ Complete
+**Changes Made:**
+- Created API route GET /api/leaderboard that:
+  - Queries all users with completed games
+  - Calculates total net profit/loss for each user from their completed games
+  - Sorts by profit descending for top 3 winners
+  - Sorts by loss ascending for top 3 losers
+  - Returns both lists in response
+- Created src/components/leaderboard/WinnersBoard.tsx:
+  - Displays top 3 winners with rank badges (gold, silver, bronze medals)
+  - Shows player name, games played, and total profit in green
+  - Empty state when no winners exist
+  - Message when fewer than 3 players have completed games
+- Created src/components/leaderboard/LosersBoard.tsx:
+  - Displays top 3 losers with numeric rank badges
+  - Shows player name, games played, and total loss in red
+  - Empty state when no data exists
+  - Message when fewer than 3 players have completed games
+- Created src/components/leaderboard/index.ts barrel exports
+- Created src/app/leaderboard/page.tsx:
+  - Full-page leaderboard with responsive 2-column layout
+  - Loading skeleton state while fetching data
+  - Error state with retry button
+  - Empty state when no completed games exist
+  - Both boards displayed side by side on desktop, stacked on mobile
+
+**Files Created:**
+- src/app/api/leaderboard/route.ts
+- src/components/leaderboard/WinnersBoard.tsx
+- src/components/leaderboard/LosersBoard.tsx
+- src/components/leaderboard/index.ts
+- src/app/leaderboard/page.tsx
+
+**Notes:**
+- Edge case handled: when fewer than 3 users have completed games, shows appropriate message
+- Winners styled with green for profit, losers styled with red for loss
+- Leaderboard link already exists in navigation Header component
+- Build passes successfully, 26 unit tests pass
+
+**Screenshot:** N/A (Playwright MCP not configured)
+
+**Next:** Implement game history
 
 ---
