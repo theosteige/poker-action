@@ -2,8 +2,8 @@
 
 ## Current Status
 **Last Updated:** 2026-01-23
-**Tasks Completed:** 10 / 22
-**Current Task:** Implement game joining flow
+**Tasks Completed:** 11 / 22
+**Current Task:** Implement game room page - player view
 **Blockers:** None
 
 ---
@@ -14,7 +14,7 @@
 |----------|-------|------|--------|
 | Setup | 2 | 2 | ✅ |
 | Database | 2 | 2 | ✅ |
-| Feature | 14 | 6 | 🟡 |
+| Feature | 14 | 7 | 🟡 |
 | Polish | 3 | 0 | ⬜ |
 | Testing | 2 | 0 | ⬜ |
 | Deployment | 1 | 0 | ⬜ |
@@ -410,5 +410,34 @@ After completing each task or at significant milestones, append a dated entry be
 **Screenshot:** screenshots/game-creation-flow.png
 
 **Next:** Implement game joining flow
+
+---
+
+### [2026-01-23 14:30] - Implement Game Joining Flow
+**Task:** Implement game joining flow
+**Status:** ✅ Complete
+**Changes Made:**
+- Created API route GET /api/games/join/[inviteCode] - returns game info if invite code is valid
+- Created API route POST /api/games/join/[inviteCode] - adds user to game if not already joined
+- Created src/app/games/join/[inviteCode]/page.tsx - join game page with game details and join button
+- Handles multiple states: loading, game_found, not_found, completed, joined, joining, error
+- Redirects to login if unauthenticated (with returnUrl to come back after auth)
+- Shows "Already Joined" view for existing players and game host
+- Shows "Game Completed" message for finished games
+- Redirects to game room after successful join
+
+**Files Created:**
+- src/app/api/games/join/[inviteCode]/route.ts
+- src/app/games/join/[inviteCode]/page.tsx
+
+**Notes:**
+- Used useCallback for fetchGameInfo to satisfy ESLint react-hooks/exhaustive-deps rule
+- API returns game info including host name, scheduled time, location, BB amount, player count
+- POST endpoint checks for completed games and prevents joining
+- TypeScript and ESLint pass without errors
+
+**Screenshot:** N/A (Playwright MCP not configured)
+
+**Next:** Implement game room page - player view
 
 ---

@@ -171,7 +171,7 @@ A web application for managing university poker games. Users can create game roo
       "After joining, redirect to game room page",
       "Handle edge cases: invalid invite code (404), game already completed (show message), user already in game (redirect to game room)"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "feature",
