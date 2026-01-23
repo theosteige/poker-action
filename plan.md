@@ -120,7 +120,7 @@ A web application for managing university poker games. Users can create game roo
       "Display payment handles on user profile page",
       "Show other players' payment handles in game room (only for players in same game)"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "feature",
