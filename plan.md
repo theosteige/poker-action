@@ -185,7 +185,7 @@ A web application for managing university poker games. Users can create game roo
       "Create src/app/games/[gameId]/page.tsx: game room page combining all components",
       "Add 'Request Buy-In' button for players (not host)"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "feature",

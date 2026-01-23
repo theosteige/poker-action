@@ -2,8 +2,8 @@
 
 ## Current Status
 **Last Updated:** 2026-01-23
-**Tasks Completed:** 11 / 22
-**Current Task:** Implement game room page - player view
+**Tasks Completed:** 12 / 22
+**Current Task:** Implement game room page - bank (host) controls
 **Blockers:** None
 
 ---
@@ -14,7 +14,7 @@
 |----------|-------|------|--------|
 | Setup | 2 | 2 | ✅ |
 | Database | 2 | 2 | ✅ |
-| Feature | 14 | 7 | 🟡 |
+| Feature | 14 | 8 | 🟡 |
 | Polish | 3 | 0 | ⬜ |
 | Testing | 2 | 0 | ⬜ |
 | Deployment | 1 | 0 | ⬜ |
@@ -439,5 +439,74 @@ After completing each task or at significant milestones, append a dated entry be
 **Screenshot:** N/A (Playwright MCP not configured)
 
 **Next:** Implement game room page - player view
+
+---
+
+### [2026-01-23 15:45] - Implement Game Room Page - Player View
+**Task:** Implement game room page - player view
+**Status:** ✅ Complete
+**Changes Made:**
+- Created src/lib/settlement.ts with calculatePlayerSettlement and calculateGameSettlement functions
+  - Implements settlement logic from PRD: settlement = cashOut - unpaidBuyIns
+  - Exports formatCurrency and formatNetAmount helper functions
+  - Handles positive (bank owes player) and negative (player owes bank) settlements
+- Created API route GET /api/games/[gameId] that returns full game data with:
+  - Game details (time, location, BB, status, host)
+  - All players with their payment handles
+  - All buy-ins with approval and payment status
+  - All cash-outs
+  - Calculated settlement for each player and debt list
+  - Current user's permissions (isHost, isPlayer)
+- Created src/components/game/GameInfo.tsx - displays game details with icons:
+  - Date/time, location, big blind amount, host info
+  - Status badge (upcoming/active/completed)
+  - Copy invite link button
+- Created src/components/game/PlayerList.tsx - displays all players in a table with:
+  - Player name with avatar, host badge
+  - Total buy-ins, cash-out amount, net +/-
+  - Status badges (Playing/Settled/Waiting)
+  - Summary footer with total in play
+- Created src/components/game/Ledger.tsx - shows settlement/debt information:
+  - Separates debts into "Owed to Bank" and "Bank Owes"
+  - Displays payment handles for easy settling
+  - Shows game complete/in progress status
+- Created src/components/game/RequestBuyInForm.tsx - allows players to request buy-ins:
+  - Form with amount validation (positive, max $10,000)
+  - Quick amount buttons based on BB amount
+  - Success/error states
+- Created API route POST /api/games/[gameId]/buy-ins for buy-in creation:
+  - Players can request buy-ins (requires bank approval)
+  - Host can directly add buy-ins for any player
+  - Validates player is in game, game not completed
+- Created src/app/games/[gameId]/page.tsx - main game room page:
+  - 3-column responsive layout (game info, players, ledger)
+  - Loading/error/not found/unauthorized states
+  - Request buy-in form for non-host players
+  - Shows pending requests for the player
+  - Placeholder for bank controls (next task)
+- Updated src/components/game/index.ts with new exports
+
+**Files Created:**
+- src/lib/settlement.ts
+- src/app/api/games/[gameId]/route.ts
+- src/app/api/games/[gameId]/buy-ins/route.ts
+- src/components/game/GameInfo.tsx
+- src/components/game/PlayerList.tsx
+- src/components/game/Ledger.tsx
+- src/components/game/RequestBuyInForm.tsx
+- src/app/games/[gameId]/page.tsx
+
+**Files Modified:**
+- src/components/game/index.ts (added new exports)
+
+**Notes:**
+- Settlement calculation follows PRD exactly: tracks both chip ledger (netChips) and cash flow (settlement)
+- Players see their pending buy-in requests with "Pending" status
+- Bank controls are shown as placeholder (to be implemented in next task)
+- TypeScript and ESLint pass without errors
+
+**Screenshot:** N/A (Playwright MCP not configured)
+
+**Next:** Implement game room page - bank (host) controls
 
 ---
