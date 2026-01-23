@@ -108,7 +108,7 @@ A web application for managing university poker games. Users can create game roo
       "Create src/app/register/page.tsx: register page with RegisterForm, link to login",
       "Create src/middleware.ts: protect routes, redirect unauthenticated users to /login, redirect authenticated users away from /login and /register"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "feature",
