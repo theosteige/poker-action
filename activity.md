@@ -2,8 +2,8 @@
 
 ## Current Status
 **Last Updated:** 2026-01-23
-**Tasks Completed:** 4 / 22
-**Current Task:** Implement user authentication - registration and login
+**Tasks Completed:** 5 / 22
+**Current Task:** Create authentication UI components and pages
 **Blockers:** None
 
 ---
@@ -14,7 +14,7 @@
 |----------|-------|------|--------|
 | Setup | 2 | 2 | ✅ |
 | Database | 2 | 2 | ✅ |
-| Feature | 14 | 0 | 🟡 |
+| Feature | 14 | 1 | 🟡 |
 | Polish | 3 | 0 | ⬜ |
 | Testing | 2 | 0 | ⬜ |
 | Deployment | 1 | 0 | ⬜ |
@@ -176,5 +176,47 @@ After completing each task or at significant milestones, append a dated entry be
 **Screenshot:** screenshots/prisma-db-utilities.png
 
 **Next:** Implement user authentication - registration and login
+
+---
+
+### [2026-01-23 15:35] - Implement User Authentication
+**Task:** Implement user authentication - registration and login
+**Status:** ✅ Complete
+**Changes Made:**
+- Created src/lib/auth.ts with hashPassword, verifyPassword, generateToken, verifyToken, cookie helpers
+- Created src/lib/validations/auth.ts with Zod schemas for register and login
+- Created API route POST /api/auth/register - validates input, checks uniqueness, creates user, returns JWT
+- Created API route POST /api/auth/login - validates credentials, returns JWT
+- Created API route GET /api/auth/me - returns current user from JWT cookie
+- Created API route POST /api/auth/logout - clears auth cookie
+- Created src/hooks/useAuth.ts - manages auth state with login/register/logout/checkAuth functions
+- Created src/contexts/AuthContext.tsx - provides auth state to entire app
+- Updated src/lib/prisma.ts to use @prisma/adapter-pg for Prisma 7 compatibility
+- Installed @prisma/adapter-pg and pg packages for database adapter
+
+**Files Created:**
+- src/lib/auth.ts
+- src/lib/validations/auth.ts
+- src/app/api/auth/register/route.ts
+- src/app/api/auth/login/route.ts
+- src/app/api/auth/me/route.ts
+- src/app/api/auth/logout/route.ts
+- src/hooks/useAuth.ts
+- src/contexts/AuthContext.tsx
+
+**Files Modified:**
+- src/lib/prisma.ts (updated for Prisma 7 adapter pattern)
+- package.json (added @prisma/adapter-pg, pg, @types/pg)
+
+**Notes:**
+- Prisma 7 requires driver adapters - URL can't be in schema.prisma anymore
+- Used @prisma/adapter-pg with pg Pool for PostgreSQL connection
+- JWT tokens stored in httpOnly cookies for security
+- All API endpoints tested and working via curl
+- Zod v4 uses `.issues` instead of `.errors` for validation error access
+
+**Screenshot:** screenshots/user-authentication.png
+
+**Next:** Create authentication UI components and pages
 
 ---
