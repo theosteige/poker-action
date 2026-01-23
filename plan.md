@@ -133,7 +133,7 @@ A web application for managing university poker games. Users can create game roo
       "Create src/app/page.tsx: landing page, redirects to /dashboard if authenticated, shows login/register buttons if not",
       "Add Tailwind configuration for clean, minimal design: neutral colors, good contrast, readable typography"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "feature",

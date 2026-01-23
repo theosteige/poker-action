@@ -2,8 +2,8 @@
 
 ## Current Status
 **Last Updated:** 2026-01-23
-**Tasks Completed:** 7 / 22
-**Current Task:** Create main layout and navigation components
+**Tasks Completed:** 8 / 22
+**Current Task:** Implement dashboard page
 **Blockers:** None
 
 ---
@@ -14,7 +14,7 @@
 |----------|-------|------|--------|
 | Setup | 2 | 2 | ✅ |
 | Database | 2 | 2 | ✅ |
-| Feature | 14 | 3 | 🟡 |
+| Feature | 14 | 4 | 🟡 |
 | Polish | 3 | 0 | ⬜ |
 | Testing | 2 | 0 | ⬜ |
 | Deployment | 1 | 0 | ⬜ |
@@ -294,5 +294,47 @@ After completing each task or at significant milestones, append a dated entry be
 **Screenshot:** screenshots/payment-handles-profile.png
 
 **Next:** Create main layout and navigation components
+
+---
+
+### [2026-01-23 11:03] - Create Main Layout and Navigation Components
+**Task:** Create main layout and navigation components
+**Status:** ✅ Complete
+**Changes Made:**
+- Created src/components/layout/Header.tsx - logo/title, nav links (Dashboard, Leaderboard, Chat), user dropdown menu with logout
+- Created src/components/layout/Sidebar.tsx - mobile navigation with slide-in panel, active state highlighting
+- Created src/components/layout/MainLayout.tsx - combines Header and Sidebar, responsive layout
+- Created src/components/layout/index.ts - barrel exports
+- Updated src/app/layout.tsx - wrapped with MainLayout component
+- Updated src/app/page.tsx - landing page with auth redirect, feature cards, clean hero section
+- Updated src/components/ui/Button.tsx - added size prop (sm/md/lg), updated to neutral colors
+- Updated tailwind.config.ts - added fontFamily extension
+- Updated src/app/globals.css - cleaner background, custom scrollbar styles, focus-visible utilities
+- Created src/app/dashboard/page.tsx - placeholder dashboard for redirect target
+
+**Files Created:**
+- src/components/layout/Header.tsx
+- src/components/layout/Sidebar.tsx
+- src/components/layout/MainLayout.tsx
+- src/components/layout/index.ts
+- src/app/dashboard/page.tsx
+
+**Files Modified:**
+- src/app/layout.tsx (wrapped with MainLayout)
+- src/app/page.tsx (complete rewrite as landing page)
+- src/components/ui/Button.tsx (added size prop, neutral colors)
+- tailwind.config.ts (added fontFamily)
+- src/app/globals.css (cleaner styles)
+
+**Notes:**
+- Header shows Sign in/Sign up for unauthenticated users, user menu for authenticated
+- Sidebar only shows for authenticated users on mobile
+- Landing page redirects to /dashboard when authenticated
+- Clean, minimal design with neutral color palette
+- TypeScript compiles without errors
+
+**Screenshot:** screenshots/main-layout-landing.png
+
+**Next:** Implement dashboard page
 
 ---
