@@ -2,8 +2,8 @@
 
 ## Current Status
 **Last Updated:** 2026-01-23
-**Tasks Completed:** 14 / 22
-**Current Task:** Implement settlement calculation and display
+**Tasks Completed:** 15 / 22
+**Current Task:** Implement real-time chat with Supabase
 **Blockers:** None
 
 ---
@@ -14,7 +14,7 @@
 |----------|-------|------|--------|
 | Setup | 2 | 2 | ✅ |
 | Database | 2 | 2 | ✅ |
-| Feature | 14 | 9 | 🟡 |
+| Feature | 14 | 10 | 🟡 |
 | Polish | 3 | 0 | ⬜ |
 | Testing | 2 | 0 | ⬜ |
 | Deployment | 1 | 0 | ⬜ |
@@ -589,5 +589,48 @@ After completing each task or at significant milestones, append a dated entry be
 **Screenshot:** N/A (Playwright MCP not configured)
 
 **Next:** Implement settlement calculation and display
+
+---
+
+### [2026-01-23 11:56] - Implement Settlement Calculation and Display
+**Task:** Implement settlement calculation and display
+**Status:** ✅ Complete
+**Changes Made:**
+- Created src/components/game/SettlementView.tsx - comprehensive settlement display component:
+  - Shows each player's row with name, total buy-in, cash-out, net +/-, settlement amount, owes/owed status
+  - Highlights unpaid buy-ins for each player
+  - Displays settlement status badges (Even, Receives, Owes, Playing, Waiting)
+  - "Who Pays Whom" section with payment handle chips for easy settling
+  - Responsive table layout with mobile support
+- Installed vitest, @testing-library/react, @testing-library/jest-dom, jsdom for testing
+- Created vitest.config.ts with jsdom environment and path aliases
+- Created vitest.setup.ts with testing-library/jest-dom setup
+- Added test scripts to package.json (test, test:watch, test:coverage)
+- Created src/lib/settlement.test.ts with comprehensive unit tests:
+  - 26 test cases covering calculatePlayerSettlement, calculateGameSettlement, formatCurrency, formatNetAmount
+  - Edge cases: unpaid buy-ins, mixed paid/unpaid, no cash-out, unapproved buy-ins, zero amounts, Decimal types
+  - Complex multi-player scenarios, big winner, bust out scenarios
+- Updated src/components/game/index.ts to export SettlementView
+
+**Files Created:**
+- src/components/game/SettlementView.tsx
+- src/lib/settlement.test.ts
+- vitest.config.ts
+- vitest.setup.ts
+
+**Files Modified:**
+- package.json (added test scripts and dev dependencies)
+- src/components/game/index.ts (added SettlementView export)
+
+**Notes:**
+- Settlement calculation was already implemented in src/lib/settlement.ts (previous task)
+- Existing PlayerList.tsx and Ledger.tsx components already showed basic settlement info
+- SettlementView.tsx provides a more comprehensive view combining all settlement details
+- All 26 unit tests pass
+- TypeScript compiles without errors
+
+**Screenshot:** N/A (Playwright MCP not configured)
+
+**Next:** Implement real-time chat with Supabase
 
 ---

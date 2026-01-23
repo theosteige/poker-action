@@ -232,7 +232,7 @@ A web application for managing university poker games. Users can create game roo
       "At bottom, show simplified 'Who Pays Whom' list with payment handle links",
       "Write unit tests for settlement calculation covering edge cases"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "feature",
