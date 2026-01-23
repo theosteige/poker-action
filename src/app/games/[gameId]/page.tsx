@@ -264,6 +264,37 @@ export default function GameRoomPage() {
       )}
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Completed game banner */}
+        {game.status === 'completed' && (
+          <div className="mb-6 p-4 bg-neutral-100 border border-neutral-200 rounded-lg">
+            <div className="flex items-center gap-3">
+              <div className="flex-shrink-0">
+                <svg
+                  className="w-5 h-5 text-neutral-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+              </div>
+              <div>
+                <p className="text-sm font-medium text-neutral-900">
+                  This game has been completed
+                </p>
+                <p className="text-sm text-neutral-600">
+                  The ledger below shows the final settlement. This game is read-only.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center gap-2 text-sm text-neutral-500 mb-2">
@@ -280,7 +311,7 @@ export default function GameRoomPage() {
             <h1 className="text-2xl font-bold text-neutral-900">
               {game.location}
             </h1>
-            {isHost && (
+            {isHost && isGameActive && (
               <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-amber-100 text-amber-800">
                 You are the Bank
               </span>

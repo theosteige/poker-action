@@ -85,6 +85,12 @@ export function Header({ onMenuClick }: HeaderProps) {
             >
               Chat
             </Link>
+            <Link
+              href="/history"
+              className="text-sm font-medium text-neutral-600 transition-colors hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"
+            >
+              History
+            </Link>
           </nav>
         )}
 

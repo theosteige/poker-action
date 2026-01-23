@@ -2,8 +2,8 @@
 
 ## Current Status
 **Last Updated:** 2026-01-23
-**Tasks Completed:** 18 / 22
-**Current Task:** Implement game history
+**Tasks Completed:** 19 / 22
+**Current Task:** Implement responsive design and mobile optimization
 **Blockers:** None
 
 ---
@@ -14,7 +14,7 @@
 |----------|-------|------|--------|
 | Setup | 2 | 2 | ✅ |
 | Database | 2 | 2 | ✅ |
-| Feature | 14 | 13 | 🟡 |
+| Feature | 14 | 14 | ✅ |
 | Polish | 3 | 0 | ⬜ |
 | Testing | 2 | 0 | ⬜ |
 | Deployment | 1 | 0 | ⬜ |
@@ -774,5 +774,61 @@ After completing each task or at significant milestones, append a dated entry be
 **Screenshot:** N/A (Playwright MCP not configured)
 
 **Next:** Implement game history
+
+---
+
+### [2026-01-23 12:17] - Implement Game History
+**Task:** Implement game history
+**Status:** ✅ Complete
+**Changes Made:**
+- Created API route GET /api/games/history with:
+  - Pagination support (page, pageSize query params)
+  - Returns completed games for user with full settlement data
+  - Calculates user's net +/- for each game
+  - Returns game metadata (location, BB, player count, host info)
+- Created src/components/history/GameHistoryCard.tsx:
+  - Displays game date, time, location, BB amount, player count
+  - Shows user's net result with color coding (green for profit, red for loss)
+  - Links to game room for detailed view
+- Created src/components/history/GameHistoryList.tsx:
+  - Paginated list of past games with loading/error/empty states
+  - Smart pagination with ellipsis for large page counts
+  - Auto-scroll to top on page change
+- Created src/components/history/index.ts barrel exports
+- Created src/app/history/page.tsx:
+  - Full history page with GameHistoryList
+  - Auth redirect for unauthenticated users
+- Updated src/app/games/[gameId]/page.tsx:
+  - Added completed game banner showing "This game has been completed"
+  - Bank controls and "You are the Bank" badge hidden for completed games
+  - Game room is effectively read-only for completed games
+- Updated src/components/layout/Header.tsx:
+  - Added "History" link to desktop navigation
+- Updated src/components/layout/Sidebar.tsx:
+  - Added "History" link to mobile navigation with book icon
+
+**Files Created:**
+- src/app/api/games/history/route.ts
+- src/components/history/GameHistoryCard.tsx
+- src/components/history/GameHistoryList.tsx
+- src/components/history/index.ts
+- src/app/history/page.tsx
+
+**Files Modified:**
+- src/app/games/[gameId]/page.tsx (added completed game banner)
+- src/components/layout/Header.tsx (added History nav link)
+- src/components/layout/Sidebar.tsx (added History nav link with HistoryIcon)
+- plan.md (marked task as complete)
+
+**Notes:**
+- All features complete per plan.md steps
+- Build passes successfully with no TypeScript errors
+- 26 unit tests pass
+- Game room already had proper handling for completed games (bank controls hidden when status !== 'active' && status !== 'upcoming')
+- Added visual banner to make read-only state clear to users
+
+**Screenshot:** N/A (Playwright MCP not configured)
+
+**Next:** Implement responsive design and mobile optimization
 
 ---

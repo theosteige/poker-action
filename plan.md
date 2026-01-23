@@ -287,7 +287,7 @@ A web application for managing university poker games. Users can create game roo
       "Add 'History' tab/section to profile page or create src/app/history/page.tsx",
       "In game room, disable all actions if game status is 'completed', show ledger as read-only"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "polish",
