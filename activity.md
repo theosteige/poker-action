@@ -2,8 +2,8 @@
 
 ## Current Status
 **Last Updated:** 2026-01-23
-**Tasks Completed:** 3 / 22
-**Current Task:** Create Prisma client singleton and database utility functions
+**Tasks Completed:** 4 / 22
+**Current Task:** Implement user authentication - registration and login
 **Blockers:** None
 
 ---
@@ -13,8 +13,8 @@
 | Category | Total | Done | Status |
 |----------|-------|------|--------|
 | Setup | 2 | 2 | ✅ |
-| Database | 2 | 1 | 🟡 |
-| Feature | 14 | 0 | ⬜ |
+| Database | 2 | 2 | ✅ |
+| Feature | 14 | 0 | 🟡 |
 | Polish | 3 | 0 | ⬜ |
 | Testing | 2 | 0 | ⬜ |
 | Deployment | 1 | 0 | ⬜ |
@@ -141,5 +141,40 @@ After completing each task or at significant milestones, append a dated entry be
 **Screenshot:** screenshots/prisma-schema-models.png
 
 **Next:** Create Prisma client singleton and database utility functions
+
+---
+
+### [2026-01-23 10:25] - Create Prisma Client Singleton and Database Utilities
+**Task:** Create Prisma client singleton and database utility functions
+**Status:** ✅ Complete
+**Changes Made:**
+- Created src/lib/prisma.ts with singleton pattern to prevent multiple Prisma instances in development
+- Created src/lib/db/users.ts with functions: createUser, getUserByDisplayName, getUserById, getUserByIdSafe, updateUserPaymentHandles, isDisplayNameTaken
+- Created src/lib/db/games.ts with functions: createGame, getGameByInviteCode, getGameById, getGameByIdWithPlayers, getGamesByUserId, getUpcomingGamesByUserId, updateGameStatus, isUserGameHost
+- Created src/lib/db/game-players.ts with functions: addPlayerToGame, getPlayersInGame, isPlayerInGame, getPlayerCount, removePlayerFromGame
+- Created src/lib/db/buy-ins.ts with functions: createBuyIn, getBuyInsForGame, getApprovedBuyInsForGame, getPendingBuyInRequests, approveBuyIn, denyBuyIn, markBuyInAsPaid, getPlayerBuyIns, getTotalBuyInAmount, getUnpaidBuyInAmount
+- Created src/lib/db/cash-outs.ts with functions: createCashOut, getCashOutsForGame, hasPlayerCashedOut, getPlayerCashOut, updateCashOut, deleteCashOut, getCashOutCount
+- Created src/lib/db/chat.ts with functions: createMessage, getRecentMessages (paginated), getMessagesChronological, getMessagesSince, deleteMessage, getMessageCount, getUserMessageCount
+- Created src/lib/db/index.ts for convenient re-exports
+
+**Files Created:**
+- src/lib/prisma.ts (Prisma singleton)
+- src/lib/db/users.ts
+- src/lib/db/games.ts
+- src/lib/db/game-players.ts
+- src/lib/db/buy-ins.ts
+- src/lib/db/cash-outs.ts
+- src/lib/db/chat.ts
+- src/lib/db/index.ts
+
+**Notes:**
+- Used Prisma.Decimal type for monetary amounts
+- All functions are typed with proper TypeScript types
+- Added helper types like BuyInWithPlayer, CashOutWithPlayer, GameWithHost, etc.
+- Dev server verified running on port 3000
+
+**Screenshot:** screenshots/prisma-db-utilities.png
+
+**Next:** Implement user authentication - registration and login
 
 ---

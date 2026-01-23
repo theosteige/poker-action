@@ -78,7 +78,7 @@ A web application for managing university poker games. Users can create game roo
       "Create src/lib/db/cash-outs.ts with functions: createCashOut, getCashOutsForGame, hasPlayerCashedOut",
       "Create src/lib/db/chat.ts with functions: createMessage, getRecentMessages (paginated)"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "feature",
