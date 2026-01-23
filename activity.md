@@ -2,8 +2,8 @@
 
 ## Current Status
 **Last Updated:** 2026-01-23
-**Tasks Completed:** 8 / 22
-**Current Task:** Implement dashboard page
+**Tasks Completed:** 9 / 22
+**Current Task:** Implement game creation flow
 **Blockers:** None
 
 ---
@@ -14,7 +14,7 @@
 |----------|-------|------|--------|
 | Setup | 2 | 2 | ✅ |
 | Database | 2 | 2 | ✅ |
-| Feature | 14 | 4 | 🟡 |
+| Feature | 14 | 5 | 🟡 |
 | Polish | 3 | 0 | ⬜ |
 | Testing | 2 | 0 | ⬜ |
 | Deployment | 1 | 0 | ⬜ |
@@ -336,5 +336,41 @@ After completing each task or at significant milestones, append a dated entry be
 **Screenshot:** screenshots/main-layout-landing.png
 
 **Next:** Implement dashboard page
+
+---
+
+### [2026-01-23 12:30] - Implement Dashboard Page
+**Task:** Implement dashboard page
+**Status:** ✅ Complete
+**Changes Made:**
+- Created API route GET /api/games - returns user's games (hosted and joined), sorted by scheduledTime
+- Created API route GET /api/stats/me - calculates and returns user's stats (total net, games played, wins/losses, avg buy-in)
+- Created src/components/dashboard/GameCard.tsx - displays game info with date, time, location, BB amount, status badge, player count
+- Created src/components/dashboard/UpcomingGames.tsx - fetches and displays upcoming/active games with empty state
+- Created src/components/dashboard/QuickStats.tsx - displays user's stats with empty state for new users
+- Created src/components/dashboard/index.ts - barrel exports
+- Updated src/app/dashboard/page.tsx - integrated UpcomingGames and QuickStats components with responsive grid layout
+
+**Files Created:**
+- src/app/api/games/route.ts
+- src/app/api/stats/me/route.ts
+- src/components/dashboard/GameCard.tsx
+- src/components/dashboard/UpcomingGames.tsx
+- src/components/dashboard/QuickStats.tsx
+- src/components/dashboard/index.ts
+
+**Files Modified:**
+- src/app/dashboard/page.tsx (replaced placeholder with real components)
+
+**Notes:**
+- Dashboard shows personalized welcome message with user's display name
+- Empty states guide users to create their first game
+- Stats calculated from completed games only (per PRD requirements)
+- GameCard links to /games/[gameId] (game room page to be implemented)
+- TypeScript compiles without errors
+
+**Screenshot:** screenshots/dashboard-page.png
+
+**Next:** Implement game creation flow
 
 ---

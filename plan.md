@@ -146,7 +146,7 @@ A web application for managing university poker games. Users can create game roo
       "Create src/app/dashboard/page.tsx: main dashboard with UpcomingGames, QuickStats, 'Create Game' button",
       "Add empty state for users with no games yet"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "feature",

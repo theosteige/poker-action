@@ -1,7 +1,7 @@
 'use client'
 
 import { useAuthContext } from '@/contexts/AuthContext'
-import { Card } from '@/components/ui'
+import { UpcomingGames, QuickStats } from '@/components/dashboard'
 
 export default function DashboardPage() {
   const { user } = useAuthContext()
@@ -9,41 +9,24 @@ export default function DashboardPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100">
+        <h1 className="text-2xl font-bold text-neutral-900">
           Welcome back{user?.displayName ? `, ${user.displayName}` : ''}
         </h1>
-        <p className="text-neutral-600 dark:text-neutral-400">
+        <p className="text-neutral-600">
           Your poker game dashboard
         </p>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        <Card className="p-6">
-          <h2 className="mb-2 text-lg font-semibold text-neutral-900 dark:text-neutral-100">
-            Upcoming Games
-          </h2>
-          <p className="text-sm text-neutral-600 dark:text-neutral-400">
-            No upcoming games. Create one to get started!
-          </p>
-        </Card>
+      <div className="grid gap-6 lg:grid-cols-3">
+        {/* Main content - Upcoming Games */}
+        <div className="lg:col-span-2">
+          <UpcomingGames currentUserId={user?.id} />
+        </div>
 
-        <Card className="p-6">
-          <h2 className="mb-2 text-lg font-semibold text-neutral-900 dark:text-neutral-100">
-            Quick Stats
-          </h2>
-          <p className="text-sm text-neutral-600 dark:text-neutral-400">
-            Play your first game to see your stats.
-          </p>
-        </Card>
-
-        <Card className="p-6">
-          <h2 className="mb-2 text-lg font-semibold text-neutral-900 dark:text-neutral-100">
-            Recent Activity
-          </h2>
-          <p className="text-sm text-neutral-600 dark:text-neutral-400">
-            No recent activity to show.
-          </p>
-        </Card>
+        {/* Sidebar - Quick Stats */}
+        <div className="lg:col-span-1">
+          <QuickStats />
+        </div>
       </div>
     </div>
   )
