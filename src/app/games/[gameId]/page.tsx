@@ -5,7 +5,7 @@ import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useAuth } from '@/hooks/useAuth'
 import { Button, Card } from '@/components/ui'
-import { GameInfo, PlayerList, Ledger, RequestBuyInForm } from '@/components/game'
+import { GameInfo, PlayerList, Ledger, RequestBuyInForm, BankControls } from '@/components/game'
 import { type PaymentHandle, type Debt, type PlayerSettlement } from '@/lib/settlement'
 
 interface GameData {
@@ -345,35 +345,17 @@ export default function GameRoomPage() {
           </div>
         </div>
 
-        {/* Bank controls placeholder for future task */}
+        {/* Bank controls for host */}
         {isHost && isGameActive && (
           <div className="mt-8">
-            <Card className="p-6 border-2 border-dashed border-amber-200 bg-amber-50">
-              <div className="text-center">
-                <div className="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <svg
-                    className="w-6 h-6 text-amber-600"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
-                    />
-                  </svg>
-                </div>
-                <h3 className="text-lg font-semibold text-amber-800 mb-2">
-                  Bank Controls
-                </h3>
-                <p className="text-sm text-amber-700">
-                  Bank controls (add buy-ins, approve requests, cash out players) will
-                  be available in the next update.
-                </p>
-              </div>
-            </Card>
+            <BankControls
+              gameId={game.id}
+              players={gameData.players}
+              buyIns={gameData.buyIns}
+              settlements={settlement.players}
+              bigBlindAmount={game.bigBlindAmount}
+              onDataChange={fetchGameData}
+            />
           </div>
         )}
       </div>

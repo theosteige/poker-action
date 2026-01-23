@@ -2,8 +2,8 @@
 
 ## Current Status
 **Last Updated:** 2026-01-23
-**Tasks Completed:** 12 / 22
-**Current Task:** Implement game room page - bank (host) controls
+**Tasks Completed:** 13 / 22
+**Current Task:** Implement buy-in request flow for players
 **Blockers:** None
 
 ---
@@ -508,5 +508,49 @@ After completing each task or at significant milestones, append a dated entry be
 **Screenshot:** N/A (Playwright MCP not configured)
 
 **Next:** Implement game room page - bank (host) controls
+
+---
+
+### [2026-01-23 17:30] - Implement Game Room Page - Bank (Host) Controls
+**Task:** Implement game room page - bank (host) controls
+**Status:** ✅ Complete
+**Changes Made:**
+- Created src/components/game/BankControls.tsx with three-tab interface:
+  - Add Buy-In tab: Host can add buy-ins for any player with amount and paid-to-bank status
+  - Cash Out tab: Host can cash out players with preview of their net +/-
+  - Manage tab: View/approve/deny pending requests, toggle paid status for all buy-ins
+- Created API route PATCH /api/games/[gameId]/buy-ins/[buyInId]:
+  - Approve buy-in requests (sets approved: true)
+  - Deny buy-in requests (deletes the request)
+  - Toggle paid status (toggles paidToBank flag)
+  - Host-only authorization, validates game and buy-in ownership
+- Created API route POST /api/games/[gameId]/cash-outs:
+  - Creates cash-out record for player (host only)
+  - Validates player is in game and hasn't already cashed out
+  - Auto-marks game as 'active' when first buy-in happens
+  - Auto-marks game as 'completed' when all players have cashed out
+- Integrated BankControls into game room page, replacing placeholder
+- Updated src/components/game/index.ts with BankControls export
+
+**Files Created:**
+- src/components/game/BankControls.tsx
+- src/app/api/games/[gameId]/buy-ins/[buyInId]/route.ts
+- src/app/api/games/[gameId]/cash-outs/route.ts
+
+**Files Modified:**
+- src/components/game/index.ts (added BankControls export)
+- src/app/games/[gameId]/page.tsx (integrated BankControls, removed placeholder)
+
+**Notes:**
+- BankControls component only visible to host when game is active/upcoming
+- Quick amount buttons in buy-in form based on big blind (50BB, 100BB, 200BB)
+- Cash out form shows preview of player's net +/- before confirming
+- Manage tab shows pending request count badge
+- All buy-ins can have paid status toggled at any time
+- TypeScript and ESLint pass without errors
+
+**Screenshot:** N/A (Playwright MCP not configured)
+
+**Next:** Implement buy-in request flow for players
 
 ---

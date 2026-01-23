@@ -201,7 +201,7 @@ A web application for managing university poker games. Users can create game roo
       "Add 'Mark as Paid' toggle for each buy-in entry",
       "Automatically update game status to 'completed' when all players have cashed out"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "feature",
