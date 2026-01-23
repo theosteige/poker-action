@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useAuthContext } from '@/contexts/AuthContext'
 import { PaymentHandlesForm } from '@/components/profile'
+import { PersonalStats } from '@/components/stats'
 import { Card, Button } from '@/components/ui'
 import Link from 'next/link'
 import type { PaymentHandle } from '@/lib/validations/payment-handles'
@@ -103,6 +104,8 @@ export default function ProfilePage() {
             </div>
           </div>
         </Card>
+
+        <PersonalStats />
 
         <PaymentHandlesForm
           initialHandles={paymentHandles}

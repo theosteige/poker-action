@@ -2,8 +2,8 @@
 
 ## Current Status
 **Last Updated:** 2026-01-23
-**Tasks Completed:** 16 / 22
-**Current Task:** Implement personal statistics
+**Tasks Completed:** 17 / 22
+**Current Task:** Implement public leaderboard
 **Blockers:** None
 
 ---
@@ -14,7 +14,7 @@
 |----------|-------|------|--------|
 | Setup | 2 | 2 | ✅ |
 | Database | 2 | 2 | ✅ |
-| Feature | 14 | 11 | 🟡 |
+| Feature | 14 | 12 | 🟡 |
 | Polish | 3 | 0 | ⬜ |
 | Testing | 2 | 0 | ⬜ |
 | Deployment | 1 | 0 | ⬜ |
@@ -694,5 +694,38 @@ After completing each task or at significant milestones, append a dated entry be
 **Screenshot:** N/A (Playwright MCP not configured)
 
 **Next:** Implement personal statistics
+
+---
+
+### [2026-01-23 12:07] - Implement Personal Statistics
+**Task:** Implement personal statistics
+**Status:** ✅ Complete
+**Changes Made:**
+- Created src/components/stats/PersonalStats.tsx - comprehensive personal statistics display:
+  - Shows all-time net profit/loss with colored background (green for profit, red for loss)
+  - Displays win rate percentage calculated from games won/total games
+  - Shows games played, average buy-in, and win/loss record (W-L format)
+  - Empty state for users who haven't completed any games
+  - Loading skeleton state while fetching data
+  - Error handling with visual feedback
+- Created src/components/stats/index.ts - barrel exports
+- Updated src/app/profile/page.tsx to include PersonalStats component
+
+**Files Created:**
+- src/components/stats/PersonalStats.tsx
+- src/components/stats/index.ts
+
+**Files Modified:**
+- src/app/profile/page.tsx (added PersonalStats import and component)
+
+**Notes:**
+- API route GET /api/stats/me was already implemented in a previous task
+- PersonalStats component provides a richer UI than QuickStats (used on dashboard)
+- Profile page now shows: Account Info, Personal Statistics, Payment Handles, and Account Actions
+- Build passes, 26 unit tests pass
+
+**Screenshot:** N/A (Playwright MCP not configured)
+
+**Next:** Implement public leaderboard
 
 ---
