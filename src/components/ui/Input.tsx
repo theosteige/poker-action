@@ -8,8 +8,26 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, error, className = '', id, ...props }, ref) => {
+  ({ label, error, className = '', id, type = 'text', ...props }, ref) => {
     const inputId = id || props.name
+
+    // Determine appropriate inputMode based on type for better mobile keyboards
+    const getInputMode = () => {
+      switch (type) {
+        case 'email':
+          return 'email'
+        case 'tel':
+          return 'tel'
+        case 'url':
+          return 'url'
+        case 'number':
+          return 'decimal'
+        case 'search':
+          return 'search'
+        default:
+          return undefined
+      }
+    }
 
     return (
       <div className="w-full">
@@ -24,12 +42,16 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         <input
           ref={ref}
           id={inputId}
+          type={type}
+          inputMode={getInputMode()}
+          autoComplete={props.autoComplete || 'off'}
           className={`
-            w-full px-3 py-2
+            w-full px-3 py-2.5
             border rounded-lg
-            text-gray-900 placeholder-gray-400
+            text-base sm:text-sm text-gray-900 placeholder-gray-400
             focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
             disabled:bg-gray-100 disabled:cursor-not-allowed
+            min-h-[44px]
             ${error ? 'border-red-500' : 'border-gray-300'}
             ${className}
           `}

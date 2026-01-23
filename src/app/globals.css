@@ -55,3 +55,49 @@ body {
     @apply outline-none ring-2 ring-neutral-500 ring-offset-2;
   }
 }
+
+/* Mobile-specific styles */
+@layer base {
+  /* Prevent zoom on input focus for iOS - inputs must be 16px+ */
+  @media screen and (max-width: 767px) {
+    input[type="text"],
+    input[type="number"],
+    input[type="email"],
+    input[type="password"],
+    input[type="tel"],
+    input[type="url"],
+    input[type="search"],
+    select,
+    textarea {
+      font-size: 16px !important;
+    }
+  }
+
+  /* Ensure touch targets are large enough (44x44px minimum) */
+  @media (hover: none) and (pointer: coarse) {
+    button,
+    a,
+    input[type="checkbox"],
+    input[type="radio"],
+    select {
+      min-height: 44px;
+    }
+  }
+}
+
+/* Safe area insets for devices with notches */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* Smooth scrolling for the whole page */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Prevent horizontal overflow on mobile */
+body {
+  overflow-x: hidden;
+}

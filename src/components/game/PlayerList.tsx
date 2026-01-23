@@ -28,7 +28,7 @@ export function PlayerList({
   const hasAnyBuyIns = players.some((p) => p.totalBuyIns > 0)
 
   return (
-    <Card className="p-6">
+    <Card className="p-4 sm:p-6">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-semibold text-neutral-900">Players</h2>
         <span className="text-sm text-neutral-500">
@@ -41,10 +41,10 @@ export function PlayerList({
           No players have joined yet.
         </p>
       ) : (
-        <div className="space-y-1">
-          {/* Header row */}
+        <>
+          {/* Desktop: Table header - hidden on mobile */}
           {hasAnyBuyIns && (
-            <div className="grid grid-cols-12 gap-2 px-3 py-2 text-xs font-medium text-neutral-500 uppercase tracking-wider">
+            <div className="hidden sm:grid grid-cols-12 gap-2 px-3 py-2 text-xs font-medium text-neutral-500 uppercase tracking-wider">
               <div className="col-span-4">Player</div>
               <div className="col-span-2 text-right">Buy-in</div>
               <div className="col-span-2 text-right">Cash-out</div>
@@ -53,104 +53,177 @@ export function PlayerList({
             </div>
           )}
 
-          {/* Player rows */}
-          {sortedPlayers.map((player) => {
-            const isHost = player.playerId === hostId
-            const isCurrentUser = player.playerId === currentUserId
-            const net = formatNetAmount(player.netChips)
+          <div className="space-y-2 sm:space-y-1">
+            {/* Player rows */}
+            {sortedPlayers.map((player) => {
+              const isHost = player.playerId === hostId
+              const isCurrentUser = player.playerId === currentUserId
+              const net = formatNetAmount(player.netChips)
 
-            return (
-              <div
-                key={player.playerId}
-                className={`grid grid-cols-12 gap-2 px-3 py-3 rounded-lg ${
-                  isCurrentUser
-                    ? 'bg-blue-50 border border-blue-200'
-                    : 'bg-neutral-50 hover:bg-neutral-100'
-                } transition-colors`}
-              >
-                {/* Player name */}
-                <div className="col-span-4 flex items-center gap-2">
-                  <div className="flex-shrink-0 w-8 h-8 bg-neutral-200 rounded-full flex items-center justify-center">
-                    <span className="text-xs font-medium text-neutral-600">
-                      {player.displayName.charAt(0).toUpperCase()}
-                    </span>
-                  </div>
-                  <div className="min-w-0">
-                    <p className="text-sm font-medium text-neutral-900 truncate">
-                      {player.displayName}
-                      {isCurrentUser && (
-                        <span className="text-neutral-500 font-normal"> (you)</span>
-                      )}
-                    </p>
-                    {isHost && (
-                      <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-amber-100 text-amber-800">
-                        Bank
-                      </span>
+              // Determine status for display
+              const statusBadge = player.hasCashedOut ? (
+                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                  Settled
+                </span>
+              ) : player.totalBuyIns > 0 ? (
+                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                  Playing
+                </span>
+              ) : (
+                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-neutral-100 text-neutral-600">
+                  {gameStatus === 'upcoming' ? 'Waiting' : 'No buy-in'}
+                </span>
+              )
+
+              return (
+                <div
+                  key={player.playerId}
+                  className={`rounded-lg p-3 ${
+                    isCurrentUser
+                      ? 'bg-blue-50 border border-blue-200'
+                      : 'bg-neutral-50 hover:bg-neutral-100'
+                  } transition-colors`}
+                >
+                  {/* Mobile Layout - Card style */}
+                  <div className="sm:hidden">
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-2 min-w-0 flex-1">
+                        <div className="flex-shrink-0 w-8 h-8 bg-neutral-200 rounded-full flex items-center justify-center">
+                          <span className="text-xs font-medium text-neutral-600">
+                            {player.displayName.charAt(0).toUpperCase()}
+                          </span>
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <p className="text-sm font-medium text-neutral-900 truncate">
+                            {player.displayName}
+                            {isCurrentUser && (
+                              <span className="text-neutral-500 font-normal"> (you)</span>
+                            )}
+                          </p>
+                          {isHost && (
+                            <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-amber-100 text-amber-800">
+                              Bank
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      {statusBadge}
+                    </div>
+
+                    {/* Stats row for mobile */}
+                    {(player.totalBuyIns > 0 || player.hasCashedOut) && (
+                      <div className="grid grid-cols-3 gap-2 mt-2 pt-2 border-t border-neutral-200">
+                        <div>
+                          <p className="text-xs text-neutral-500">Buy-in</p>
+                          <p className="text-sm font-medium text-neutral-900">
+                            {player.totalBuyIns > 0 ? formatCurrency(player.totalBuyIns) : '-'}
+                          </p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-neutral-500">Cash-out</p>
+                          <p className="text-sm font-medium text-neutral-900">
+                            {player.hasCashedOut ? formatCurrency(player.cashOut) : '-'}
+                          </p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-neutral-500">Net</p>
+                          {player.hasCashedOut ? (
+                            <p
+                              className={`text-sm font-medium ${
+                                net.isPositive
+                                  ? 'text-green-600'
+                                  : net.isNegative
+                                  ? 'text-red-600'
+                                  : 'text-neutral-600'
+                              }`}
+                            >
+                              {net.text}
+                            </p>
+                          ) : player.totalBuyIns > 0 ? (
+                            <p className="text-sm text-neutral-500 italic">In play</p>
+                          ) : (
+                            <p className="text-sm text-neutral-400">-</p>
+                          )}
+                        </div>
+                      </div>
                     )}
                   </div>
-                </div>
 
-                {/* Buy-in total */}
-                <div className="col-span-2 flex items-center justify-end">
-                  <span className="text-sm text-neutral-700">
-                    {player.totalBuyIns > 0
-                      ? formatCurrency(player.totalBuyIns)
-                      : '-'}
-                  </span>
-                </div>
+                  {/* Desktop Layout - Grid row */}
+                  <div className="hidden sm:grid grid-cols-12 gap-2 items-center">
+                    {/* Player name */}
+                    <div className="col-span-4 flex items-center gap-2">
+                      <div className="flex-shrink-0 w-8 h-8 bg-neutral-200 rounded-full flex items-center justify-center">
+                        <span className="text-xs font-medium text-neutral-600">
+                          {player.displayName.charAt(0).toUpperCase()}
+                        </span>
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-sm font-medium text-neutral-900 truncate">
+                          {player.displayName}
+                          {isCurrentUser && (
+                            <span className="text-neutral-500 font-normal"> (you)</span>
+                          )}
+                        </p>
+                        {isHost && (
+                          <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-amber-100 text-amber-800">
+                            Bank
+                          </span>
+                        )}
+                      </div>
+                    </div>
 
-                {/* Cash-out */}
-                <div className="col-span-2 flex items-center justify-end">
-                  <span className="text-sm text-neutral-700">
-                    {player.hasCashedOut
-                      ? formatCurrency(player.cashOut)
-                      : '-'}
-                  </span>
-                </div>
+                    {/* Buy-in total */}
+                    <div className="col-span-2 flex items-center justify-end">
+                      <span className="text-sm text-neutral-700">
+                        {player.totalBuyIns > 0
+                          ? formatCurrency(player.totalBuyIns)
+                          : '-'}
+                      </span>
+                    </div>
 
-                {/* Net +/- */}
-                <div className="col-span-2 flex items-center justify-end">
-                  {player.hasCashedOut ? (
-                    <span
-                      className={`text-sm font-medium ${
-                        net.isPositive
-                          ? 'text-green-600'
-                          : net.isNegative
-                          ? 'text-red-600'
-                          : 'text-neutral-600'
-                      }`}
-                    >
-                      {net.text}
-                    </span>
-                  ) : player.totalBuyIns > 0 ? (
-                    <span className="text-sm text-neutral-500 italic">
-                      In play
-                    </span>
-                  ) : (
-                    <span className="text-sm text-neutral-400">-</span>
-                  )}
-                </div>
+                    {/* Cash-out */}
+                    <div className="col-span-2 flex items-center justify-end">
+                      <span className="text-sm text-neutral-700">
+                        {player.hasCashedOut
+                          ? formatCurrency(player.cashOut)
+                          : '-'}
+                      </span>
+                    </div>
 
-                {/* Status */}
-                <div className="col-span-2 flex items-center justify-end">
-                  {player.hasCashedOut ? (
-                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                      Settled
-                    </span>
-                  ) : player.totalBuyIns > 0 ? (
-                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                      Playing
-                    </span>
-                  ) : (
-                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-neutral-100 text-neutral-600">
-                      {gameStatus === 'upcoming' ? 'Waiting' : 'No buy-in'}
-                    </span>
-                  )}
+                    {/* Net +/- */}
+                    <div className="col-span-2 flex items-center justify-end">
+                      {player.hasCashedOut ? (
+                        <span
+                          className={`text-sm font-medium ${
+                            net.isPositive
+                              ? 'text-green-600'
+                              : net.isNegative
+                              ? 'text-red-600'
+                              : 'text-neutral-600'
+                          }`}
+                        >
+                          {net.text}
+                        </span>
+                      ) : player.totalBuyIns > 0 ? (
+                        <span className="text-sm text-neutral-500 italic">
+                          In play
+                        </span>
+                      ) : (
+                        <span className="text-sm text-neutral-400">-</span>
+                      )}
+                    </div>
+
+                    {/* Status */}
+                    <div className="col-span-2 flex items-center justify-end">
+                      {statusBadge}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            )
-          })}
-        </div>
+              )
+            })}
+          </div>
+        </>
       )}
 
       {/* Summary footer */}

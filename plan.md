@@ -301,7 +301,7 @@ A web application for managing university poker games. Users can create game roo
       "Add proper viewport meta tag and prevent zoom on input focus if desired",
       "Test on actual mobile device or thorough browser dev tools emulation"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "polish",

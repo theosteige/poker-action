@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { AuthProvider } from "@/contexts/AuthContext";
@@ -15,9 +15,25 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+  themeColor: "#fafafa",
+};
+
 export const metadata: Metadata = {
   title: "Poker Hub",
   description: "Manage your university poker games with ease",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Poker Hub",
+  },
+  formatDetection: {
+    telephone: false,
+  },
 };
 
 export default function RootLayout({

@@ -45,7 +45,7 @@ export function ChatInput({
   const isOverLimit = characterCount > maxCharacters
 
   return (
-    <div className="border-t border-neutral-200 bg-white p-4">
+    <div className="border-t border-neutral-200 bg-white p-3 sm:p-4 safe-area-bottom">
       <div className="flex gap-2">
         <div className="flex-1 relative">
           <textarea
@@ -55,17 +55,21 @@ export function ChatInput({
             placeholder={placeholder}
             disabled={disabled || isSending}
             rows={1}
+            enterKeyHint="send"
+            autoComplete="off"
+            autoCorrect="on"
+            spellCheck="true"
             className={`
-              w-full px-4 py-2.5 pr-16
+              w-full px-3 sm:px-4 py-2.5 pr-14 sm:pr-16
               border rounded-xl
-              text-sm text-neutral-900 placeholder-neutral-400
+              text-base sm:text-sm text-neutral-900 placeholder-neutral-400
               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
               disabled:bg-neutral-100 disabled:cursor-not-allowed
               resize-none
               ${isOverLimit ? 'border-red-500' : 'border-neutral-300'}
             `}
             style={{
-              minHeight: '42px',
+              minHeight: '44px',
               maxHeight: '120px',
             }}
           />
@@ -82,15 +86,17 @@ export function ChatInput({
         <button
           onClick={handleSend}
           disabled={disabled || isSending || !message.trim() || isOverLimit}
+          aria-label="Send message"
           className={`
-            px-4 py-2.5
+            px-3 sm:px-4 py-2.5
             rounded-xl font-medium text-sm
             transition-colors duration-200
             flex items-center justify-center
+            min-w-[44px] min-h-[44px]
             ${
               disabled || isSending || !message.trim() || isOverLimit
                 ? 'bg-neutral-100 text-neutral-400 cursor-not-allowed'
-                : 'bg-neutral-900 text-white hover:bg-neutral-800'
+                : 'bg-neutral-900 text-white hover:bg-neutral-800 active:bg-neutral-950'
             }
           `}
         >
@@ -133,7 +139,7 @@ export function ChatInput({
         </button>
       </div>
 
-      <p className="text-xs text-neutral-400 mt-2">
+      <p className="hidden sm:block text-xs text-neutral-400 mt-2">
         Press Enter to send, Shift+Enter for new line
       </p>
     </div>
