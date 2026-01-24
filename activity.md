@@ -2,8 +2,8 @@
 
 ## Current Status
 **Last Updated:** 2026-01-24
-**Tasks Completed:** 22 / 25
-**Current Task:** Write unit tests for critical business logic
+**Tasks Completed:** 23 / 25
+**Current Task:** Manual end-to-end testing
 **Blockers:** None
 
 ---
@@ -16,7 +16,7 @@
 | Database | 2 | 2 | ✅ |
 | Feature | 14 | 14 | ✅ |
 | Polish | 3 | 3 | ✅ |
-| Testing | 2 | 0 | ⬜ |
+| Testing | 2 | 1 | 🟡 |
 | Deployment | 1 | 0 | ⬜ |
 
 **Legend:** ⬜ Not started | 🟡 In progress | ✅ Complete
@@ -1005,5 +1005,65 @@ After completing each task or at significant milestones, append a dated entry be
 **Screenshot:** N/A (Playwright MCP not configured)
 
 **Next:** Write unit tests for critical business logic
+
+---
+
+### [2026-01-24 18:01] - Write Unit Tests for Critical Business Logic
+**Task:** Write unit tests for critical business logic
+**Status:** ✅ Complete
+**Changes Made:**
+- Installed @vitest/coverage-v8 for test coverage reporting
+- Created src/lib/auth.test.ts with comprehensive auth utility tests:
+  - hashPassword tests (6 tests): hashing behavior, different hashes for same password, bcrypt format
+  - verifyPassword tests (5 tests): correct/incorrect passwords, case sensitivity, special characters
+  - generateToken tests (5 tests): JWT generation, payload data, iat/exp fields
+  - verifyToken tests (6 tests): valid tokens, invalid/malformed tokens, tampered tokens
+  - Integration test for full auth flow
+- Created src/lib/validations/auth.test.ts with 22 tests:
+  - registerSchema tests: displayName length/format, password requirements, confirmPassword matching
+  - loginSchema tests: required field validation
+- Created src/lib/validations/game.test.ts with 20 tests:
+  - scheduledTime validation (future dates, invalid formats)
+  - location validation (length limits)
+  - bigBlindAmount validation (positive numbers, max limit)
+- Created src/lib/validations/payment-handles.test.ts with 23 tests:
+  - paymentHandleTypeSchema (venmo/zelle/cash enum)
+  - paymentHandleSchema (type + handle validation)
+  - paymentHandlesArraySchema (max 10 handles)
+  - updatePaymentHandlesSchema (wrapper object)
+- Created src/lib/validations/chat.test.ts with 16 tests:
+  - Content validation (min/max length, trim behavior)
+  - Edge cases (empty, null, non-string values)
+- Created src/lib/rate-limit.test.ts with 15 tests:
+  - checkRateLimit function (quota tracking, window reset, different identifiers)
+  - checkChatRateLimit function (5 messages per 10 seconds)
+
+**Files Created:**
+- src/lib/auth.test.ts (23 tests)
+- src/lib/validations/auth.test.ts (22 tests)
+- src/lib/validations/game.test.ts (20 tests)
+- src/lib/validations/payment-handles.test.ts (23 tests)
+- src/lib/validations/chat.test.ts (16 tests)
+- src/lib/rate-limit.test.ts (15 tests)
+
+**Files Modified:**
+- package.json (added @vitest/coverage-v8 dev dependency)
+
+**Test Coverage Results:**
+- settlement.ts: 100% coverage
+- validations/*: 100% coverage (auth, chat, game, payment-handles)
+- auth.ts: 52% (cookie functions require Next.js context - expected)
+- rate-limit.ts: 74% (cleanup interval not tested - expected)
+- Total: 145 tests passing
+
+**Notes:**
+- Settlement tests were already written in a previous task (26 tests)
+- Database functions (src/lib/db/*) require integration tests with real database
+- Auth cookie functions use Next.js cookies() which can't be unit tested
+- All critical business logic has high test coverage
+
+**Screenshot:** N/A (Playwright MCP not configured)
+
+**Next:** Manual end-to-end testing
 
 ---

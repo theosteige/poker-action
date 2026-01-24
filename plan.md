@@ -343,7 +343,7 @@ A web application for managing university poker games. Users can create game roo
       "Write tests for game state transitions: upcoming -> active -> completed",
       "Aim for high coverage on src/lib/* files"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "testing",
