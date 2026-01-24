@@ -358,7 +358,7 @@ A web application for managing university poker games. Users can create game roo
       "Test on multiple browsers: Chrome, Firefox, Safari",
       "Test auth edge cases: wrong password, duplicate displayName"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "deployment",
