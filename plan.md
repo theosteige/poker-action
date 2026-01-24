@@ -329,7 +329,7 @@ A web application for managing university poker games. Users can create game roo
       "Prevent bank from cashing themselves out until last (or handle self-settlement)",
       "Test game completion logic: only mark complete when ALL players cashed out"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "testing",

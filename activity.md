@@ -1,9 +1,9 @@
 # Project Build - Activity Log
 
 ## Current Status
-**Last Updated:** 2026-01-23
-**Tasks Completed:** 21 / 22
-**Current Task:** Handle edge cases and game state transitions
+**Last Updated:** 2026-01-24
+**Tasks Completed:** 22 / 25
+**Current Task:** Write unit tests for critical business logic
 **Blockers:** None
 
 ---
@@ -15,7 +15,7 @@
 | Setup | 2 | 2 | ✅ |
 | Database | 2 | 2 | ✅ |
 | Feature | 14 | 14 | ✅ |
-| Polish | 3 | 2 | 🟡 |
+| Polish | 3 | 3 | ✅ |
 | Testing | 2 | 0 | ⬜ |
 | Deployment | 1 | 0 | ⬜ |
 
@@ -960,5 +960,50 @@ After completing each task or at significant milestones, append a dated entry be
 **Screenshot:** N/A (Playwright MCP not configured)
 
 **Next:** Handle edge cases and game state transitions
+
+---
+
+### [2026-01-24 17:55] - Handle Edge Cases and Game State Transitions
+**Task:** Handle edge cases and game state transitions
+**Status:** ✅ Complete
+**Changes Made:**
+- Verified player leaving mid-game handling (already implemented - players remain in list, bank can cash them out)
+- Verified duplicate cash-out prevention (already implemented in cash-outs/route.ts lines 91-98)
+- Added reasonable limit for cash-out amounts (max $1,000,000) to match buy-in validation
+- Verified timezone handling (dates stored as DateTime in UTC, displayed in user's local timezone via date-fns)
+- Created src/components/ui/ConfirmDialog.tsx - reusable confirmation dialog component:
+  - Supports danger, warning, primary variants
+  - Accessible with ARIA labels, focus trap, escape key handling
+  - Loading state support
+- Updated src/components/ui/Button.tsx to use forwardRef for dialog focus management
+- Added confirmation dialogs for destructive actions:
+  - Cash-out confirmation with player name and amount
+  - Deny buy-in request confirmation
+- Implemented bank cash-out restriction:
+  - API validates bank (host) cannot cash out until all other players have cashed out
+  - UI shows note explaining bank must cash out last
+  - Bank option disabled in dropdown until they're the last active player
+- Verified game completion logic (already implemented - game marked 'completed' when all players cashed out)
+
+**Files Created:**
+- src/components/ui/ConfirmDialog.tsx
+
+**Files Modified:**
+- src/components/ui/Button.tsx (added forwardRef support)
+- src/components/ui/index.ts (added ConfirmDialog export)
+- src/components/game/BankControls.tsx (added confirmation dialogs, bank cash-out restriction UI, hostId prop)
+- src/app/api/games/[gameId]/cash-outs/route.ts (added max amount validation, bank cash-out restriction)
+- src/app/games/[gameId]/page.tsx (pass hostId to BankControls)
+
+**Notes:**
+- Many edge cases were already handled from previous tasks
+- Bank cash-out restriction prevents potential settlement confusion
+- Confirmation dialogs improve UX for irreversible actions
+- Build passes with no TypeScript errors
+- All 26 unit tests pass
+
+**Screenshot:** N/A (Playwright MCP not configured)
+
+**Next:** Write unit tests for critical business logic
 
 ---

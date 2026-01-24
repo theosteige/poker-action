@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Card, Button, useToast } from '@/components/ui'
+import { Card, Button, useToast, ConfirmDialog } from '@/components/ui'
 import { type PaymentHandle } from '@/lib/settlement'
 
 interface Player {
@@ -32,6 +32,7 @@ interface PlayerSettlement {
 
 interface BankControlsProps {
   gameId: string
+  hostId: string
   players: Player[]
   buyIns: BuyIn[]
   settlements: PlayerSettlement[]
@@ -41,6 +42,7 @@ interface BankControlsProps {
 
 export function BankControls({
   gameId,
+  hostId,
   players,
   buyIns,
   settlements,
@@ -136,6 +138,7 @@ export function BankControls({
         {activeTab === 'cash-out' && (
           <CashOutForm
             gameId={gameId}
+            hostId={hostId}
             activePlayers={activePlayers}
             onSuccess={onDataChange}
           />
@@ -324,20 +327,22 @@ function AddBuyInForm({ gameId, players, bigBlindAmount, onSuccess }: AddBuyInFo
 // Cash Out Form Component
 interface CashOutFormProps {
   gameId: string
+  hostId: string
   activePlayers: PlayerSettlement[]
   onSuccess: () => void
 }
 
-function CashOutForm({ gameId, activePlayers, onSuccess }: CashOutFormProps) {
+function CashOutForm({ gameId, hostId, activePlayers, onSuccess }: CashOutFormProps) {
   const [selectedPlayerId, setSelectedPlayerId] = useState('')
   const [amount, setAmount] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [showConfirm, setShowConfirm] = useState(false)
   const { addToast } = useToast()
 
   const selectedPlayer = activePlayers.find((p) => p.playerId === selectedPlayerId)
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     setError(null)
 
@@ -347,12 +352,20 @@ function CashOutForm({ gameId, activePlayers, onSuccess }: CashOutFormProps) {
     }
 
     const amountNum = parseFloat(amount)
-    if (amountNum < 0) {
-      setError('Amount cannot be negative')
+    if (isNaN(amountNum) || amountNum < 0) {
+      setError('Please enter a valid amount')
       return
     }
 
+    // Show confirmation dialog
+    setShowConfirm(true)
+  }
+
+  const handleConfirmCashOut = async () => {
     setIsSubmitting(true)
+    setShowConfirm(false)
+
+    const amountNum = parseFloat(amount)
 
     try {
       const response = await fetch(`/api/games/${gameId}/cash-outs`, {
@@ -428,13 +441,34 @@ function CashOutForm({ gameId, activePlayers, onSuccess }: CashOutFormProps) {
           className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
         >
           <option value="">Select a player...</option>
-          {activePlayers.map((player) => (
-            <option key={player.playerId} value={player.playerId}>
-              {player.displayName} (Buy-ins: ${player.totalBuyIns.toFixed(2)})
-            </option>
-          ))}
+          {activePlayers.map((player) => {
+            const isBank = player.playerId === hostId
+            const canCashOutBank = activePlayers.length === 1
+            const disabled = isBank && !canCashOutBank
+            return (
+              <option
+                key={player.playerId}
+                value={player.playerId}
+                disabled={disabled}
+              >
+                {player.displayName}
+                {isBank ? ' (Bank)' : ''} - Buy-ins: ${player.totalBuyIns.toFixed(2)}
+                {disabled ? ' - Cash out last' : ''}
+              </option>
+            )
+          })}
         </select>
       </div>
+
+      {/* Bank cash-out note */}
+      {activePlayers.length > 1 && activePlayers.some(p => p.playerId === hostId) && (
+        <div className="bg-amber-50 border border-amber-200 rounded-lg p-3">
+          <p className="text-xs text-amber-700">
+            <span className="font-medium">Note:</span> The bank must be cashed out last.
+            Cash out all other players first.
+          </p>
+        </div>
+      )}
 
       {/* Player Info */}
       {selectedPlayer && (
@@ -515,6 +549,23 @@ function CashOutForm({ gameId, activePlayers, onSuccess }: CashOutFormProps) {
       >
         {isSubmitting ? 'Processing...' : 'Cash Out Player'}
       </Button>
+
+      {/* Confirmation Dialog */}
+      <ConfirmDialog
+        isOpen={showConfirm}
+        title="Confirm Cash Out"
+        message={
+          selectedPlayer
+            ? `Are you sure you want to cash out ${selectedPlayer.displayName} for $${parseFloat(amount || '0').toFixed(2)}? This action cannot be undone.`
+            : 'Confirm cash out?'
+        }
+        confirmLabel="Cash Out"
+        cancelLabel="Cancel"
+        variant="warning"
+        onConfirm={handleConfirmCashOut}
+        onCancel={() => setShowConfirm(false)}
+        isLoading={isSubmitting}
+      />
     </form>
   )
 }
@@ -534,6 +585,11 @@ function ManageBuyIns({
   onAction,
 }: ManageBuyInsProps) {
   const [processingId, setProcessingId] = useState<string | null>(null)
+  const [confirmDeny, setConfirmDeny] = useState<{
+    buyInId: string
+    playerName: string
+    amount: string
+  } | null>(null)
   const { addToast } = useToast()
 
   const handleApprove = async (buyInId: string, playerName: string, amount: string) => {
@@ -560,8 +616,17 @@ function ManageBuyIns({
     }
   }
 
-  const handleDeny = async (buyInId: string, playerName: string) => {
+  const handleDenyClick = (buyInId: string, playerName: string, amount: string) => {
+    setConfirmDeny({ buyInId, playerName, amount })
+  }
+
+  const handleConfirmDeny = async () => {
+    if (!confirmDeny) return
+
+    const { buyInId, playerName } = confirmDeny
     setProcessingId(buyInId)
+    setConfirmDeny(null)
+
     try {
       const response = await fetch(`/api/games/${gameId}/buy-ins/${buyInId}`, {
         method: 'PATCH',
@@ -646,7 +711,7 @@ function ManageBuyIns({
                 </div>
                 <div className="flex gap-2">
                   <button
-                    onClick={() => handleDeny(buyIn.id, buyIn.playerDisplayName)}
+                    onClick={() => handleDenyClick(buyIn.id, buyIn.playerDisplayName, buyIn.amount)}
                     disabled={processingId === buyIn.id}
                     className="px-3 py-1.5 text-xs font-medium text-red-600 bg-red-100 rounded-lg hover:bg-red-200 transition-colors disabled:opacity-50"
                   >
@@ -720,6 +785,23 @@ function ManageBuyIns({
           </div>
         )}
       </div>
+
+      {/* Confirmation Dialog for Deny */}
+      <ConfirmDialog
+        isOpen={confirmDeny !== null}
+        title="Deny Buy-In Request"
+        message={
+          confirmDeny
+            ? `Are you sure you want to deny ${confirmDeny.playerName}'s buy-in request for $${parseFloat(confirmDeny.amount).toFixed(2)}?`
+            : ''
+        }
+        confirmLabel="Deny Request"
+        cancelLabel="Cancel"
+        variant="danger"
+        onConfirm={handleConfirmDeny}
+        onCancel={() => setConfirmDeny(null)}
+        isLoading={processingId !== null}
+      />
     </div>
   )
 }

@@ -16,7 +16,10 @@ export const dynamic = 'force-dynamic'
 
 const cashOutSchema = z.object({
   playerId: z.string().min(1, 'Player ID is required'),
-  amount: z.number().min(0, 'Amount cannot be negative'),
+  amount: z
+    .number()
+    .min(0, 'Amount cannot be negative')
+    .max(1000000, 'Amount cannot exceed $1,000,000'),
 })
 
 export async function POST(
@@ -95,6 +98,19 @@ export async function POST(
         { error: 'Player has already cashed out' },
         { status: 400 }
       )
+    }
+
+    // Check if bank (host) is trying to cash out before all other players
+    if (playerId === game.hostId) {
+      const totalPlayers = await getPlayerCount(gameId)
+      const totalCashOuts = await getCashOutCount(gameId)
+      // Bank can only cash out if they're the last player
+      if (totalCashOuts < totalPlayers - 1) {
+        return NextResponse.json(
+          { error: 'Bank must be the last player to cash out. Please cash out all other players first.' },
+          { status: 400 }
+        )
+      }
     }
 
     // Create the cash-out

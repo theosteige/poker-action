@@ -379,6 +379,7 @@ export default function GameRoomPage() {
           <div className="mt-8">
             <BankControls
               gameId={game.id}
+              hostId={game.host.id}
               players={gameData.players}
               buyIns={gameData.buyIns}
               settlements={settlement.players}
