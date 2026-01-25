@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { useAuth } from '@/hooks/useAuth'
+import { useAuthContext } from '@/contexts/AuthContext'
 import { Button, Card } from '@/components/ui'
 import { GameInfo, PlayerList, Ledger, RequestBuyInForm, BankControls, PlayerBuyInStatus } from '@/components/game'
 import { type PaymentHandle, type Debt, type PlayerSettlement } from '@/lib/settlement'
@@ -64,7 +64,7 @@ type PageState = 'loading' | 'loaded' | 'error' | 'not_found' | 'unauthorized'
 export default function GameRoomPage() {
   const params = useParams()
   const router = useRouter()
-  const { user, isLoading: authLoading } = useAuth()
+  const { user, isLoading: authLoading } = useAuthContext()
 
   const [state, setState] = useState<PageState>('loading')
   const [gameData, setGameData] = useState<GameData | null>(null)

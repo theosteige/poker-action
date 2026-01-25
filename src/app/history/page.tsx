@@ -2,12 +2,12 @@
 
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { useAuth } from '@/hooks/useAuth'
+import { useAuthContext } from '@/contexts/AuthContext'
 import { GameHistoryList } from '@/components/history'
 
 export default function HistoryPage() {
   const router = useRouter()
-  const { user, isLoading } = useAuth()
+  const { user, isLoading } = useAuthContext()
 
   useEffect(() => {
     if (!isLoading && !user) {
