@@ -25,9 +25,9 @@ export function GameCard({ game, playerCount, currentUserId }: GameCardProps) {
   const isHost = currentUserId === game.host.id
 
   const statusColors = {
-    upcoming: 'bg-blue-100 text-blue-800',
-    active: 'bg-green-100 text-green-800',
-    completed: 'bg-neutral-100 text-neutral-600',
+    upcoming: 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300',
+    active: 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300',
+    completed: 'bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400',
   }
 
   const statusLabels = {
@@ -41,10 +41,10 @@ export function GameCard({ game, playerCount, currentUserId }: GameCardProps) {
       <Card className="p-4 hover:shadow-lg transition-shadow cursor-pointer">
         <div className="flex items-start justify-between mb-3">
           <div>
-            <h3 className="font-semibold text-neutral-900">
+            <h3 className="font-semibold text-neutral-900 dark:text-neutral-100">
               {game.location}
             </h3>
-            <p className="text-sm text-neutral-500">
+            <p className="text-sm text-neutral-500 dark:text-neutral-400">
               Hosted by {isHost ? 'you' : game.host.displayName}
             </p>
           </div>
@@ -58,7 +58,7 @@ export function GameCard({ game, playerCount, currentUserId }: GameCardProps) {
         </div>
 
         <div className="space-y-2 text-sm">
-          <div className="flex items-center gap-2 text-neutral-600">
+          <div className="flex items-center gap-2 text-neutral-600 dark:text-neutral-400">
             <svg
               className="w-4 h-4"
               fill="none"
@@ -75,7 +75,7 @@ export function GameCard({ game, playerCount, currentUserId }: GameCardProps) {
             <span>{format(scheduledDate, 'MMM d, yyyy')}</span>
           </div>
 
-          <div className="flex items-center gap-2 text-neutral-600">
+          <div className="flex items-center gap-2 text-neutral-600 dark:text-neutral-400">
             <svg
               className="w-4 h-4"
               fill="none"
@@ -92,7 +92,7 @@ export function GameCard({ game, playerCount, currentUserId }: GameCardProps) {
             <span>{format(scheduledDate, 'h:mm a')}</span>
           </div>
 
-          <div className="flex items-center gap-2 text-neutral-600">
+          <div className="flex items-center gap-2 text-neutral-600 dark:text-neutral-400">
             <svg
               className="w-4 h-4"
               fill="none"
@@ -110,7 +110,7 @@ export function GameCard({ game, playerCount, currentUserId }: GameCardProps) {
           </div>
 
           {playerCount !== undefined && (
-            <div className="flex items-center gap-2 text-neutral-600">
+            <div className="flex items-center gap-2 text-neutral-600 dark:text-neutral-400">
               <svg
                 className="w-4 h-4"
                 fill="none"

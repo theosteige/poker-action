@@ -36,12 +36,21 @@ export function CreateGameForm({ onGameCreated }: CreateGameFormProps) {
     setIsLoading(true)
 
     try {
+      // Convert datetime-local string to proper ISO timestamp
+      // datetime-local gives us "YYYY-MM-DDTHH:mm" in local time
+      // We need to convert it to a full ISO string with timezone
+      const localDate = new Date(data.scheduledTime)
+      const isoScheduledTime = localDate.toISOString()
+
       const response = await fetch('/api/games', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          ...data,
+          scheduledTime: isoScheduledTime,
+        }),
       })
 
       const result = await response.json()

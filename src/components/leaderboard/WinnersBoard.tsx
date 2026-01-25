@@ -17,13 +17,13 @@ interface WinnersBoardProps {
 function getRankBadge(rank: number): { bg: string; text: string; border: string } {
   switch (rank) {
     case 1:
-      return { bg: 'bg-yellow-100', text: 'text-yellow-800', border: 'border-yellow-300' }
+      return { bg: 'bg-yellow-100 dark:bg-yellow-900/30', text: 'text-yellow-800 dark:text-yellow-300', border: 'border-yellow-300 dark:border-yellow-700' }
     case 2:
-      return { bg: 'bg-gray-100', text: 'text-gray-700', border: 'border-gray-300' }
+      return { bg: 'bg-gray-100 dark:bg-gray-800', text: 'text-gray-700 dark:text-gray-300', border: 'border-gray-300 dark:border-gray-600' }
     case 3:
-      return { bg: 'bg-amber-100', text: 'text-amber-800', border: 'border-amber-300' }
+      return { bg: 'bg-amber-100 dark:bg-amber-900/30', text: 'text-amber-800 dark:text-amber-300', border: 'border-amber-300 dark:border-amber-700' }
     default:
-      return { bg: 'bg-neutral-100', text: 'text-neutral-700', border: 'border-neutral-300' }
+      return { bg: 'bg-neutral-100 dark:bg-neutral-800', text: 'text-neutral-700 dark:text-neutral-300', border: 'border-neutral-300 dark:border-neutral-600' }
   }
 }
 
@@ -46,7 +46,7 @@ export function WinnersBoard({ winners, className = '' }: WinnersBoardProps) {
       <Card className={`p-6 ${className}`}>
         <div className="flex items-center gap-2 mb-4">
           <span className="text-2xl">🏆</span>
-          <h2 className="text-lg font-semibold text-neutral-900">Top Winners</h2>
+          <h2 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">Top Winners</h2>
         </div>
         <div className="text-center py-8">
           <div className="text-neutral-400 mb-3">
@@ -64,8 +64,8 @@ export function WinnersBoard({ winners, className = '' }: WinnersBoardProps) {
               />
             </svg>
           </div>
-          <p className="text-neutral-600 font-medium mb-1">No winners yet</p>
-          <p className="text-sm text-neutral-500">
+          <p className="text-neutral-600 dark:text-neutral-400 font-medium mb-1">No winners yet</p>
+          <p className="text-sm text-neutral-500 dark:text-neutral-500">
             Complete some games to see the leaderboard
           </p>
         </div>
@@ -77,7 +77,7 @@ export function WinnersBoard({ winners, className = '' }: WinnersBoardProps) {
     <Card className={`p-6 ${className}`}>
       <div className="flex items-center gap-2 mb-6">
         <span className="text-2xl">🏆</span>
-        <h2 className="text-lg font-semibold text-neutral-900">Top Winners</h2>
+        <h2 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">Top Winners</h2>
       </div>
 
       <div className="space-y-3">
@@ -101,17 +101,17 @@ export function WinnersBoard({ winners, className = '' }: WinnersBoardProps) {
                 <p className={`font-semibold truncate ${badge.text}`}>
                   {winner.displayName}
                 </p>
-                <p className="text-sm text-neutral-500">
+                <p className="text-sm text-neutral-500 dark:text-neutral-400">
                   {winner.gamesPlayed} game{winner.gamesPlayed !== 1 ? 's' : ''} played
                 </p>
               </div>
 
               {/* Amount */}
               <div className="flex-shrink-0 text-right">
-                <p className="text-xl font-bold text-green-600">
+                <p className="text-xl font-bold text-green-600 dark:text-green-400">
                   +${winner.totalNet.toFixed(2)}
                 </p>
-                <p className="text-xs text-neutral-500">profit</p>
+                <p className="text-xs text-neutral-500 dark:text-neutral-400">profit</p>
               </div>
             </div>
           )

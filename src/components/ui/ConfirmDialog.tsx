@@ -58,8 +58,8 @@ export function ConfirmDialog({
 
   const iconConfig = {
     danger: {
-      bgColor: 'bg-red-100',
-      iconColor: 'text-red-600',
+      bgColor: 'bg-red-100 dark:bg-red-900/30',
+      iconColor: 'text-red-600 dark:text-red-400',
       icon: (
         <path
           strokeLinecap="round"
@@ -70,8 +70,8 @@ export function ConfirmDialog({
       ),
     },
     warning: {
-      bgColor: 'bg-amber-100',
-      iconColor: 'text-amber-600',
+      bgColor: 'bg-amber-100 dark:bg-amber-900/30',
+      iconColor: 'text-amber-600 dark:text-amber-400',
       icon: (
         <path
           strokeLinecap="round"
@@ -82,8 +82,8 @@ export function ConfirmDialog({
       ),
     },
     primary: {
-      bgColor: 'bg-blue-100',
-      iconColor: 'text-blue-600',
+      bgColor: 'bg-blue-100 dark:bg-blue-900/30',
+      iconColor: 'text-blue-600 dark:text-blue-400',
       icon: (
         <path
           strokeLinecap="round"
@@ -114,7 +114,7 @@ export function ConfirmDialog({
           aria-modal="true"
           aria-labelledby="dialog-title"
           aria-describedby="dialog-description"
-          className="relative bg-white rounded-xl shadow-xl w-full max-w-md transform transition-all"
+          className="relative bg-white dark:bg-neutral-900 rounded-xl shadow-xl dark:shadow-neutral-950/50 border border-transparent dark:border-neutral-800 w-full max-w-md transform transition-all"
         >
           <div className="p-6">
             {/* Icon */}
@@ -134,7 +134,7 @@ export function ConfirmDialog({
             {/* Title */}
             <h3
               id="dialog-title"
-              className="text-lg font-semibold text-neutral-900 text-center mb-2"
+              className="text-lg font-semibold text-neutral-900 dark:text-neutral-100 text-center mb-2"
             >
               {title}
             </h3>
@@ -142,7 +142,7 @@ export function ConfirmDialog({
             {/* Message */}
             <p
               id="dialog-description"
-              className="text-sm text-neutral-600 text-center mb-6"
+              className="text-sm text-neutral-600 dark:text-neutral-400 text-center mb-6"
             >
               {message}
             </p>

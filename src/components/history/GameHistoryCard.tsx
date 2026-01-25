@@ -31,18 +31,18 @@ export function GameHistoryCard({ game }: GameHistoryCardProps) {
       <Card className="p-4 hover:shadow-lg transition-shadow cursor-pointer">
         <div className="flex items-start justify-between mb-3">
           <div>
-            <h3 className="font-semibold text-neutral-900">{game.location}</h3>
-            <p className="text-sm text-neutral-500">
+            <h3 className="font-semibold text-neutral-900 dark:text-neutral-100">{game.location}</h3>
+            <p className="text-sm text-neutral-500 dark:text-neutral-400">
               Hosted by {game.isHost ? 'you' : game.host.displayName}
             </p>
           </div>
           <div
             className={`px-3 py-1.5 rounded-lg text-sm font-semibold ${
               isPositive
-                ? 'bg-green-100 text-green-700'
+                ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300'
                 : isNegative
-                ? 'bg-red-100 text-red-700'
-                : 'bg-neutral-100 text-neutral-600'
+                ? 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300'
+                : 'bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400'
             }`}
           >
             {isPositive && '+'}
@@ -51,7 +51,7 @@ export function GameHistoryCard({ game }: GameHistoryCardProps) {
         </div>
 
         <div className="grid grid-cols-2 gap-3 text-sm">
-          <div className="flex items-center gap-2 text-neutral-600">
+          <div className="flex items-center gap-2 text-neutral-600 dark:text-neutral-400">
             <svg
               className="w-4 h-4 flex-shrink-0"
               fill="none"
@@ -68,7 +68,7 @@ export function GameHistoryCard({ game }: GameHistoryCardProps) {
             <span>{format(scheduledDate, 'MMM d, yyyy')}</span>
           </div>
 
-          <div className="flex items-center gap-2 text-neutral-600">
+          <div className="flex items-center gap-2 text-neutral-600 dark:text-neutral-400">
             <svg
               className="w-4 h-4 flex-shrink-0"
               fill="none"
@@ -85,7 +85,7 @@ export function GameHistoryCard({ game }: GameHistoryCardProps) {
             <span>{format(scheduledDate, 'h:mm a')}</span>
           </div>
 
-          <div className="flex items-center gap-2 text-neutral-600">
+          <div className="flex items-center gap-2 text-neutral-600 dark:text-neutral-400">
             <svg
               className="w-4 h-4 flex-shrink-0"
               fill="none"
@@ -102,7 +102,7 @@ export function GameHistoryCard({ game }: GameHistoryCardProps) {
             <span>${Number(game.bigBlindAmount).toFixed(2)} BB</span>
           </div>
 
-          <div className="flex items-center gap-2 text-neutral-600">
+          <div className="flex items-center gap-2 text-neutral-600 dark:text-neutral-400">
             <svg
               className="w-4 h-4 flex-shrink-0"
               fill="none"

@@ -87,29 +87,29 @@ export function ChatRoom() {
 
   if (!user) {
     return (
-      <div className="flex items-center justify-center h-full bg-neutral-50">
-        <p className="text-neutral-500">Please log in to view chat</p>
+      <div className="flex items-center justify-center h-full bg-neutral-50 dark:bg-neutral-900">
+        <p className="text-neutral-500 dark:text-neutral-400">Please log in to view chat</p>
       </div>
     )
   }
 
   return (
-    <div className="flex flex-col h-full bg-white">
+    <div className="flex flex-col h-full bg-white dark:bg-neutral-900">
       {/* Header */}
-      <div className="flex-shrink-0 border-b border-neutral-200 bg-white px-4 py-3">
-        <h2 className="text-lg font-semibold text-neutral-900">Community Chat</h2>
-        <p className="text-sm text-neutral-500">
+      <div className="flex-shrink-0 border-b border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-4 py-3">
+        <h2 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">Community Chat</h2>
+        <p className="text-sm text-neutral-500 dark:text-neutral-400">
           Chat with other players in the community
         </p>
       </div>
 
       {/* Error Banner */}
       {error && (
-        <div className="flex-shrink-0 bg-red-50 border-b border-red-200 px-4 py-2 flex items-center justify-between">
-          <p className="text-sm text-red-700">{error}</p>
+        <div className="flex-shrink-0 bg-red-50 dark:bg-red-900/30 border-b border-red-200 dark:border-red-800 px-4 py-2 flex items-center justify-between">
+          <p className="text-sm text-red-700 dark:text-red-300">{error}</p>
           <button
             onClick={clearError}
-            className="text-red-500 hover:text-red-700 text-sm font-medium"
+            className="text-red-500 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 text-sm font-medium"
           >
             Dismiss
           </button>
@@ -128,7 +128,7 @@ export function ChatRoom() {
             <button
               onClick={handleLoadMore}
               disabled={isLoading}
-              className="text-sm text-neutral-500 hover:text-neutral-700 disabled:opacity-50"
+              className="text-sm text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-300 disabled:opacity-50"
             >
               {isLoading ? 'Loading...' : 'Load older messages'}
             </button>
@@ -159,7 +159,7 @@ export function ChatRoom() {
                   d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                 />
               </svg>
-              <p className="text-sm text-neutral-500">Loading messages...</p>
+              <p className="text-sm text-neutral-500 dark:text-neutral-400">Loading messages...</p>
             </div>
           </div>
         )}
@@ -168,7 +168,7 @@ export function ChatRoom() {
         {!isLoading && messages.length === 0 && (
           <div className="flex items-center justify-center h-full">
             <div className="text-center">
-              <div className="w-16 h-16 mx-auto mb-4 bg-neutral-100 rounded-full flex items-center justify-center">
+              <div className="w-16 h-16 mx-auto mb-4 bg-neutral-100 dark:bg-neutral-800 rounded-full flex items-center justify-center">
                 <svg
                   className="w-8 h-8 text-neutral-400"
                   fill="none"
@@ -183,10 +183,10 @@ export function ChatRoom() {
                   />
                 </svg>
               </div>
-              <h3 className="text-lg font-medium text-neutral-900 mb-1">
+              <h3 className="text-lg font-medium text-neutral-900 dark:text-neutral-100 mb-1">
                 No messages yet
               </h3>
-              <p className="text-sm text-neutral-500">
+              <p className="text-sm text-neutral-500 dark:text-neutral-400">
                 Be the first to say something!
               </p>
             </div>

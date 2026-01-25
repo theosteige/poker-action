@@ -58,9 +58,9 @@ export function UpcomingGames({ currentUserId }: UpcomingGamesProps) {
     return (
       <Card className="p-6">
         <div className="animate-pulse space-y-4">
-          <div className="h-6 bg-neutral-200 rounded w-1/3"></div>
-          <div className="h-24 bg-neutral-200 rounded"></div>
-          <div className="h-24 bg-neutral-200 rounded"></div>
+          <div className="h-6 bg-neutral-200 dark:bg-neutral-700 rounded w-1/3"></div>
+          <div className="h-24 bg-neutral-200 dark:bg-neutral-700 rounded"></div>
+          <div className="h-24 bg-neutral-200 dark:bg-neutral-700 rounded"></div>
         </div>
       </Card>
     )
@@ -79,7 +79,7 @@ export function UpcomingGames({ currentUserId }: UpcomingGamesProps) {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-neutral-900">
+        <h2 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
           Upcoming Games
         </h2>
         <Link href="/games/new">
@@ -119,7 +119,7 @@ export function UpcomingGames({ currentUserId }: UpcomingGamesProps) {
               />
             </svg>
           </div>
-          <p className="text-neutral-600 mb-4">
+          <p className="text-neutral-600 dark:text-neutral-400 mb-4">
             No upcoming games. Create one to get started!
           </p>
           <Link href="/games/new">

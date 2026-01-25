@@ -46,9 +46,9 @@ export function InviteLinkModal({
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
       <Card className="w-full max-w-md animate-in fade-in zoom-in duration-200">
         <div className="text-center">
-          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
             <svg
-              className="w-8 h-8 text-green-600"
+              className="w-8 h-8 text-green-600 dark:text-green-400"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -61,29 +61,29 @@ export function InviteLinkModal({
               />
             </svg>
           </div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Game Created!</h2>
-          <p className="text-gray-600 mb-6">Share the invite link with your friends</p>
+          <h2 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100 mb-2">Game Created!</h2>
+          <p className="text-neutral-600 dark:text-neutral-400 mb-6">Share the invite link with your friends</p>
         </div>
 
-        <div className="bg-gray-50 rounded-lg p-4 mb-6">
+        <div className="bg-neutral-50 dark:bg-neutral-800 rounded-lg p-4 mb-6">
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">
-              <span className="text-gray-500">When</span>
-              <span className="text-gray-900 font-medium">{formattedDate}</span>
+              <span className="text-neutral-500 dark:text-neutral-400">When</span>
+              <span className="text-neutral-900 dark:text-neutral-100 font-medium">{formattedDate}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-500">Where</span>
-              <span className="text-gray-900 font-medium">{location}</span>
+              <span className="text-neutral-500 dark:text-neutral-400">Where</span>
+              <span className="text-neutral-900 dark:text-neutral-100 font-medium">{location}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-500">Big Blind</span>
-              <span className="text-gray-900 font-medium">${parseFloat(bigBlindAmount).toFixed(2)}</span>
+              <span className="text-neutral-500 dark:text-neutral-400">Big Blind</span>
+              <span className="text-neutral-900 dark:text-neutral-100 font-medium">${parseFloat(bigBlindAmount).toFixed(2)}</span>
             </div>
           </div>
         </div>
 
         <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
             Invite Link
           </label>
           <div className="flex gap-2">
@@ -91,7 +91,7 @@ export function InviteLinkModal({
               type="text"
               value={inviteUrl}
               readOnly
-              className="flex-1 px-3 py-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-700 text-sm truncate"
+              className="flex-1 px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg bg-neutral-50 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 text-sm truncate"
             />
             <Button
               onClick={handleCopy}

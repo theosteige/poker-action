@@ -17,13 +17,13 @@ interface LosersBoardProps {
 function getRankStyle(rank: number): { bg: string; border: string } {
   switch (rank) {
     case 1:
-      return { bg: 'bg-red-50', border: 'border-red-200' }
+      return { bg: 'bg-red-50 dark:bg-red-900/30', border: 'border-red-200 dark:border-red-800' }
     case 2:
-      return { bg: 'bg-red-50/70', border: 'border-red-200/70' }
+      return { bg: 'bg-red-50/70 dark:bg-red-900/20', border: 'border-red-200/70 dark:border-red-800/70' }
     case 3:
-      return { bg: 'bg-red-50/50', border: 'border-red-200/50' }
+      return { bg: 'bg-red-50/50 dark:bg-red-900/15', border: 'border-red-200/50 dark:border-red-800/50' }
     default:
-      return { bg: 'bg-neutral-50', border: 'border-neutral-200' }
+      return { bg: 'bg-neutral-50 dark:bg-neutral-800', border: 'border-neutral-200 dark:border-neutral-700' }
   }
 }
 
@@ -33,7 +33,7 @@ export function LosersBoard({ losers, className = '' }: LosersBoardProps) {
       <Card className={`p-6 ${className}`}>
         <div className="flex items-center gap-2 mb-4">
           <span className="text-2xl">📉</span>
-          <h2 className="text-lg font-semibold text-neutral-900">Top Losers</h2>
+          <h2 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">Top Losers</h2>
         </div>
         <div className="text-center py-8">
           <div className="text-neutral-400 mb-3">
@@ -51,7 +51,7 @@ export function LosersBoard({ losers, className = '' }: LosersBoardProps) {
               />
             </svg>
           </div>
-          <p className="text-neutral-600 font-medium mb-1">No data yet</p>
+          <p className="text-neutral-600 dark:text-neutral-400 font-medium mb-1">No data yet</p>
           <p className="text-sm text-neutral-500">
             Complete some games to see the leaderboard
           </p>
@@ -64,7 +64,7 @@ export function LosersBoard({ losers, className = '' }: LosersBoardProps) {
     <Card className={`p-6 ${className}`}>
       <div className="flex items-center gap-2 mb-6">
         <span className="text-2xl">📉</span>
-        <h2 className="text-lg font-semibold text-neutral-900">Top Losers</h2>
+        <h2 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">Top Losers</h2>
       </div>
 
       <div className="space-y-3">
@@ -79,25 +79,25 @@ export function LosersBoard({ losers, className = '' }: LosersBoardProps) {
             >
               {/* Rank */}
               <div className="flex-shrink-0 w-10 h-10 flex items-center justify-center">
-                <span className="text-lg font-bold text-red-600">#{rank}</span>
+                <span className="text-lg font-bold text-red-600 dark:text-red-400">#{rank}</span>
               </div>
 
               {/* Player Info */}
               <div className="flex-1 min-w-0">
-                <p className="font-semibold text-neutral-800 truncate">
+                <p className="font-semibold text-neutral-800 dark:text-neutral-200 truncate">
                   {loser.displayName}
                 </p>
-                <p className="text-sm text-neutral-500">
+                <p className="text-sm text-neutral-500 dark:text-neutral-400">
                   {loser.gamesPlayed} game{loser.gamesPlayed !== 1 ? 's' : ''} played
                 </p>
               </div>
 
               {/* Amount */}
               <div className="flex-shrink-0 text-right">
-                <p className="text-xl font-bold text-red-600">
+                <p className="text-xl font-bold text-red-600 dark:text-red-400">
                   -${Math.abs(loser.totalNet).toFixed(2)}
                 </p>
-                <p className="text-xs text-neutral-500">loss</p>
+                <p className="text-xs text-neutral-500 dark:text-neutral-400">loss</p>
               </div>
             </div>
           )

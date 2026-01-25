@@ -41,10 +41,10 @@ export function QuickStats() {
     return (
       <Card className="p-6">
         <div className="animate-pulse space-y-4">
-          <div className="h-6 bg-neutral-200 rounded w-1/3"></div>
+          <div className="h-6 bg-neutral-200 dark:bg-neutral-700 rounded w-1/3"></div>
           <div className="grid grid-cols-2 gap-4">
-            <div className="h-16 bg-neutral-200 rounded"></div>
-            <div className="h-16 bg-neutral-200 rounded"></div>
+            <div className="h-16 bg-neutral-200 dark:bg-neutral-700 rounded"></div>
+            <div className="h-16 bg-neutral-200 dark:bg-neutral-700 rounded"></div>
           </div>
         </div>
       </Card>
@@ -64,7 +64,7 @@ export function QuickStats() {
   if (!stats || stats.gamesPlayed === 0) {
     return (
       <Card className="p-6">
-        <h2 className="text-lg font-semibold text-neutral-900 mb-4">
+        <h2 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100 mb-4">
           Your Stats
         </h2>
         <div className="text-center py-4">
@@ -83,7 +83,7 @@ export function QuickStats() {
               />
             </svg>
           </div>
-          <p className="text-sm text-neutral-600">
+          <p className="text-sm text-neutral-600 dark:text-neutral-400">
             Play your first game to see your stats
           </p>
         </div>
@@ -91,19 +91,19 @@ export function QuickStats() {
     )
   }
 
-  const netColor = stats.totalNet >= 0 ? 'text-green-600' : 'text-red-600'
+  const netColor = stats.totalNet >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
   const netSign = stats.totalNet >= 0 ? '+' : ''
 
   return (
     <Card className="p-6">
-      <h2 className="text-lg font-semibold text-neutral-900 mb-4">
+      <h2 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100 mb-4">
         Your Stats
       </h2>
 
       <div className="space-y-4">
         {/* Net Profit/Loss - Primary stat */}
-        <div className="text-center pb-4 border-b border-neutral-100">
-          <p className="text-sm text-neutral-500 mb-1">Total Net</p>
+        <div className="text-center pb-4 border-b border-neutral-100 dark:border-neutral-800">
+          <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-1">Total Net</p>
           <p className={`text-3xl font-bold ${netColor}`}>
             {netSign}${Math.abs(stats.totalNet).toFixed(2)}
           </p>
@@ -112,31 +112,31 @@ export function QuickStats() {
         {/* Secondary stats */}
         <div className="grid grid-cols-2 gap-4">
           <div className="text-center">
-            <p className="text-2xl font-semibold text-neutral-900">
+            <p className="text-2xl font-semibold text-neutral-900 dark:text-neutral-100">
               {stats.gamesPlayed}
             </p>
-            <p className="text-sm text-neutral-500">Games Played</p>
+            <p className="text-sm text-neutral-500 dark:text-neutral-400">Games Played</p>
           </div>
 
           <div className="text-center">
-            <p className="text-2xl font-semibold text-neutral-900">
+            <p className="text-2xl font-semibold text-neutral-900 dark:text-neutral-100">
               ${stats.averageBuyIn.toFixed(2)}
             </p>
-            <p className="text-sm text-neutral-500">Avg Buy-in</p>
+            <p className="text-sm text-neutral-500 dark:text-neutral-400">Avg Buy-in</p>
           </div>
 
           <div className="text-center">
-            <p className="text-2xl font-semibold text-green-600">
+            <p className="text-2xl font-semibold text-green-600 dark:text-green-400">
               {stats.gamesWon}
             </p>
-            <p className="text-sm text-neutral-500">Wins</p>
+            <p className="text-sm text-neutral-500 dark:text-neutral-400">Wins</p>
           </div>
 
           <div className="text-center">
-            <p className="text-2xl font-semibold text-red-600">
+            <p className="text-2xl font-semibold text-red-600 dark:text-red-400">
               {stats.gamesLost}
             </p>
-            <p className="text-sm text-neutral-500">Losses</p>
+            <p className="text-sm text-neutral-500 dark:text-neutral-400">Losses</p>
           </div>
         </div>
       </div>

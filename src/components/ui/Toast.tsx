@@ -91,28 +91,28 @@ interface ToastItemProps {
 function ToastItem({ toast, onRemove }: ToastItemProps) {
   const styles = {
     success: {
-      bg: 'bg-green-50',
-      border: 'border-green-200',
-      icon: 'text-green-500',
-      text: 'text-green-800',
+      bg: 'bg-green-50 dark:bg-green-900/30',
+      border: 'border-green-200 dark:border-green-800',
+      icon: 'text-green-500 dark:text-green-400',
+      text: 'text-green-800 dark:text-green-200',
     },
     error: {
-      bg: 'bg-red-50',
-      border: 'border-red-200',
-      icon: 'text-red-500',
-      text: 'text-red-800',
+      bg: 'bg-red-50 dark:bg-red-900/30',
+      border: 'border-red-200 dark:border-red-800',
+      icon: 'text-red-500 dark:text-red-400',
+      text: 'text-red-800 dark:text-red-200',
     },
     warning: {
-      bg: 'bg-amber-50',
-      border: 'border-amber-200',
-      icon: 'text-amber-500',
-      text: 'text-amber-800',
+      bg: 'bg-amber-50 dark:bg-amber-900/30',
+      border: 'border-amber-200 dark:border-amber-800',
+      icon: 'text-amber-500 dark:text-amber-400',
+      text: 'text-amber-800 dark:text-amber-200',
     },
     info: {
-      bg: 'bg-blue-50',
-      border: 'border-blue-200',
-      icon: 'text-blue-500',
-      text: 'text-blue-800',
+      bg: 'bg-blue-50 dark:bg-blue-900/30',
+      border: 'border-blue-200 dark:border-blue-800',
+      icon: 'text-blue-500 dark:text-blue-400',
+      text: 'text-blue-800 dark:text-blue-200',
     },
   }
 

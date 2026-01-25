@@ -73,16 +73,16 @@ export function GameHistoryList() {
           <Card key={i} className="p-4 animate-pulse">
             <div className="flex items-start justify-between mb-3">
               <div>
-                <div className="h-5 w-32 bg-neutral-200 rounded mb-2"></div>
-                <div className="h-4 w-24 bg-neutral-100 rounded"></div>
+                <div className="h-5 w-32 bg-neutral-200 dark:bg-neutral-700 rounded mb-2"></div>
+                <div className="h-4 w-24 bg-neutral-100 dark:bg-neutral-800 rounded"></div>
               </div>
-              <div className="h-8 w-20 bg-neutral-200 rounded"></div>
+              <div className="h-8 w-20 bg-neutral-200 dark:bg-neutral-700 rounded"></div>
             </div>
             <div className="grid grid-cols-2 gap-3">
-              <div className="h-4 w-28 bg-neutral-100 rounded"></div>
-              <div className="h-4 w-24 bg-neutral-100 rounded"></div>
-              <div className="h-4 w-20 bg-neutral-100 rounded"></div>
-              <div className="h-4 w-24 bg-neutral-100 rounded"></div>
+              <div className="h-4 w-28 bg-neutral-100 dark:bg-neutral-800 rounded"></div>
+              <div className="h-4 w-24 bg-neutral-100 dark:bg-neutral-800 rounded"></div>
+              <div className="h-4 w-20 bg-neutral-100 dark:bg-neutral-800 rounded"></div>
+              <div className="h-4 w-24 bg-neutral-100 dark:bg-neutral-800 rounded"></div>
             </div>
           </Card>
         ))}
@@ -94,9 +94,9 @@ export function GameHistoryList() {
   if (state === 'error') {
     return (
       <Card className="p-8 text-center">
-        <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+        <div className="w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
           <svg
-            className="w-8 h-8 text-red-600"
+            className="w-8 h-8 text-red-600 dark:text-red-400"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -109,10 +109,10 @@ export function GameHistoryList() {
             />
           </svg>
         </div>
-        <h3 className="text-lg font-semibold text-neutral-900 mb-2">
+        <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100 mb-2">
           Failed to Load History
         </h3>
-        <p className="text-neutral-600 mb-4">{error}</p>
+        <p className="text-neutral-600 dark:text-neutral-400 mb-4">{error}</p>
         <Button onClick={() => fetchHistory()}>Try Again</Button>
       </Card>
     )
@@ -122,7 +122,7 @@ export function GameHistoryList() {
   if (games.length === 0) {
     return (
       <Card className="p-8 text-center">
-        <div className="w-16 h-16 bg-neutral-100 rounded-full flex items-center justify-center mx-auto mb-4">
+        <div className="w-16 h-16 bg-neutral-100 dark:bg-neutral-800 rounded-full flex items-center justify-center mx-auto mb-4">
           <svg
             className="w-8 h-8 text-neutral-400"
             fill="none"
@@ -137,10 +137,10 @@ export function GameHistoryList() {
             />
           </svg>
         </div>
-        <h3 className="text-lg font-semibold text-neutral-900 mb-2">
+        <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100 mb-2">
           No Game History Yet
         </h3>
-        <p className="text-neutral-600">
+        <p className="text-neutral-600 dark:text-neutral-400">
           Your completed games will appear here. Play some games to build your history!
         </p>
       </Card>
@@ -151,7 +151,7 @@ export function GameHistoryList() {
     <div>
       {/* Summary stats */}
       {pagination && (
-        <div className="mb-6 text-sm text-neutral-600">
+        <div className="mb-6 text-sm text-neutral-600 dark:text-neutral-400">
           Showing {games.length} of {pagination.totalCount} completed game
           {pagination.totalCount !== 1 ? 's' : ''}
         </div>
@@ -213,8 +213,8 @@ export function GameHistoryList() {
                       onClick={() => handlePageChange(page)}
                       className={`min-w-[36px] h-9 rounded-md text-sm font-medium transition-colors ${
                         page === pagination.page
-                          ? 'bg-neutral-900 text-white'
-                          : 'text-neutral-700 hover:bg-neutral-100'
+                          ? 'bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900'
+                          : 'text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800'
                       }`}
                     >
                       {page}

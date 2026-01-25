@@ -17,13 +17,13 @@ export function ErrorMessage({
 }: ErrorMessageProps) {
   return (
     <div
-      className={`rounded-lg bg-red-50 border border-red-200 p-4 ${className}`}
+      className={`rounded-lg bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 p-4 ${className}`}
       role="alert"
     >
       <div className="flex items-start gap-3">
         <div className="flex-shrink-0">
           <svg
-            className="h-5 w-5 text-red-500"
+            className="h-5 w-5 text-red-500 dark:text-red-400"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -37,15 +37,15 @@ export function ErrorMessage({
           </svg>
         </div>
         <div className="flex-1 min-w-0">
-          <h3 className="text-sm font-medium text-red-800">{title}</h3>
-          <p className="mt-1 text-sm text-red-600">{message}</p>
+          <h3 className="text-sm font-medium text-red-800 dark:text-red-200">{title}</h3>
+          <p className="mt-1 text-sm text-red-600 dark:text-red-300">{message}</p>
           {onRetry && (
             <div className="mt-3">
               <Button
                 size="sm"
                 variant="secondary"
                 onClick={onRetry}
-                className="text-red-700 border-red-300 hover:bg-red-100"
+                className="text-red-700 dark:text-red-300 border-red-300 dark:border-red-700 hover:bg-red-100 dark:hover:bg-red-900/50"
               >
                 Try Again
               </Button>
@@ -65,7 +65,7 @@ interface InlineErrorProps {
 
 export function InlineError({ message, className = '' }: InlineErrorProps) {
   return (
-    <p className={`text-sm text-red-600 mt-1 ${className}`} role="alert">
+    <p className={`text-sm text-red-600 dark:text-red-400 mt-1 ${className}`} role="alert">
       {message}
     </p>
   )
@@ -86,9 +86,9 @@ export function ErrorPage({
   return (
     <div className="min-h-[400px] flex items-center justify-center p-6">
       <div className="text-center max-w-md">
-        <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+        <div className="w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
           <svg
-            className="w-8 h-8 text-red-500"
+            className="w-8 h-8 text-red-500 dark:text-red-400"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -101,8 +101,8 @@ export function ErrorPage({
             />
           </svg>
         </div>
-        <h2 className="text-xl font-semibold text-neutral-900 mb-2">{title}</h2>
-        <p className="text-neutral-600 mb-6">{message}</p>
+        <h2 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100 mb-2">{title}</h2>
+        <p className="text-neutral-600 dark:text-neutral-400 mb-6">{message}</p>
         {onRetry && (
           <Button onClick={onRetry} variant="secondary">
             Try Again

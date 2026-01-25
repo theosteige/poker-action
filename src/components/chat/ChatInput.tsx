@@ -45,7 +45,7 @@ export function ChatInput({
   const isOverLimit = characterCount > maxCharacters
 
   return (
-    <div className="border-t border-neutral-200 bg-white p-3 sm:p-4 safe-area-bottom">
+    <div className="border-t border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-3 sm:p-4 safe-area-bottom">
       <div className="flex gap-2">
         <div className="flex-1 relative">
           <textarea
@@ -62,11 +62,12 @@ export function ChatInput({
             className={`
               w-full px-3 sm:px-4 py-2.5 pr-14 sm:pr-16
               border rounded-xl
-              text-base sm:text-sm text-neutral-900 placeholder-neutral-400
-              focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
-              disabled:bg-neutral-100 disabled:cursor-not-allowed
+              bg-white dark:bg-neutral-800
+              text-base sm:text-sm text-neutral-900 dark:text-neutral-100 placeholder-neutral-400 dark:placeholder-neutral-500
+              focus:outline-none focus:ring-2 focus:ring-neutral-500 dark:focus:ring-neutral-400 focus:border-transparent
+              disabled:bg-neutral-100 dark:disabled:bg-neutral-700 disabled:cursor-not-allowed
               resize-none
-              ${isOverLimit ? 'border-red-500' : 'border-neutral-300'}
+              ${isOverLimit ? 'border-red-500 dark:border-red-400' : 'border-neutral-300 dark:border-neutral-600'}
             `}
             style={{
               minHeight: '44px',
@@ -76,7 +77,7 @@ export function ChatInput({
           {/* Character count */}
           <span
             className={`absolute right-3 bottom-2.5 text-xs ${
-              isOverLimit ? 'text-red-500' : 'text-neutral-400'
+              isOverLimit ? 'text-red-500 dark:text-red-400' : 'text-neutral-400 dark:text-neutral-500'
             }`}
           >
             {characterCount > 900 && `${characterCount}/${maxCharacters}`}
@@ -95,8 +96,8 @@ export function ChatInput({
             min-w-[44px] min-h-[44px]
             ${
               disabled || isSending || !message.trim() || isOverLimit
-                ? 'bg-neutral-100 text-neutral-400 cursor-not-allowed'
-                : 'bg-neutral-900 text-white hover:bg-neutral-800 active:bg-neutral-950'
+                ? 'bg-neutral-100 dark:bg-neutral-800 text-neutral-400 dark:text-neutral-500 cursor-not-allowed'
+                : 'bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 hover:bg-neutral-800 dark:hover:bg-neutral-200 active:bg-neutral-950 dark:active:bg-neutral-300'
             }
           `}
         >
@@ -139,7 +140,7 @@ export function ChatInput({
         </button>
       </div>
 
-      <p className="hidden sm:block text-xs text-neutral-400 mt-2">
+      <p className="hidden sm:block text-xs text-neutral-400 dark:text-neutral-500 mt-2">
         Press Enter to send, Shift+Enter for new line
       </p>
     </div>

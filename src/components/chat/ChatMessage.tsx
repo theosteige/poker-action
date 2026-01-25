@@ -69,8 +69,8 @@ export function ChatMessage({
 
   return (
     <div
-      className={`flex gap-3 py-2 px-3 hover:bg-neutral-50 transition-colors ${
-        isOwnMessage ? 'bg-blue-50/50' : ''
+      className={`flex gap-3 py-2 px-3 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors ${
+        isOwnMessage ? 'bg-blue-50/50 dark:bg-blue-900/20' : ''
       }`}
     >
       {/* Avatar */}
@@ -85,17 +85,17 @@ export function ChatMessage({
         <div className="flex items-baseline gap-2">
           <span
             className={`font-medium text-sm ${
-              isOwnMessage ? 'text-blue-700' : 'text-neutral-900'
+              isOwnMessage ? 'text-blue-700 dark:text-blue-400' : 'text-neutral-900 dark:text-neutral-100'
             }`}
           >
             {user.displayName}
             {isOwnMessage && (
-              <span className="text-xs text-neutral-400 ml-1">(you)</span>
+              <span className="text-xs text-neutral-400 dark:text-neutral-500 ml-1">(you)</span>
             )}
           </span>
-          <span className="text-xs text-neutral-400">{timeStr}</span>
+          <span className="text-xs text-neutral-400 dark:text-neutral-500">{timeStr}</span>
         </div>
-        <p className="text-sm text-neutral-700 break-words whitespace-pre-wrap">
+        <p className="text-sm text-neutral-700 dark:text-neutral-300 break-words whitespace-pre-wrap">
           {content}
         </p>
       </div>
