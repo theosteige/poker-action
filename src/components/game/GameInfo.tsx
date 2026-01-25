@@ -15,6 +15,8 @@ interface GameInfoProps {
   }
   inviteCode: string
   onCopyInvite?: () => void
+  isHost?: boolean
+  onEditClick?: () => void
 }
 
 const statusConfig = {
@@ -40,6 +42,8 @@ export function GameInfo({
   host,
   inviteCode,
   onCopyInvite,
+  isHost = false,
+  onEditClick,
 }: GameInfoProps) {
   const { label: statusLabel, className: statusClassName } = statusConfig[status]
 
@@ -70,12 +74,36 @@ export function GameInfo({
   return (
     <Card className="p-6">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-semibold text-neutral-900">Game Details</h2>
-        <span
-          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${statusClassName}`}
-        >
-          {statusLabel}
-        </span>
+        <h2 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">Game Details</h2>
+        <div className="flex items-center gap-2">
+          {isHost && onEditClick && (
+            <button
+              type="button"
+              onClick={onEditClick}
+              className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded transition-colors"
+            >
+              <svg
+                className="w-3.5 h-3.5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                />
+              </svg>
+              Edit
+            </button>
+          )}
+          <span
+            className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${statusClassName}`}
+          >
+            {statusLabel}
+          </span>
+        </div>
       </div>
 
       <div className="space-y-4">

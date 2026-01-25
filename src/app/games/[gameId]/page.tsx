@@ -5,7 +5,7 @@ import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useAuthContext } from '@/contexts/AuthContext'
 import { Button, Card } from '@/components/ui'
-import { GameInfo, PlayerList, Ledger, RequestBuyInForm, BankControls, PlayerBuyInStatus } from '@/components/game'
+import { GameInfo, EditGameForm, PlayerList, Ledger, RequestBuyInForm, BankControls, PlayerBuyInStatus } from '@/components/game'
 import { type PaymentHandle, type Debt, type PlayerSettlement } from '@/lib/settlement'
 
 interface GameData {
@@ -70,6 +70,7 @@ export default function GameRoomPage() {
   const [gameData, setGameData] = useState<GameData | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [copySuccess, setCopySuccess] = useState(false)
+  const [isEditing, setIsEditing] = useState(false)
 
   const gameId = params.gameId as string
 
@@ -124,6 +125,19 @@ export default function GameRoomPage() {
   const handleBuyInSuccess = () => {
     // Refresh game data after buy-in request
     fetchGameData()
+  }
+
+  const handleEditClick = () => {
+    setIsEditing(true)
+  }
+
+  const handleEditSuccess = () => {
+    setIsEditing(false)
+    fetchGameData()
+  }
+
+  const handleEditCancel = () => {
+    setIsEditing(false)
   }
 
   // Loading state
@@ -323,15 +337,27 @@ export default function GameRoomPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left column - Game info & controls */}
           <div className="lg:col-span-1 space-y-6">
-            <GameInfo
-              scheduledTime={game.scheduledTime}
-              location={game.location}
-              bigBlindAmount={game.bigBlindAmount}
-              status={game.status}
-              host={game.host}
-              inviteCode={game.inviteCode}
-              onCopyInvite={handleCopyInvite}
-            />
+            {isEditing ? (
+              <EditGameForm
+                gameId={game.id}
+                currentScheduledTime={game.scheduledTime}
+                currentLocation={game.location}
+                onSuccess={handleEditSuccess}
+                onCancel={handleEditCancel}
+              />
+            ) : (
+              <GameInfo
+                scheduledTime={game.scheduledTime}
+                location={game.location}
+                bigBlindAmount={game.bigBlindAmount}
+                status={game.status}
+                host={game.host}
+                inviteCode={game.inviteCode}
+                onCopyInvite={handleCopyInvite}
+                isHost={isHost}
+                onEditClick={handleEditClick}
+              />
+            )}
 
             {/* Player actions */}
             {!isHost && isGameActive && (

@@ -420,7 +420,7 @@ A web application for managing university poker games. Users can create game roo
       "Allow editing regardless of game status (upcoming, active, or completed)",
       "Update game room page to reflect changes immediately after edit"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "feature",

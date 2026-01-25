@@ -29,3 +29,24 @@ export const createGameSchema = z.object({
 })
 
 export type CreateGameInput = z.infer<typeof createGameSchema>
+
+export const updateGameSchema = z.object({
+  scheduledTime: z
+    .string()
+    .min(1, 'Scheduled time is required')
+    .refine(
+      (val) => {
+        const date = new Date(val)
+        return !isNaN(date.getTime())
+      },
+      { message: 'Invalid date format' }
+    )
+    .optional(),
+  location: z
+    .string()
+    .min(1, 'Location is required')
+    .max(200, 'Location must be 200 characters or less')
+    .optional(),
+})
+
+export type UpdateGameInput = z.infer<typeof updateGameSchema>

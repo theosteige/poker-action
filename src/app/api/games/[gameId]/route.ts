@@ -7,6 +7,7 @@ import {
   type PlayerGameData,
   type PaymentHandle,
 } from '@/lib/settlement'
+import { updateGameSchema } from '@/lib/validations/game'
 
 export const dynamic = 'force-dynamic'
 
@@ -191,6 +192,111 @@ export async function GET(
     console.error('Error fetching game:', error)
     return NextResponse.json(
       { error: 'Failed to fetch game' },
+      { status: 500 }
+    )
+  }
+}
+
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: Promise<{ gameId: string }> }
+) {
+  try {
+    // Verify authentication
+    const cookieStore = await cookies()
+    const token = cookieStore.get('auth-token')?.value
+
+    if (!token) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    const payload = verifyToken(token)
+    if (!payload) {
+      return NextResponse.json({ error: 'Invalid token' }, { status: 401 })
+    }
+
+    const { gameId } = await params
+
+    // Fetch the game to check permissions
+    const game = await prisma.game.findUnique({
+      where: { id: gameId },
+      select: { id: true, hostId: true },
+    })
+
+    if (!game) {
+      return NextResponse.json({ error: 'Game not found' }, { status: 404 })
+    }
+
+    // Only host can edit game details
+    if (game.hostId !== payload.userId) {
+      return NextResponse.json(
+        { error: 'Only the host can edit game details' },
+        { status: 403 }
+      )
+    }
+
+    // Parse and validate the request body
+    const body = await request.json()
+    const validationResult = updateGameSchema.safeParse(body)
+
+    if (!validationResult.success) {
+      return NextResponse.json(
+        { error: 'Invalid input', issues: validationResult.error.issues },
+        { status: 400 }
+      )
+    }
+
+    const { scheduledTime, location } = validationResult.data
+
+    // Build update data object with only provided fields
+    const updateData: { scheduledTime?: Date; location?: string } = {}
+
+    if (scheduledTime !== undefined) {
+      updateData.scheduledTime = new Date(scheduledTime)
+    }
+
+    if (location !== undefined) {
+      updateData.location = location
+    }
+
+    // Check if there's anything to update
+    if (Object.keys(updateData).length === 0) {
+      return NextResponse.json(
+        { error: 'No fields to update' },
+        { status: 400 }
+      )
+    }
+
+    // Update the game
+    const updatedGame = await prisma.game.update({
+      where: { id: gameId },
+      data: updateData,
+      select: {
+        id: true,
+        scheduledTime: true,
+        location: true,
+        bigBlindAmount: true,
+        status: true,
+        inviteCode: true,
+        createdAt: true,
+      },
+    })
+
+    return NextResponse.json({
+      game: {
+        id: updatedGame.id,
+        scheduledTime: updatedGame.scheduledTime.toISOString(),
+        location: updatedGame.location,
+        bigBlindAmount: updatedGame.bigBlindAmount.toString(),
+        status: updatedGame.status,
+        inviteCode: updatedGame.inviteCode,
+        createdAt: updatedGame.createdAt.toISOString(),
+      },
+    })
+  } catch (error) {
+    console.error('Error updating game:', error)
+    return NextResponse.json(
+      { error: 'Failed to update game' },
       { status: 500 }
     )
   }

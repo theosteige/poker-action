@@ -2,8 +2,8 @@
 
 ## Current Status
 **Last Updated:** 2026-01-25
-**Tasks Completed:** 26 / 28
-**Current Task:** Allow editing game location and time after creation
+**Tasks Completed:** 27 / 28
+**Current Task:** Allow host to delete upcoming games
 **Blockers:** None
 
 ---
@@ -14,7 +14,7 @@
 |----------|-------|------|--------|
 | Setup | 2 | 2 | ✅ |
 | Database | 2 | 2 | ✅ |
-| Feature | 16 | 14 | 🟡 |
+| Feature | 16 | 15 | 🟡 |
 | Polish | 3 | 3 | ✅ |
 | Testing | 2 | 2 | ✅ |
 | Deployment | 1 | 0 | ⬜ |
@@ -1214,5 +1214,56 @@ After completing each task or at significant milestones, append a dated entry be
 **Screenshot:** N/A (design system changes throughout app)
 
 **Next:** Allow editing game location and time after creation
+
+---
+
+### [2026-01-25 13:25] - Allow Editing Game Location and Time After Creation
+**Task:** Allow editing game location and time after creation
+**Status:** ✅ Complete
+**Changes Made:**
+- Created API route PATCH /api/games/[gameId] for updating game details:
+  - Host-only authorization
+  - Validates with Zod updateGameSchema
+  - Supports partial updates (scheduledTime, location or both)
+  - Returns updated game data
+- Added updateGameSchema in src/lib/validations/game.ts:
+  - Optional scheduledTime with date format validation
+  - Optional location with length validation (1-200 chars)
+- Created src/components/game/EditGameForm.tsx:
+  - Form with datetime-local input and location text input
+  - Uses react-hook-form with zod validation
+  - Properly formats date for datetime-local input
+  - Cancel and Save buttons with loading state
+- Updated src/components/game/GameInfo.tsx:
+  - Added isHost and onEditClick props
+  - Added Edit button visible only to host
+  - Edit button styled to match existing UI
+- Updated src/app/games/[gameId]/page.tsx:
+  - Added isEditing state to toggle between edit form and game info
+  - Integrated EditGameForm with success/cancel handlers
+  - Refreshes game data after successful edit
+- Added 10 new unit tests for updateGameSchema
+
+**Files Created:**
+- src/components/game/EditGameForm.tsx
+
+**Files Modified:**
+- src/lib/validations/game.ts (added updateGameSchema)
+- src/app/api/games/[gameId]/route.ts (added PATCH handler)
+- src/components/game/GameInfo.tsx (added edit button for host)
+- src/components/game/index.ts (added EditGameForm export)
+- src/app/games/[gameId]/page.tsx (integrated edit functionality)
+- src/lib/validations/game.test.ts (added 10 tests for updateGameSchema)
+
+**Notes:**
+- Host can edit game time and location at any time (upcoming, active, or completed)
+- Edit button only visible to host in GameInfo component
+- Edit form replaces GameInfo when editing, shows save/cancel buttons
+- All 155 unit tests pass
+- Build compiles successfully
+
+**Screenshot:** N/A
+
+**Next:** Allow host to delete upcoming games
 
 ---
