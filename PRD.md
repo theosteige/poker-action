@@ -49,7 +49,7 @@ Union Poker is a web application designed to serve as a central management platf
 
 ### 2. Game Room Management
 
-**Description**: Create and join poker game sessions with invite links.
+**Description**: Create, discover, and join poker game sessions.
 
 **Requirements**:
 - Host creates a game with:
@@ -57,14 +57,36 @@ Union Poker is a web application designed to serve as a central management platf
   - Location (text field)
   - Big blind amount (number)
 - Host automatically becomes the "bank" for that game
-- Shareable invite link generated for each game
-- Players must have an account to join via link
+- Shareable invite link generated for each game (allows direct join)
+- Players must have an account to join
 - Game states: `upcoming` → `active` → `completed`
+
+**Game Discovery**:
+- All users can browse upcoming games created by any user
+- "Browse Games" page shows all upcoming games with:
+  - Host name
+  - Date/time
+  - Location
+  - Big blind amount
+  - Current player count
+- Users can filter/sort games by date, location, or host
+
+**Joining Games**:
+- **Via Invite Link**: Direct join without approval (existing behavior)
+- **Via Browse/Discovery**: Request to join, requires host approval
+  - User clicks "Request to Join" on a game
+  - Host sees pending join requests in their game room
+  - Host can approve or deny each request
+  - Approved users are added to the game
+  - Denied requests are removed (user can re-request later)
 
 **Acceptance Criteria**:
 - Host can create game with time, location, BB amount
 - System generates unique invite link (e.g., `/game/abc123`)
-- Players with accounts can join via link
+- Players with accounts can join directly via invite link
+- Users can browse all upcoming games on a dedicated page
+- Users can request to join games they find via browsing
+- Host sees pending join requests and can approve/deny them
 - Game shows list of joined players
 - Host (bank) has admin controls; players have view/request access
 - Host can edit game time and location at any time (before, during, or after game)
@@ -88,6 +110,15 @@ interface GamePlayer {
   gameId: string
   playerId: string
   joinedAt: Date
+}
+
+interface JoinRequest {
+  id: string
+  gameId: string
+  playerId: string
+  status: 'pending' | 'approved' | 'denied'
+  requestedAt: Date
+  respondedAt?: Date
 }
 ```
 
