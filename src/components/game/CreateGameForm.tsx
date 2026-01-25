@@ -72,11 +72,9 @@ export function CreateGameForm({ onGameCreated }: CreateGameFormProps) {
     }
   }
 
-  // Get the minimum datetime (now + 5 minutes to account for submission time)
+  // Get the minimum datetime (current time)
   const getMinDateTime = () => {
-    const now = new Date()
-    now.setMinutes(now.getMinutes() + 5)
-    return now.toISOString().slice(0, 16)
+    return new Date().toISOString().slice(0, 16)
   }
 
   return (
