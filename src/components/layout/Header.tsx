@@ -77,6 +77,12 @@ export function Header({ onMenuClick }: HeaderProps) {
               Dashboard
             </Link>
             <Link
+              href="/games/browse"
+              className="text-sm font-medium text-neutral-600 transition-colors hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"
+            >
+              Browse Games
+            </Link>
+            <Link
               href="/leaderboard"
               className="text-sm font-medium text-neutral-600 transition-colors hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"
             >

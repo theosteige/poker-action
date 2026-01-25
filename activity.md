@@ -2,8 +2,8 @@
 
 ## Current Status
 **Last Updated:** 2026-01-25
-**Tasks Completed:** 29 / 32
-**Current Task:** Add JoinRequest model to database schema - Complete
+**Tasks Completed:** 30 / 32
+**Current Task:** Implement browse all upcoming games page - Complete
 **Blockers:** Supabase database paused (free tier limitation) - migration created locally
 
 ---
@@ -14,7 +14,7 @@
 |----------|-------|------|--------|
 | Setup | 2 | 2 | ✅ |
 | Database | 2 | 2 | ✅ |
-| Feature | 16 | 16 | ✅ |
+| Feature | 19 | 17 | 🟡 |
 | Polish | 3 | 3 | ✅ |
 | Testing | 2 | 2 | ✅ |
 | Deployment | 1 | 0 | ⬜ |
@@ -1338,5 +1338,62 @@ After completing each task or at significant milestones, append a dated entry be
 **Screenshot:** N/A (database schema change only)
 
 **Next:** Implement browse all upcoming games page
+
+---
+
+### [2026-01-25 14:45] - Implement Browse All Upcoming Games Page
+**Task:** Implement browse all upcoming games page
+**Status:** ✅ Complete
+**Changes Made:**
+- Created API route GET /api/games/upcoming that returns all upcoming games with:
+  - Host info and player count
+  - User's relationship to each game (isHost, isPlayer, joinRequestStatus)
+  - Support for sorting by date or host name
+  - Support for filtering by host name (partial match)
+- Created src/lib/db/join-requests.ts with comprehensive join request functions:
+  - createJoinRequest, getJoinRequestsForGame, getPendingJoinRequestsForGame
+  - updateJoinRequestStatus, getJoinRequestByPlayerAndGame, getJoinRequestById
+  - deleteJoinRequest, getJoinRequestsByUserId, hasPendingJoinRequest, getPendingJoinRequestCount
+- Created src/components/games/GameBrowserCard.tsx:
+  - Displays game info (host, time, location, BB, player count)
+  - Shows appropriate status badges (Your Game, Joined, Pending, Denied)
+  - Request to Join button for eligible games
+  - View Game button for joined games
+- Created src/components/games/GameBrowser.tsx:
+  - List of all upcoming games with responsive grid layout
+  - Filter by host name input
+  - Sort by date or host dropdown
+  - Empty state when no games found
+  - Loading and error states
+- Created src/app/games/browse/page.tsx:
+  - Full browse games page with header and Create Game button
+  - Auth redirect for unauthenticated users
+- Added "Browse Games" link to navigation:
+  - Header.tsx: Added between Dashboard and Leaderboard
+  - Sidebar.tsx: Added with search icon for mobile navigation
+
+**Files Created:**
+- src/app/api/games/upcoming/route.ts
+- src/lib/db/join-requests.ts
+- src/components/games/GameBrowserCard.tsx
+- src/components/games/GameBrowser.tsx
+- src/components/games/index.ts
+- src/app/games/browse/page.tsx
+
+**Files Modified:**
+- src/lib/db/index.ts (added join-requests export)
+- src/components/layout/Header.tsx (added Browse Games link)
+- src/components/layout/Sidebar.tsx (added Browse Games link with BrowseGamesIcon)
+
+**Notes:**
+- All 155 unit tests pass
+- TypeScript compiles without errors
+- ESLint passes without warnings
+- Browse page shows games with status indicators for user's relationship
+- Users can see "Your Game", "Joined", "Pending", or "Denied" status on each game
+
+**Screenshot:** N/A (Playwright MCP not configured)
+
+**Next:** Implement join request flow for players
 
 ---

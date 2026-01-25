@@ -461,7 +461,7 @@ A web application for managing university poker games. Users can create game roo
       "Add 'Browse Games' link to navigation (Header/Sidebar)",
       "Show appropriate status on games user has already joined or requested to join"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "feature",
