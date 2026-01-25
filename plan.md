@@ -435,7 +435,7 @@ A web application for managing university poker games. Users can create game roo
       "After successful deletion, redirect host to dashboard",
       "Update dashboard to reflect game removal immediately"
     ],
-    "passes": false
+    "passes": true
   }
 ]
 ```

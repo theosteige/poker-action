@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useAuthContext } from '@/contexts/AuthContext'
-import { Button, Card } from '@/components/ui'
+import { Button, Card, ConfirmDialog } from '@/components/ui'
 import { GameInfo, EditGameForm, PlayerList, Ledger, RequestBuyInForm, BankControls, PlayerBuyInStatus } from '@/components/game'
 import { type PaymentHandle, type Debt, type PlayerSettlement } from '@/lib/settlement'
 
@@ -71,6 +71,8 @@ export default function GameRoomPage() {
   const [error, setError] = useState<string | null>(null)
   const [copySuccess, setCopySuccess] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
+  const [isDeleting, setIsDeleting] = useState(false)
 
   const gameId = params.gameId as string
 
@@ -138,6 +140,35 @@ export default function GameRoomPage() {
 
   const handleEditCancel = () => {
     setIsEditing(false)
+  }
+
+  const handleDeleteClick = () => {
+    setShowDeleteConfirm(true)
+  }
+
+  const handleDeleteConfirm = async () => {
+    setIsDeleting(true)
+    try {
+      const response = await fetch(`/api/games/${gameId}`, {
+        method: 'DELETE',
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Failed to delete game')
+      }
+
+      // Redirect to dashboard after successful deletion
+      router.push('/dashboard')
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to delete game')
+      setShowDeleteConfirm(false)
+      setIsDeleting(false)
+    }
+  }
+
+  const handleDeleteCancel = () => {
+    setShowDeleteConfirm(false)
   }
 
   // Loading state
@@ -356,6 +387,7 @@ export default function GameRoomPage() {
                 onCopyInvite={handleCopyInvite}
                 isHost={isHost}
                 onEditClick={handleEditClick}
+                onDeleteClick={handleDeleteClick}
               />
             )}
 
@@ -415,6 +447,19 @@ export default function GameRoomPage() {
           </div>
         )}
       </div>
+
+      {/* Delete confirmation dialog */}
+      <ConfirmDialog
+        isOpen={showDeleteConfirm}
+        title="Delete Game"
+        message={`Are you sure you want to delete this game at "${game.location}"? This action cannot be undone. All player data and buy-in records will be permanently removed.`}
+        confirmLabel="Delete Game"
+        cancelLabel="Cancel"
+        variant="danger"
+        onConfirm={handleDeleteConfirm}
+        onCancel={handleDeleteCancel}
+        isLoading={isDeleting}
+      />
     </div>
   )
 }

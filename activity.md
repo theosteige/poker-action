@@ -2,8 +2,8 @@
 
 ## Current Status
 **Last Updated:** 2026-01-25
-**Tasks Completed:** 27 / 28
-**Current Task:** Allow host to delete upcoming games
+**Tasks Completed:** 28 / 28
+**Current Task:** Project Complete
 **Blockers:** None
 
 ---
@@ -14,7 +14,7 @@
 |----------|-------|------|--------|
 | Setup | 2 | 2 | ✅ |
 | Database | 2 | 2 | ✅ |
-| Feature | 16 | 15 | 🟡 |
+| Feature | 16 | 16 | ✅ |
 | Polish | 3 | 3 | ✅ |
 | Testing | 2 | 2 | ✅ |
 | Deployment | 1 | 0 | ⬜ |
@@ -1264,6 +1264,44 @@ After completing each task or at significant milestones, append a dated entry be
 
 **Screenshot:** N/A
 
-**Next:** Allow host to delete upcoming games
+**Next:** Deploy to Vercel (remaining deployment task)
+
+---
+
+### [2026-01-25 13:30] - Allow Host to Delete Upcoming Games
+**Task:** Allow host to delete upcoming games
+**Status:** ✅ Complete
+**Changes Made:**
+- Created DELETE handler in /api/games/[gameId] route:
+  - Host-only authorization
+  - Validates game status is 'upcoming' before allowing deletion
+  - Returns 400 error for active/completed games
+  - Cascade delete handles related GamePlayer, BuyIn records automatically
+- Updated src/components/game/GameInfo.tsx:
+  - Added onDeleteClick prop
+  - Added Delete button visible only to host for upcoming games
+  - Delete button styled with red color to indicate danger action
+- Updated src/app/games/[gameId]/page.tsx:
+  - Added showDeleteConfirm and isDeleting state
+  - Added handleDeleteClick, handleDeleteConfirm, handleDeleteCancel functions
+  - Integrated ConfirmDialog for delete confirmation
+  - Redirects to /dashboard after successful deletion
+  - Shows error message if deletion fails
+
+**Files Modified:**
+- src/app/api/games/[gameId]/route.ts (added DELETE handler)
+- src/components/game/GameInfo.tsx (added delete button for host)
+- src/app/games/[gameId]/page.tsx (integrated delete functionality with confirmation)
+
+**Notes:**
+- Prisma schema already had onDelete: Cascade on related models
+- All 155 unit tests pass
+- Build compiles successfully
+- Delete only available for upcoming games (not active or completed)
+- Confirmation dialog warns about permanent data loss
+
+**Screenshot:** N/A
+
+**Next:** Deploy to Vercel (remaining deployment task)
 
 ---

@@ -197,6 +197,67 @@ export async function GET(
   }
 }
 
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ gameId: string }> }
+) {
+  try {
+    // Verify authentication
+    const cookieStore = await cookies()
+    const token = cookieStore.get('auth-token')?.value
+
+    if (!token) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    const payload = verifyToken(token)
+    if (!payload) {
+      return NextResponse.json({ error: 'Invalid token' }, { status: 401 })
+    }
+
+    const { gameId } = await params
+
+    // Fetch the game to check permissions and status
+    const game = await prisma.game.findUnique({
+      where: { id: gameId },
+      select: { id: true, hostId: true, status: true },
+    })
+
+    if (!game) {
+      return NextResponse.json({ error: 'Game not found' }, { status: 404 })
+    }
+
+    // Only host can delete game
+    if (game.hostId !== payload.userId) {
+      return NextResponse.json(
+        { error: 'Only the host can delete this game' },
+        { status: 403 }
+      )
+    }
+
+    // Can only delete upcoming games
+    if (game.status !== 'upcoming') {
+      return NextResponse.json(
+        { error: 'Only upcoming games can be deleted. Active or completed games cannot be deleted.' },
+        { status: 400 }
+      )
+    }
+
+    // Delete the game (cascade will handle GamePlayer, BuyIn, CashOut records)
+    await prisma.game.delete({
+      where: { id: gameId },
+    })
+
+    return NextResponse.json({ success: true, message: 'Game deleted successfully' })
+  } catch (error) {
+    console.error('Error deleting game:', error)
+    return NextResponse.json(
+      { error: 'Failed to delete game' },
+      { status: 500 }
+    )
+  }
+}
+
 export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ gameId: string }> }
