@@ -436,6 +436,60 @@ A web application for managing university poker games. Users can create game roo
       "Update dashboard to reflect game removal immediately"
     ],
     "passes": true
+  },
+  {
+    "category": "database",
+    "description": "Add JoinRequest model to database schema",
+    "steps": [
+      "Add JoinRequest model to prisma/schema.prisma with fields: id, gameId, playerId, status (pending/approved/denied), requestedAt, respondedAt",
+      "Add relations to Game and User models",
+      "Run npx prisma migrate dev --name add-join-requests",
+      "Run npx prisma generate to update Prisma client"
+    ],
+    "passes": true
+  },
+  {
+    "category": "feature",
+    "description": "Implement browse all upcoming games page",
+    "steps": [
+      "Create API route GET /api/games/upcoming: returns all upcoming games with host info and player count",
+      "Support query params for filtering/sorting (by date, host)",
+      "Create src/lib/db/join-requests.ts with functions: createJoinRequest, getJoinRequestsForGame, getPendingJoinRequestsForGame, updateJoinRequestStatus, getJoinRequestByPlayerAndGame",
+      "Create src/components/games/GameBrowserCard.tsx: displays game info (host, time, location, BB, player count) with 'Request to Join' button",
+      "Create src/components/games/GameBrowser.tsx: list of all upcoming games with filtering options",
+      "Create src/app/games/browse/page.tsx: browse games page",
+      "Add 'Browse Games' link to navigation (Header/Sidebar)",
+      "Show appropriate status on games user has already joined or requested to join"
+    ],
+    "passes": false
+  },
+  {
+    "category": "feature",
+    "description": "Implement join request flow for players",
+    "steps": [
+      "Create API route POST /api/games/[gameId]/join-requests: creates join request for current user",
+      "Validate user is not already in game and doesn't have pending request",
+      "Create src/components/game/RequestJoinButton.tsx: button that submits join request",
+      "Show 'Pending' status after request is submitted",
+      "Show 'Already Joined' status if user is already in the game",
+      "Handle edge cases: game is not upcoming, user already requested"
+    ],
+    "passes": false
+  },
+  {
+    "category": "feature",
+    "description": "Implement join request approval for hosts",
+    "steps": [
+      "Create API route GET /api/games/[gameId]/join-requests: returns pending join requests (host only)",
+      "Create API route PATCH /api/games/[gameId]/join-requests/[requestId]: approve or deny request (host only)",
+      "When approved: update request status to 'approved', add player to GamePlayer table",
+      "When denied: update request status to 'denied'",
+      "Create src/components/game/JoinRequestsList.tsx: displays pending join requests with approve/deny buttons",
+      "Add JoinRequestsList to game room page (visible only to host)",
+      "Show requester's display name in the list",
+      "Update game room to reflect new players immediately after approval"
+    ],
+    "passes": false
   }
 ]
 ```

@@ -2,9 +2,9 @@
 
 ## Current Status
 **Last Updated:** 2026-01-25
-**Tasks Completed:** 28 / 28
-**Current Task:** Project Complete
-**Blockers:** None
+**Tasks Completed:** 29 / 32
+**Current Task:** Add JoinRequest model to database schema - Complete
+**Blockers:** Supabase database paused (free tier limitation) - migration created locally
 
 ---
 
@@ -1303,5 +1303,40 @@ After completing each task or at significant milestones, append a dated entry be
 **Screenshot:** N/A
 
 **Next:** Deploy to Vercel (remaining deployment task)
+
+---
+
+### [2026-01-25 14:00] - Add JoinRequest Model to Database Schema
+**Task:** Add JoinRequest model to database schema
+**Status:** ✅ Complete
+**Changes Made:**
+- Added JoinRequest model to prisma/schema.prisma with fields:
+  - id (cuid primary key)
+  - gameId (relation to Game)
+  - playerId (relation to User)
+  - status (pending/approved/denied, default 'pending')
+  - requestedAt (DateTime, default now)
+  - respondedAt (DateTime, optional)
+- Added unique constraint on [gameId, playerId] to ensure one request per player per game
+- Added joinRequests relation to User model
+- Added joinRequests relation to Game model
+- Created migration file: prisma/migrations/20260125000000_add_join_requests/migration.sql
+- Ran npx prisma generate to update Prisma client
+
+**Files Created:**
+- prisma/migrations/20260125000000_add_join_requests/migration.sql
+
+**Files Modified:**
+- prisma/schema.prisma (added JoinRequest model and relations)
+
+**Notes:**
+- Supabase free tier database is paused, so migration was created locally
+- Migration will need to be applied when database is unpaused
+- Build compiles successfully with new schema
+- Prisma client generated with JoinRequest model
+
+**Screenshot:** N/A (database schema change only)
+
+**Next:** Implement browse all upcoming games page
 
 ---

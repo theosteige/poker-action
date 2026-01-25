@@ -24,6 +24,7 @@ model User {
   buyIns        BuyIn[]
   cashOuts      CashOut[]
   chatMessages  ChatMessage[]
+  joinRequests  JoinRequest[]
 }
 
 // Game model - poker game sessions
@@ -38,10 +39,11 @@ model Game {
   createdAt       DateTime @default(now())
 
   // Relations
-  host            User         @relation("GameHost", fields: [hostId], references: [id])
+  host            User          @relation("GameHost", fields: [hostId], references: [id])
   players         GamePlayer[]
   buyIns          BuyIn[]
   cashOuts        CashOut[]
+  joinRequests    JoinRequest[]
 }
 
 // GamePlayer model - links users to games they've joined
@@ -96,4 +98,21 @@ model ChatMessage {
 
   // Relations
   user      User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// JoinRequest model - tracks requests to join games via browse/discovery
+model JoinRequest {
+  id          String    @id @default(cuid())
+  gameId      String
+  playerId    String
+  status      String    @default("pending") // pending, approved, denied
+  requestedAt DateTime  @default(now())
+  respondedAt DateTime?
+
+  // Relations
+  game        Game @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  player      User @relation(fields: [playerId], references: [id], onDelete: Cascade)
+
+  // Ensure one request per player per game
+  @@unique([gameId, playerId])
 }
