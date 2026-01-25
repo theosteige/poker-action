@@ -2,8 +2,8 @@
 
 ## Current Status
 **Last Updated:** 2026-01-25
-**Tasks Completed:** 31 / 32
-**Current Task:** Implement join request flow for players - Complete
+**Tasks Completed:** 32 / 32
+**Current Task:** All feature tasks complete - Deployment pending
 **Blockers:** Supabase database paused (free tier limitation) - migration created locally
 
 ---
@@ -14,7 +14,7 @@
 |----------|-------|------|--------|
 | Setup | 2 | 2 | ✅ |
 | Database | 2 | 2 | ✅ |
-| Feature | 19 | 18 | 🟡 |
+| Feature | 19 | 19 | ✅ |
 | Polish | 3 | 3 | ✅ |
 | Testing | 2 | 2 | ✅ |
 | Deployment | 1 | 0 | ⬜ |
@@ -1435,5 +1435,50 @@ After completing each task or at significant milestones, append a dated entry be
 **Screenshot:** N/A (Playwright MCP not configured)
 
 **Next:** Implement join request approval for hosts
+
+---
+
+### [2026-01-25 14:45] - Implement Join Request Approval for Hosts
+**Task:** Implement join request approval for hosts
+**Status:** ✅ Complete
+**Changes Made:**
+- Added GET handler to /api/games/[gameId]/join-requests route:
+  - Returns pending join requests for a game (host only)
+  - Includes player display names and request timestamps
+- Created API route PATCH /api/games/[gameId]/join-requests/[requestId]:
+  - Host-only authorization
+  - Validates request belongs to the game and is still pending
+  - Supports 'approve' action: updates status, adds player to GamePlayer table
+  - Supports 'deny' action: updates status to denied
+- Created src/components/game/JoinRequestsList.tsx:
+  - Displays pending join requests with player avatars and timestamps
+  - Approve button (green) and Deny button (red) for each request
+  - Confirmation dialog before denying requests
+  - Toast notifications for success/error states
+  - Auto-polls for new requests every 30 seconds
+  - Hides when no pending requests
+- Updated src/components/game/index.ts to export JoinRequestsList
+- Integrated JoinRequestsList into game room page (visible only to host for upcoming games)
+
+**Files Created:**
+- src/app/api/games/[gameId]/join-requests/[requestId]/route.ts
+
+**Files Modified:**
+- src/app/api/games/[gameId]/join-requests/route.ts (added GET handler)
+- src/components/game/JoinRequestsList.tsx (new component)
+- src/components/game/index.ts (added JoinRequestsList export)
+- src/app/games/[gameId]/page.tsx (integrated JoinRequestsList for host)
+
+**Notes:**
+- All 155 unit tests pass
+- TypeScript compiles without errors
+- ESLint passes without warnings
+- Join requests only show for upcoming games (not active or completed)
+- When approved, player is immediately added to the game
+- Game room automatically refreshes when a player is approved
+
+**Screenshot:** N/A (Playwright MCP not configured)
+
+**Next:** Deploy to Vercel (only deployment task remaining)
 
 ---

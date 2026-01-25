@@ -5,7 +5,7 @@ import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useAuthContext } from '@/contexts/AuthContext'
 import { Button, Card, ConfirmDialog } from '@/components/ui'
-import { GameInfo, EditGameForm, PlayerList, Ledger, RequestBuyInForm, BankControls, PlayerBuyInStatus } from '@/components/game'
+import { GameInfo, EditGameForm, PlayerList, Ledger, RequestBuyInForm, BankControls, PlayerBuyInStatus, JoinRequestsList } from '@/components/game'
 import { type PaymentHandle, type Debt, type PlayerSettlement } from '@/lib/settlement'
 
 interface GameData {
@@ -431,6 +431,16 @@ export default function GameRoomPage() {
             />
           </div>
         </div>
+
+        {/* Join requests for host (only for upcoming games) */}
+        {isHost && game.status === 'upcoming' && (
+          <div className="mt-8">
+            <JoinRequestsList
+              gameId={game.id}
+              onPlayerAdded={fetchGameData}
+            />
+          </div>
+        )}
 
         {/* Bank controls for host */}
         {isHost && isGameActive && (

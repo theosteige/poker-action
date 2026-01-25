@@ -489,7 +489,7 @@ A web application for managing university poker games. Users can create game roo
       "Show requester's display name in the list",
       "Update game room to reflect new players immediately after approval"
     ],
-    "passes": false
+    "passes": true
   }
 ]
 ```
