@@ -110,6 +110,8 @@ export function useAuth(initialUser: AuthUser | null = null): AuthState & AuthAc
     try {
       await fetch('/api/auth/logout', { method: 'POST' })
       setUser(null)
+      // Redirect to login page after logout
+      window.location.href = '/login'
     } catch {
       setError('An error occurred during logout')
     } finally {
