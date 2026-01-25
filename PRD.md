@@ -1,8 +1,8 @@
-# Product Requirements Document: Poker Hub
+# Product Requirements Document: Union Poker
 
 ## Overview
 
-Poker Hub is a web application designed to serve as a central management platform for university poker games. It enables players to organize games, track buy-ins and cash-outs, settle debts, and maintain a community through persistent chat and lifetime statistics.
+Union Poker is a web application designed to serve as a central management platform for university poker games. It enables players to organize games, track buy-ins and cash-outs, settle debts, and maintain a community through persistent chat and lifetime statistics.
 
 ### Objectives
 
@@ -67,6 +67,8 @@ Poker Hub is a web application designed to serve as a central management platfor
 - Players with accounts can join via link
 - Game shows list of joined players
 - Host (bank) has admin controls; players have view/request access
+- Host can edit game time and location at any time (before, during, or after game)
+- Host can delete upcoming games (before they become active)
 
 **Data Model**:
 ```typescript
@@ -348,10 +350,35 @@ model ChatMessage {
 ## UI/UX Design Principles
 
 ### Overall Aesthetic
-- Clean and minimal
-- High contrast for readability during games
+- Clean and minimal B2B SaaS style
+- High contrast for readability during games (4.5:1 minimum contrast ratio)
 - Mobile-responsive (used on phones at the poker table)
-- Fast load times, minimal animations
+- Fast load times, minimal animations (100-200ms transitions max)
+
+### Typography
+- System font stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif
+- 3-4 type sizes maximum, use weight (medium, semibold) for emphasis
+- 14-16px base for body text, generous line-height (1.5+)
+- Monospace fonts for numbers, codes, timestamps, and tabular data
+
+### Color & Theme
+- Neutral gray foundation, reserve color for meaning
+- Semantic colors: green=success, amber=warning, red=error, blue=primary
+- Low saturation, muted tones to reduce visual fatigue
+- Support both light and dark modes via CSS variables
+
+### Layout & Spacing
+- Consistent 4px/8px spacing scale
+- Dense but breathable - use whitespace to create visual hierarchy
+- Right-align numbers in tables, left-align text
+- Desktop-first with tablet usability
+
+### Prohibitions
+- No emojis in the interface
+- No decorative illustrations or mascots
+- No unnecessary modals (prefer inline expansion or slide-out panels)
+- No excessive border-radius or drop shadows
+- No animations for decoration (only for feedback)
 
 ### Key Screens
 

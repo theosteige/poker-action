@@ -4,7 +4,7 @@ This file provides guidance to Claude Code when working with code in this reposi
 
 ## Project
 
-**Poker Hub** — A web app for managing university poker games with buy-in tracking, settlements, chat, and stats.
+**Union Poker** — A web app for managing university poker games with buy-in tracking, settlements, chat, and stats.
 
 See `PRD.md` for full requirements and `plan.md` for implementation tasks.
 
