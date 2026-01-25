@@ -50,13 +50,13 @@ export function SettlementView({
   return (
     <Card className="p-6">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-semibold text-neutral-900">Settlement Details</h2>
+        <h2 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">Settlement Details</h2>
         {isComplete ? (
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">
             Game Complete
           </span>
         ) : (
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 font-tabular">
             {totalCashedOut} / {players.length} settled
           </span>
         )}
@@ -64,9 +64,9 @@ export function SettlementView({
 
       {!hasAnyBuyIns ? (
         <div className="text-center py-8">
-          <div className="w-12 h-12 bg-neutral-100 rounded-full flex items-center justify-center mx-auto mb-3">
+          <div className="w-12 h-12 bg-neutral-100 dark:bg-neutral-800 rounded-full flex items-center justify-center mx-auto mb-3">
             <svg
-              className="w-6 h-6 text-neutral-400"
+              className="w-6 h-6 text-neutral-400 dark:text-neutral-500"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -79,8 +79,8 @@ export function SettlementView({
               />
             </svg>
           </div>
-          <p className="text-sm text-neutral-600">No buy-ins recorded yet</p>
-          <p className="text-xs text-neutral-500 mt-1">
+          <p className="text-sm text-neutral-600 dark:text-neutral-400">No buy-ins recorded yet</p>
+          <p className="text-xs text-neutral-500 dark:text-neutral-500 mt-1">
             Settlement details will appear once players buy in
           </p>
         </div>
@@ -90,7 +90,7 @@ export function SettlementView({
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="text-xs font-medium text-neutral-500 uppercase tracking-wider border-b border-neutral-200">
+                <tr className="text-xs font-medium text-neutral-500 dark:text-neutral-400 uppercase tracking-wider border-b border-neutral-200 dark:border-neutral-700">
                   <th className="text-left py-3 px-2">Player</th>
                   <th className="text-right py-3 px-2">Buy-in</th>
                   <th className="text-right py-3 px-2">Cash-out</th>
@@ -99,7 +99,7 @@ export function SettlementView({
                   <th className="text-center py-3 px-2">Status</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-neutral-100">
+              <tbody className="divide-y divide-neutral-100 dark:divide-neutral-800">
                 {sortedPlayers.map((player) => {
                   const isHost = player.playerId === hostId
                   const isCurrentUser = player.playerId === currentUserId
@@ -109,29 +109,29 @@ export function SettlementView({
                   return (
                     <tr
                       key={player.playerId}
-                      className={`${
+                      className={`transition-colors duration-150 ${
                         isCurrentUser
-                          ? 'bg-blue-50'
-                          : 'hover:bg-neutral-50'
-                      } transition-colors`}
+                          ? 'bg-blue-50 dark:bg-blue-900/20'
+                          : 'hover:bg-neutral-50 dark:hover:bg-neutral-800/50'
+                      }`}
                     >
                       {/* Player name */}
                       <td className="py-3 px-2">
                         <div className="flex items-center gap-2">
-                          <div className="flex-shrink-0 w-8 h-8 bg-neutral-200 rounded-full flex items-center justify-center">
-                            <span className="text-xs font-medium text-neutral-600">
+                          <div className="flex-shrink-0 w-8 h-8 bg-neutral-200 dark:bg-neutral-700 rounded-full flex items-center justify-center">
+                            <span className="text-xs font-medium text-neutral-600 dark:text-neutral-300">
                               {player.displayName.charAt(0).toUpperCase()}
                             </span>
                           </div>
                           <div className="min-w-0">
-                            <p className="font-medium text-neutral-900 truncate">
+                            <p className="font-medium text-neutral-900 dark:text-neutral-100 truncate">
                               {player.displayName}
                               {isCurrentUser && (
-                                <span className="text-neutral-500 font-normal"> (you)</span>
+                                <span className="text-neutral-500 dark:text-neutral-400 font-normal"> (you)</span>
                               )}
                             </p>
                             {isHost && (
-                              <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-amber-100 text-amber-800">
+                              <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">
                                 Bank
                               </span>
                             )}
@@ -139,54 +139,54 @@ export function SettlementView({
                         </div>
                       </td>
 
-                      {/* Buy-in total */}
-                      <td className="py-3 px-2 text-right text-neutral-700">
+                      {/* Buy-in total - right aligned with tabular numbers */}
+                      <td className="py-3 px-2 text-right text-neutral-700 dark:text-neutral-300 font-tabular">
                         {player.totalBuyIns > 0 ? formatCurrency(player.totalBuyIns) : '-'}
                         {player.unpaidBuyIns > 0 && (
-                          <div className="text-xs text-amber-600">
+                          <div className="text-xs text-amber-600 dark:text-amber-400 font-tabular">
                             ({formatCurrency(player.unpaidBuyIns)} unpaid)
                           </div>
                         )}
                       </td>
 
-                      {/* Cash-out */}
-                      <td className="py-3 px-2 text-right text-neutral-700">
+                      {/* Cash-out - right aligned with tabular numbers */}
+                      <td className="py-3 px-2 text-right text-neutral-700 dark:text-neutral-300 font-tabular">
                         {player.hasCashedOut ? formatCurrency(player.cashOut) : '-'}
                       </td>
 
-                      {/* Net +/- */}
-                      <td className="py-3 px-2 text-right">
+                      {/* Net +/- - right aligned with tabular numbers */}
+                      <td className="py-3 px-2 text-right font-tabular">
                         {player.hasCashedOut ? (
                           <span
                             className={`font-medium ${
                               net.isPositive
-                                ? 'text-green-600'
+                                ? 'text-green-600 dark:text-green-400'
                                 : net.isNegative
-                                ? 'text-red-600'
-                                : 'text-neutral-600'
+                                ? 'text-red-600 dark:text-red-400'
+                                : 'text-neutral-600 dark:text-neutral-400'
                             }`}
                           >
                             {net.text}
                           </span>
                         ) : player.totalBuyIns > 0 ? (
-                          <span className="text-neutral-500 italic">In play</span>
+                          <span className="text-neutral-500 dark:text-neutral-400 italic">In play</span>
                         ) : (
-                          <span className="text-neutral-400">-</span>
+                          <span className="text-neutral-400 dark:text-neutral-500">-</span>
                         )}
                       </td>
 
-                      {/* Settlement amount */}
-                      <td className="py-3 px-2 text-right">
+                      {/* Settlement amount - right aligned with tabular numbers */}
+                      <td className="py-3 px-2 text-right font-tabular">
                         {isHost ? (
-                          <span className="text-neutral-500 italic">Bank</span>
+                          <span className="text-neutral-500 dark:text-neutral-400 italic">Bank</span>
                         ) : player.hasCashedOut || player.totalBuyIns > 0 ? (
                           <span
                             className={`font-medium ${
                               settlement.isPositive
-                                ? 'text-green-600'
+                                ? 'text-green-600 dark:text-green-400'
                                 : settlement.isNegative
-                                ? 'text-red-600'
-                                : 'text-neutral-600'
+                                ? 'text-red-600 dark:text-red-400'
+                                : 'text-neutral-600 dark:text-neutral-400'
                             }`}
                           >
                             {settlement.isPositive && 'Receives '}
@@ -194,7 +194,7 @@ export function SettlementView({
                             {formatCurrency(Math.abs(player.settlement))}
                           </span>
                         ) : (
-                          <span className="text-neutral-400">-</span>
+                          <span className="text-neutral-400 dark:text-neutral-500">-</span>
                         )}
                       </td>
 
@@ -210,16 +210,16 @@ export function SettlementView({
           </div>
 
           {/* Summary */}
-          <div className="mt-4 pt-4 border-t border-neutral-200 grid grid-cols-2 gap-4 text-sm">
+          <div className="mt-4 pt-4 border-t border-neutral-200 dark:border-neutral-700 grid grid-cols-2 gap-4 text-sm">
             <div>
-              <span className="text-neutral-600">Total in play:</span>
-              <span className="ml-2 font-medium text-neutral-900">
+              <span className="text-neutral-600 dark:text-neutral-400">Total in play:</span>
+              <span className="ml-2 font-medium text-neutral-900 dark:text-neutral-100 font-tabular">
                 {formatCurrency(totalInPlay)}
               </span>
             </div>
             <div className="text-right">
-              <span className="text-neutral-600">Cashed out:</span>
-              <span className="ml-2 font-medium text-neutral-900">
+              <span className="text-neutral-600 dark:text-neutral-400">Cashed out:</span>
+              <span className="ml-2 font-medium text-neutral-900 dark:text-neutral-100 font-tabular">
                 {totalCashedOut} / {players.length}
               </span>
             </div>
@@ -227,8 +227,8 @@ export function SettlementView({
 
           {/* Who Pays Whom Section */}
           {(owedToBank.length > 0 || bankOwes.length > 0) && (
-            <div className="mt-6 pt-6 border-t border-neutral-200">
-              <h3 className="text-sm font-semibold text-neutral-900 mb-4">
+            <div className="mt-6 pt-6 border-t border-neutral-200 dark:border-neutral-700">
+              <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100 mb-4">
                 Who Pays Whom
               </h3>
 
@@ -236,7 +236,7 @@ export function SettlementView({
                 {/* Players who owe the bank */}
                 {owedToBank.length > 0 && (
                   <div>
-                    <h4 className="text-xs font-medium text-neutral-500 uppercase tracking-wider mb-2 flex items-center gap-2">
+                    <h4 className="text-xs font-medium text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-2 flex items-center gap-2">
                       <span className="w-2 h-2 rounded-full bg-red-500"></span>
                       Owed to Bank
                     </h4>
@@ -256,7 +256,7 @@ export function SettlementView({
                 {/* What bank owes players */}
                 {bankOwes.length > 0 && (
                   <div>
-                    <h4 className="text-xs font-medium text-neutral-500 uppercase tracking-wider mb-2 flex items-center gap-2">
+                    <h4 className="text-xs font-medium text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-2 flex items-center gap-2">
                       <span className="w-2 h-2 rounded-full bg-green-500"></span>
                       Bank Owes
                     </h4>
@@ -289,19 +289,19 @@ function SettlementStatusBadge({ player }: SettlementStatusBadgeProps) {
   if (player.hasCashedOut) {
     if (player.settlement === 0) {
       return (
-        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+        <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">
           Even
         </span>
       )
     } else if (player.settlement > 0) {
       return (
-        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+        <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">
           Receives
         </span>
       )
     } else {
       return (
-        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+        <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400">
           Owes
         </span>
       )
@@ -310,14 +310,14 @@ function SettlementStatusBadge({ player }: SettlementStatusBadgeProps) {
 
   if (player.totalBuyIns > 0) {
     return (
-      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+      <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400">
         Playing
       </span>
     )
   }
 
   return (
-    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-neutral-100 text-neutral-600">
+    <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-neutral-100 text-neutral-600 dark:bg-neutral-800 dark:text-neutral-400">
       Waiting
     </span>
   )
@@ -335,22 +335,22 @@ function DebtRow({ debt, direction, isCurrentUser }: DebtRowProps) {
 
   return (
     <div
-      className={`flex items-center justify-between p-3 rounded-lg ${
-        isCurrentUser ? 'bg-blue-50 border border-blue-200' : 'bg-neutral-50'
+      className={`flex items-center justify-between p-3 rounded-md transition-colors duration-150 ${
+        isCurrentUser ? 'bg-blue-50 dark:bg-blue-900/20' : 'bg-neutral-50 dark:bg-neutral-800/50'
       }`}
     >
       <div className="flex items-center gap-3">
-        <div className="w-8 h-8 bg-neutral-200 rounded-full flex items-center justify-center">
-          <span className="text-xs font-medium text-neutral-600">
+        <div className="w-8 h-8 bg-neutral-200 dark:bg-neutral-700 rounded-full flex items-center justify-center">
+          <span className="text-xs font-medium text-neutral-600 dark:text-neutral-300">
             {playerName.charAt(0).toUpperCase()}
           </span>
         </div>
         <div>
-          <p className="text-sm font-medium text-neutral-900">
+          <p className="text-sm font-medium text-neutral-900 dark:text-neutral-100">
             {playerName}
-            {isCurrentUser && <span className="text-neutral-500 font-normal"> (you)</span>}
+            {isCurrentUser && <span className="text-neutral-500 dark:text-neutral-400 font-normal"> (you)</span>}
           </p>
-          <p className="text-xs text-neutral-500">
+          <p className="text-xs text-neutral-500 dark:text-neutral-400">
             {isToBank ? 'owes bank' : 'receives from bank'}
           </p>
         </div>
@@ -364,7 +364,7 @@ function DebtRow({ debt, direction, isCurrentUser }: DebtRowProps) {
               <PaymentHandleChip key={index} handle={handle} />
             ))}
             {debt.toPaymentHandles.length > 2 && (
-              <span className="text-xs text-neutral-500 px-2 py-1">
+              <span className="text-xs text-neutral-500 dark:text-neutral-400 px-2 py-1">
                 +{debt.toPaymentHandles.length - 2} more
               </span>
             )}
@@ -372,8 +372,8 @@ function DebtRow({ debt, direction, isCurrentUser }: DebtRowProps) {
         )}
 
         <span
-          className={`text-lg font-semibold ${
-            isToBank ? 'text-red-600' : 'text-green-600'
+          className={`text-lg font-semibold font-tabular ${
+            isToBank ? 'text-red-600 dark:text-red-400' : 'text-green-600 dark:text-green-400'
           }`}
         >
           {formatCurrency(debt.amount)}
@@ -391,13 +391,13 @@ function PaymentHandleChip({ handle }: PaymentHandleChipProps) {
   const getHandleStyle = () => {
     switch (handle.type) {
       case 'venmo':
-        return 'bg-blue-50 text-blue-700'
+        return 'bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400'
       case 'zelle':
-        return 'bg-purple-50 text-purple-700'
+        return 'bg-purple-50 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400'
       case 'cash':
-        return 'bg-green-50 text-green-700'
+        return 'bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-400'
       default:
-        return 'bg-neutral-50 text-neutral-700'
+        return 'bg-neutral-50 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-400'
     }
   }
 
@@ -416,7 +416,7 @@ function PaymentHandleChip({ handle }: PaymentHandleChipProps) {
 
   return (
     <span
-      className={`inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium ${getHandleStyle()}`}
+      className={`inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-medium ${getHandleStyle()}`}
     >
       <span className="w-4 h-4 rounded-full bg-current/10 flex items-center justify-center text-[10px]">
         {getHandleIcon()}

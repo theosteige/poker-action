@@ -2,21 +2,160 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * B2B SaaS Design System Variables
+ * Based on PRD: Clean, minimal, high-contrast, professional
+ * Low saturation colors to reduce visual fatigue
+ * 4.5:1 minimum contrast ratio for accessibility
+ */
+
 :root {
+  /* Core colors */
   --background: #fafafa;
   --foreground: #171717;
+
+  /* Primary (Blue) - for primary actions and links */
+  --primary-50: #f0f7ff;
+  --primary-100: #e0f0ff;
+  --primary-500: #2563eb;
+  --primary-600: #1d4ed8;
+  --primary-700: #1e40af;
+
+  /* Success (Green) - for positive values, wins, confirmations */
+  --success-50: #f0fdf4;
+  --success-100: #dcfce7;
+  --success-500: #16a34a;
+  --success-600: #15803d;
+  --success-700: #166534;
+
+  /* Warning (Amber) - for warnings, pending states */
+  --warning-50: #fffbeb;
+  --warning-100: #fef3c7;
+  --warning-500: #d97706;
+  --warning-600: #b45309;
+  --warning-700: #92400e;
+
+  /* Error (Red) - for errors, losses, destructive actions */
+  --error-50: #fef2f2;
+  --error-100: #fee2e2;
+  --error-500: #dc2626;
+  --error-600: #b91c1c;
+  --error-700: #991b1b;
+
+  /* Surface colors (layered backgrounds) */
+  --surface-primary: #ffffff;
+  --surface-secondary: #f5f5f5;
+  --surface-tertiary: #e5e5e5;
+
+  /* Border colors */
+  --border-default: #e5e5e5;
+  --border-subtle: #f0f0f0;
+
+  /* Text colors - using neutral gray foundation */
+  --text-primary: #171717;
+  --text-secondary: #525252;
+  --text-tertiary: #737373;
+  --text-muted: #a3a3a3;
 }
 
+/* Dark mode colors with proper contrast */
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+
+  /* Primary (Blue) */
+  --primary-50: #172554;
+  --primary-100: #1e3a5f;
+  --primary-500: #3b82f6;
+  --primary-600: #60a5fa;
+  --primary-700: #93c5fd;
+
+  /* Success (Green) */
+  --success-50: #052e16;
+  --success-100: #14532d;
+  --success-500: #22c55e;
+  --success-600: #4ade80;
+  --success-700: #86efac;
+
+  /* Warning (Amber) */
+  --warning-50: #451a03;
+  --warning-100: #78350f;
+  --warning-500: #f59e0b;
+  --warning-600: #fbbf24;
+  --warning-700: #fcd34d;
+
+  /* Error (Red) */
+  --error-50: #450a0a;
+  --error-100: #7f1d1d;
+  --error-500: #ef4444;
+  --error-600: #f87171;
+  --error-700: #fca5a5;
+
+  /* Surface colors */
+  --surface-primary: #0f0f0f;
+  --surface-secondary: #171717;
+  --surface-tertiary: #262626;
+
+  /* Border colors */
+  --border-default: #262626;
+  --border-subtle: #1f1f1f;
+
+  /* Text colors */
+  --text-primary: #ededed;
+  --text-secondary: #a3a3a3;
+  --text-tertiary: #737373;
+  --text-muted: #525252;
+}
+
+/* Also support system preference for dark mode */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not(.light) {
     --background: #0a0a0a;
     --foreground: #ededed;
+
+    --primary-50: #172554;
+    --primary-100: #1e3a5f;
+    --primary-500: #3b82f6;
+    --primary-600: #60a5fa;
+    --primary-700: #93c5fd;
+
+    --success-50: #052e16;
+    --success-100: #14532d;
+    --success-500: #22c55e;
+    --success-600: #4ade80;
+    --success-700: #86efac;
+
+    --warning-50: #451a03;
+    --warning-100: #78350f;
+    --warning-500: #f59e0b;
+    --warning-600: #fbbf24;
+    --warning-700: #fcd34d;
+
+    --error-50: #450a0a;
+    --error-100: #7f1d1d;
+    --error-500: #ef4444;
+    --error-600: #f87171;
+    --error-700: #fca5a5;
+
+    --surface-primary: #0f0f0f;
+    --surface-secondary: #171717;
+    --surface-tertiary: #262626;
+
+    --border-default: #262626;
+    --border-subtle: #1f1f1f;
+
+    --text-primary: #ededed;
+    --text-secondary: #a3a3a3;
+    --text-tertiary: #737373;
+    --text-muted: #525252;
   }
 }
 
+/* Base styles */
 body {
   color: var(--foreground);
   background: var(--background);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 /* Custom scrollbar for better UX */
@@ -47,12 +186,28 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+
+  /* Monospace utility for numbers, codes, timestamps */
+  .font-tabular {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Number alignment utilities */
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
 }
 
 /* Focus visible outline for accessibility */
 @layer base {
   *:focus-visible {
     @apply outline-none ring-2 ring-neutral-500 ring-offset-2;
+  }
+
+  /* Ensure ring offset works in dark mode */
+  .dark *:focus-visible {
+    @apply ring-offset-neutral-900;
   }
 }
 
@@ -102,7 +257,7 @@ body {
   overflow-x: hidden;
 }
 
-/* Toast slide-in animation */
+/* Toast slide-in animation - fast transition (150ms) */
 @keyframes slide-in-right {
   from {
     transform: translateX(100%);
@@ -115,5 +270,60 @@ body {
 }
 
 .animate-slide-in-right {
-  animation: slide-in-right 0.3s ease-out;
+  animation: slide-in-right 150ms ease-out;
+}
+
+/* B2B SaaS component patterns */
+@layer components {
+  /* Status badges with semantic colors */
+  .badge {
+    @apply inline-flex items-center px-2 py-0.5 rounded text-xs font-medium;
+  }
+
+  .badge-success {
+    @apply bg-success-100 text-success-700;
+  }
+
+  .badge-warning {
+    @apply bg-warning-100 text-warning-700;
+  }
+
+  .badge-error {
+    @apply bg-error-100 text-error-700;
+  }
+
+  .badge-primary {
+    @apply bg-primary-100 text-primary-700;
+  }
+
+  .badge-neutral {
+    @apply bg-neutral-100 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-300;
+  }
+
+  /* Card styles without excessive borders */
+  .card {
+    @apply bg-white dark:bg-neutral-900 rounded-lg shadow-sm;
+  }
+
+  /* Table styles with proper number alignment */
+  .table-numeric {
+    @apply text-right font-tabular;
+  }
+}
+
+/* Dark mode for badge colors */
+.dark .badge-success {
+  @apply bg-success-50 text-success-600;
+}
+
+.dark .badge-warning {
+  @apply bg-warning-50 text-warning-600;
+}
+
+.dark .badge-error {
+  @apply bg-error-50 text-error-600;
+}
+
+.dark .badge-primary {
+  @apply bg-primary-50 text-primary-600;
 }

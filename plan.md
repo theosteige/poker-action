@@ -405,7 +405,7 @@ A web application for managing university poker games. Users can create game roo
       "Remove any decorative elements that don't serve a function",
       "Verify dark mode support with CSS variables"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "feature",
