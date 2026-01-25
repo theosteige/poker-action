@@ -25,12 +25,12 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Poker Hub",
+  title: "Union Poker",
   description: "Manage your university poker games with ease",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "Poker Hub",
+    title: "Union Poker",
   },
   formatDetection: {
     telephone: false,

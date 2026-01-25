@@ -1,9 +1,9 @@
 # Project Build - Activity Log
 
 ## Current Status
-**Last Updated:** 2026-01-24
-**Tasks Completed:** 24 / 25
-**Current Task:** Deploy to Vercel
+**Last Updated:** 2026-01-25
+**Tasks Completed:** 25 / 28
+**Current Task:** Update UI to follow B2B SaaS minimal design guidelines
 **Blockers:** None
 
 ---
@@ -14,10 +14,11 @@
 |----------|-------|------|--------|
 | Setup | 2 | 2 | ✅ |
 | Database | 2 | 2 | ✅ |
-| Feature | 14 | 14 | ✅ |
+| Feature | 16 | 14 | 🟡 |
 | Polish | 3 | 3 | ✅ |
 | Testing | 2 | 2 | ✅ |
 | Deployment | 1 | 0 | ⬜ |
+| Refactor | 2 | 1 | 🟡 |
 
 **Legend:** ⬜ Not started | 🟡 In progress | ✅ Complete
 
@@ -1118,5 +1119,46 @@ After completing each task or at significant milestones, append a dated entry be
 **Screenshot:** screenshots/01-landing-page.png (main verification screenshot)
 
 **Next:** Deploy to Vercel
+
+---
+
+### [2026-01-25 13:10] - Rename Application from 'Poker Hub' to 'Union Poker'
+**Task:** Rename application from 'Poker Hub' to 'Union Poker'
+**Status:** ✅ Complete
+**Changes Made:**
+- Updated src/app/layout.tsx - title and metadata ("Poker Hub" → "Union Poker")
+- Updated src/app/page.tsx - landing page heading
+- Updated src/app/login/page.tsx - page heading
+- Updated src/app/register/page.tsx - page heading
+- Updated src/components/layout/Header.tsx - logo text
+- Updated src/components/layout/Sidebar.tsx - logo text
+- Updated src/components/auth/LoginForm.tsx - subtitle
+- Updated src/components/auth/RegisterForm.tsx - subtitle
+- Updated package.json - package name ("poker-hub" → "union-poker")
+- Updated prisma/schema.prisma - comment
+- Fixed ESLint error in src/lib/auth.test.ts (removed unused imports)
+
+**Files Modified:**
+- src/app/layout.tsx
+- src/app/page.tsx
+- src/app/login/page.tsx
+- src/app/register/page.tsx
+- src/components/layout/Header.tsx
+- src/components/layout/Sidebar.tsx
+- src/components/auth/LoginForm.tsx
+- src/components/auth/RegisterForm.tsx
+- package.json
+- prisma/schema.prisma
+- src/lib/auth.test.ts (ESLint fix)
+
+**Notes:**
+- CLAUDE.md already had "Union Poker" as the project name
+- All 145 unit tests pass
+- Build compiles successfully
+- All user-facing text now uses "Union Poker" branding
+
+**Screenshot:** N/A (branding changes throughout app)
+
+**Next:** Update UI to follow B2B SaaS minimal design guidelines
 
 ---

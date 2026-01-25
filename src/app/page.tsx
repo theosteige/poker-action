@@ -35,7 +35,7 @@ export default function Home() {
       </div>
 
       <h1 className="mb-4 text-4xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100 sm:text-5xl">
-        Poker Hub
+        Union Poker
       </h1>
 
       <p className="mb-8 max-w-md text-lg text-neutral-600 dark:text-neutral-400">

@@ -75,7 +75,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
             className="flex items-center gap-2 text-lg font-semibold text-neutral-900 dark:text-neutral-100"
           >
             <span className="text-xl">♠</span>
-            <span>Poker Hub</span>
+            <span>Union Poker</span>
           </Link>
           <button
             onClick={onClose}

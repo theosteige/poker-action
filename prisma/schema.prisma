@@ -1,4 +1,4 @@
-// Prisma schema for Poker Hub
+// Prisma schema for Union Poker
 // Database: PostgreSQL via Supabase
 
 generator client {

@@ -63,7 +63,7 @@ export function Header({ onMenuClick }: HeaderProps) {
             className="flex items-center gap-2 text-xl font-semibold text-neutral-900 dark:text-neutral-100"
           >
             <span className="text-2xl">♠</span>
-            <span>Poker Hub</span>
+            <span>Union Poker</span>
           </Link>
         </div>
 

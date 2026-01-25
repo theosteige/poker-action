@@ -1,9 +1,9 @@
-# Project Plan: Poker Hub
+# Project Plan: Union Poker
 
 ## Overview
 A web application for managing university poker games. Users can create game rooms, track buy-ins/cash-outs with a bank system, settle debts automatically, chat in a community room, and view lifetime statistics.
 
-**Reference:** `PRD.md`
+**Reference:** `PRD.md`, `fontend-design-SAAS.md`
 
 **Tech Stack:**
 - Frontend/Backend: Next.js 14+ (App Router) with TypeScript
@@ -371,6 +371,69 @@ A web application for managing university poker games. Users can create game roo
       "Test production URL: all features working",
       "Set up custom domain if desired (optional)",
       "Verify Supabase connection works from Vercel's servers"
+    ],
+    "passes": true
+  },
+  {
+    "category": "refactor",
+    "description": "Rename application from 'Poker Hub' to 'Union Poker'",
+    "steps": [
+      "Update all references to 'Poker Hub' in source code to 'Union Poker'",
+      "Update page titles, meta tags, and document head",
+      "Update Header component logo/title text",
+      "Update any branding in landing page and auth pages",
+      "Update README.md, CLAUDE.md, and documentation files",
+      "Verify all user-facing text uses new branding"
+    ],
+    "passes": true
+  },
+  {
+    "category": "refactor",
+    "description": "Update UI to follow B2B SaaS minimal design guidelines",
+    "steps": [
+      "Apply system font stack (-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif)",
+      "Establish consistent typography hierarchy: 3-4 type sizes max, use weight for emphasis",
+      "Implement 4px/8px spacing scale consistently across all components",
+      "Apply semantic color usage: green=success, amber=warning, red=error, blue=primary",
+      "Use low saturation, muted tones to reduce visual fatigue",
+      "Ensure 4.5:1 minimum contrast ratios for all text and data",
+      "Remove unnecessary borders, use spacing and background colors instead",
+      "Add proper loading states and empty states to all data-fetching components",
+      "Ensure all transitions are 100-200ms maximum",
+      "Right-align numbers in tables, left-align text",
+      "Use monospace fonts for numbers, codes, timestamps in data displays",
+      "Remove any decorative elements that don't serve a function",
+      "Verify dark mode support with CSS variables"
+    ],
+    "passes": false
+  },
+  {
+    "category": "feature",
+    "description": "Allow editing game location and time after creation",
+    "steps": [
+      "Create API route PATCH /api/games/[gameId]: allows host to update scheduledTime and location",
+      "Add Zod schema for updateGameSchema (scheduledTime, location) in src/lib/validations/game.ts",
+      "Create src/components/game/EditGameForm.tsx: form to edit game time and location",
+      "Add 'Edit Game' button in GameInfo component (visible only to host)",
+      "Show edit form in modal or inline when host clicks edit",
+      "Validate that only the host can edit the game",
+      "Allow editing regardless of game status (upcoming, active, or completed)",
+      "Update game room page to reflect changes immediately after edit"
+    ],
+    "passes": false
+  },
+  {
+    "category": "feature",
+    "description": "Allow host to delete upcoming games",
+    "steps": [
+      "Create API route DELETE /api/games/[gameId]: allows host to delete game if status is 'upcoming'",
+      "Validate that only the host can delete the game",
+      "Validate that game status is 'upcoming' before allowing deletion",
+      "Delete all related records (GamePlayer, BuyIn entries) via cascade or explicit deletion",
+      "Add 'Delete Game' button in GameInfo component (visible only to host, only for upcoming games)",
+      "Show confirmation dialog before deletion with warning about permanent action",
+      "After successful deletion, redirect host to dashboard",
+      "Update dashboard to reflect game removal immediately"
     ],
     "passes": false
   }

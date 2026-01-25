@@ -32,7 +32,7 @@ export function LoginForm() {
     <Card className="w-full max-w-md mx-auto">
       <div className="text-center mb-6">
         <h1 className="text-2xl font-bold text-gray-900">Welcome Back</h1>
-        <p className="text-gray-600 mt-1">Sign in to your Poker Hub account</p>
+        <p className="text-gray-600 mt-1">Sign in to your Union Poker account</p>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">

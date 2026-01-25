@@ -32,7 +32,7 @@ export function RegisterForm() {
     <Card className="w-full max-w-md mx-auto">
       <div className="text-center mb-6">
         <h1 className="text-2xl font-bold text-gray-900">Create Account</h1>
-        <p className="text-gray-600 mt-1">Join Poker Hub and start playing</p>
+        <p className="text-gray-600 mt-1">Join Union Poker and start playing</p>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
