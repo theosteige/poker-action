@@ -474,7 +474,7 @@ A web application for managing university poker games. Users can create game roo
       "Show 'Already Joined' status if user is already in the game",
       "Handle edge cases: game is not upcoming, user already requested"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "feature",

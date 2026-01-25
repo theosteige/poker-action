@@ -2,8 +2,8 @@
 
 ## Current Status
 **Last Updated:** 2026-01-25
-**Tasks Completed:** 30 / 32
-**Current Task:** Implement browse all upcoming games page - Complete
+**Tasks Completed:** 31 / 32
+**Current Task:** Implement join request flow for players - Complete
 **Blockers:** Supabase database paused (free tier limitation) - migration created locally
 
 ---
@@ -14,7 +14,7 @@
 |----------|-------|------|--------|
 | Setup | 2 | 2 | ✅ |
 | Database | 2 | 2 | ✅ |
-| Feature | 19 | 17 | 🟡 |
+| Feature | 19 | 18 | 🟡 |
 | Polish | 3 | 3 | ✅ |
 | Testing | 2 | 2 | ✅ |
 | Deployment | 1 | 0 | ⬜ |
@@ -1395,5 +1395,45 @@ After completing each task or at significant milestones, append a dated entry be
 **Screenshot:** N/A (Playwright MCP not configured)
 
 **Next:** Implement join request flow for players
+
+---
+
+### [2026-01-25 14:45] - Implement Join Request Flow for Players
+**Task:** Implement join request flow for players
+**Status:** ✅ Complete
+**Changes Made:**
+- Created API route POST /api/games/[gameId]/join-requests that:
+  - Validates user is authenticated
+  - Checks user is not the host
+  - Checks game is upcoming (not active or completed)
+  - Checks user is not already in the game
+  - Checks user doesn't have a pending request
+  - Allows re-requesting if previously denied (deletes old denied request)
+  - Creates new join request with 'pending' status
+- Created src/components/game/RequestJoinButton.tsx:
+  - Reusable component for requesting to join games
+  - Shows appropriate status badges (Your Game, Already Joined, Pending Approval, Approved)
+  - Handles denied requests with "Request Again" option
+  - Toast notifications for success/error states
+- Updated src/components/game/index.ts to export RequestJoinButton
+- Verified existing GameBrowser.tsx already uses the join-requests API correctly
+
+**Files Created:**
+- src/app/api/games/[gameId]/join-requests/route.ts
+- src/components/game/RequestJoinButton.tsx
+
+**Files Modified:**
+- src/components/game/index.ts (added RequestJoinButton export)
+
+**Notes:**
+- All 155 unit tests pass
+- TypeScript compiles without errors
+- ESLint passes without warnings
+- Edge cases handled: host can't request, can only join upcoming games, no duplicate pending requests, can re-request after denial
+- GameBrowserCard already had UI for status badges (Pending, Denied, Joined, Your Game)
+
+**Screenshot:** N/A (Playwright MCP not configured)
+
+**Next:** Implement join request approval for hosts
 
 ---
